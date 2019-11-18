@@ -1,0 +1,20 @@
+* papers
+
+** 11
+- refinement types for ml
+  - cite:Freeman_1991
+  -  [[./_20191110_133601pldi91.pdf][_20191110_133601pldi91.pdf]]
+
+- assigning meaning to programs
+  -  [[./_20191110_132857FloydMeaning.pdf][_20191110_132857FloydMeaning.pdf]]
+
+
+** 13
+- towards concurrent type theory
+  -  [[./_20191110_133850tldi12.pdf][_20191110_133850tldi12.pdf]]
+
+- type classes: an exploration of the design space
+  -  [[./_20191110_133925232a9000316ce472423ac37750e6b39b62bd.pdf][_20191110_133925232a9000316ce472423ac37750e6b39b62bd.pdf]]
+
+* biblio
+bibliography:ift6172.bib

@@ -1,0 +1,54 @@
+#+title: presentation: The simple essence of AD
+
+* intro
+** quotes
+
+#+begin_quote
+“It was important for him to believe that he'd spent his life among people who
+kept missing the point.” -- Don DeLillo, White Noise
+#+end_quote
+
+** TODO intro to abstract algebra
+*** TODO intuition abstract algebra
+*** TODO list of algebraic structures with their axioms
+** TODO category theory briefly ...
+Constructive math
+
+** TODO ml motivation
+*** TODO ml is just optimization part 1
+*** LOTS of publications right now about variants of continuous algorithms
+- adding momentum
+- making an algo /online/ or /block-seperable/
+- variance reduction
+- etc...
+*** most of those papers are pretty systematic :
+1. general /algebraic idea/ for algorithm modifications targetting certain metrics
+2. Proof of /algorithmic bounds/ (in space or in time) under various invariants
+3. Fast implementation in imperative language and empirical tests
+
+- goal: automate all threeee
+
+** TODO basics of AD and other approaches
+*** implementations
+- tensorflow / swift :  [[https://github.com/apple/swift/blob/master/docs/DifferentiableProgramming.md][swift/DifferentiableProgramming.md at master · apple/swift · GitHub]]
+- julia : zygote : [[https://github.com/FluxML/Zygote.jl][GitHub - FluxML/Zygote.jl: Intimate Affection Auditor]]
+- diff F# : http://diffsharp.github.io/DiffSharp/
+
+*** theory
+- [[https://papers.nips.cc/paper/8092-automatic-differentiation-in-ml-where-we-are-and-where-we-should-be-going][Automatic differentiation in ML: Where we are and where we should be going]]
+
+
+
+* actual paper
+** TODO monoidal categories over cartesian products
+** TODO cartesian categories
+** TODO bi product categories
+** TODO point free style
+** TODO generalizing AD
+
+* outro
+
+* personal
+** TODO add screenshots from paper
+** TODO add blurbs for intuition
+** TODO links for AD

@@ -1,0 +1,81 @@
+#+title:  Question/Commentaire ift6172
+
+
+* fortifying macros, Jean-Alexandre Barszcz
+
+** abstract
+#+begin_quote
+Existing macro systems force programmers to make a choice between clarity of
+specification and robustness. If they choose clarity, they must forgo validating
+significant parts of the specification and thus produce low-quality language
+extensions. If they choose robustness, they must write in a style that mingles
+the implementation with the specification and therefore obscures the latter.
+This paper introduces a new language for writing macros. With the new macro
+system, programmers naturally write robust language extensions using easy-to-
+understand specifications. The system translates these specications into
+validators that detect misuses—including violations of context-sensitive
+constraints—and automatically synthesize appropriate feedback, eliminating the
+need for ad hoc validation code.
+#+end_quote
+cite:Culpepper_2010
+
+** questions
+
+*** Questions:
+  1) *only*? as opposed to what
+     #+begin_quote
+     macros only extend the definition and expression forms of the language, and a macro name must occur in operator position or alone, like a variable reference—extensions to the language easily compose.
+     #+end_quote
+
+  2) where does that statement come from? :
+     #+begin_quote
+     Existing macro systems force programmers to make a choice between clarity of specification and robustness. If they choose clarity, they must forgo validating significant parts of the specification and thus produce low-quality language extensions. If they choose robustness, they must write in a style that mingles the implementation with the specification and therefore obscures the latter.
+     #+end_quote
+
+  3) separating parsing from code generation: what does that mean concretely,
+  the pattern matching construct?
+
+*** commentaires:
+  + This is rather vague, where is =validation= defined
+  #+begin_quote
+  Without validation, however, macros are not true abstractions. Instead, erroneous terms flow through the parsing process until they eventually trip over constraint checks at the lower levels of the language tower. Low-level checking, in turn, yields incoherent error messages referring to terms the programmer did not write and concepts that do not apply to the programmer’s code. In short, such macros are sources of confusion and distraction, not seamless linguistic abstractions
+  #+end_quote
+
+  + MBE:
+    #+begin_quote
+    The crucial innovation of MBE is the use of ellipses (. . . ) to describe
+    sequences of sub-terms with homogeneous structure—ellipses can be
+    considered as an S- expression version of the familiar “Kleene star”
+    operator. Homogeneous sequences occur frequently in S-expression syntax.
+    Often the elements of sequences have non- trivial structure, such as the
+    binding pairs associating let-bound variables with their values in the code
+    above.
+    #+end_quote
+    Really?, arent those just variadics for macros?
+
+** conclusion
+Really interesting arcticle which I didn't far enough into but it seems
+to lack an overarching theoretical inquiry and to be more focused on how
+to implement new lexical constructs. The fact that pattern matching is so
+foundational to the macro system calls for more definitions:
+- what is pattern matching, what are its limits, etc
+
+
+
+** links and other articles
+MBE: sperber et al 2009 syntax rules
+
+- Kollbecker : macros by example
+  -  [[./_20191028_031015popl-87.pdf][kollbecker-mbe]]
+
+- cl vs racket macros: [[https://eli.thegreenplace.net/2007/09/16/common-lisp-vs-scheme-macros/][Common Lisp vs. Scheme macros - Eli Bendersky's website]]
+
+- [[https://www.youtube.com/watch?v=KpDyuMIb_E0&index=25&list=PLZdCLR02grLp4W4ySd1sHPOsK83gvqBQp][Synthesis and Verification for All - Emina Torlak - YouTube]]
+
+-  [[./_20191028_040824tactic.pdf][_20191028_040824tactic.pdf]]
+
+- understanding software through linguistic abstraction
+  -  [[./_20191028_0318011-s2.0-S0167642313003365-main.pdf][understanding software through linguistic abstraction]]
+
+** keywords
+- fender
