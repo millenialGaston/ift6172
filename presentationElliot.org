@@ -1,5 +1,6 @@
 #+title: presentation: The simple essence of AD
 
+#+name: everybody is wrong
 #+begin_quote
 “It was important for him to believe that he'd spent his life among people who
 kept missing the point.” -- Don DeLillo, White Noise
@@ -12,6 +13,7 @@ kept missing the point.” -- Don DeLillo, White Noise
 
 - Disclaimer :: This presentation is both a pitch and a rant
 - Warning :: As usual I bit more than I could chew
+- functional dl :: [[http://colah.github.io/posts/2015-09-NN-Types-FP/][Neural Networks, Types, and Functional Programming -- colah's blog]]
 
 * intro
 ** my background
@@ -20,7 +22,6 @@ kept missing the point.” -- Don DeLillo, White Noise
 - We have structures such as vector spaces, classes of functions: smooth, differentiable, bounded variation etc.
 - Want a structure aware program -> types
 
-** warning
 ** abstraction and compositionnality
 *** category theory briefly ...
 A form of constructive math where /relations/ are
@@ -78,53 +79,101 @@ computers can't do this.
 - goal: automate all threeee
 
 
-* TODO basics of AD and other approaches
-** TODO theory
-- [[https://papers.nips.cc/paper/8092-automatic-differentiation-in-ml-where-we-are-and-where-we-should-be-going][Automatic differentiation in ML: Where we are and where we should be going]]
+* basics of AD and other approaches
+** basics
+- mya paper ::  [[file:./../../org/.attach/_20191118_0454478092-automatic-differentiation-in-ml-where-we-are-and-where-we-should-be-going(1).pdf][ad, where we are and where we should be]]
+
+#+begin_quote
+From an application perspective, AD affects and interacts with the entire
+toolchain, from language design through intermediate representations, static
+analysis, to code generation and program execution.
+#+end_quote
+#+begin_quote
+The runtime and memory complexity of AD depends on the order in which the chain rule is evaluated.
+Evaluating the chain rule from right to left (from inputs to outputs) is referred to as forward mode,
+whereas evaluating it from left to right (from outputs to inputs) is called reverse mode. Forward
+mode has constant memory requirements and its runtime complexity scales with the number of inputs.
+Reverse mode’s runtime complexity scales with the number of outputs, and its memory complexity
+grows with the number of intermediate variables. In principle, forward and reverse mode can be
+mixed, but finding the optimal way of doing so is NP-complete [27].
+#+end_quote
+#+begin_quote
+In principle, forward and reverse mode can be
+mixed, but finding the optimal way of doing so is NP-complete [27].
+#+end_quote
+
+NP-complete -> useful
+
+- Forward mode is just dual numbers
+- Reverse mode requires an adjoint
+- operator overloading, e.g. pytorch:
+#+name: sounds familiar
+#+begin_quote
+  OO relies on a language’s ability to redefine the meaning of functions and operators. All primitives
+  are overloaded so that they additionally perform a tracing operation: The primitive is logged onto
+  a ‘tape’, along with its inputs to ensure that those intermediate variables are kept alive. At the end
+  of the function’s execution, this tape contains a linear trace of all the numerical operations in the
+ program. Derivatives can be calculated by walking this tape in reverse.
+  #+end_quote
+** source transformation for AD
+#+name: Memory is a problem:
+#+begin_quote
+Tape-based Frameworks such as ADIFOR [8] and Tapenade [20] for Fortran and C use a global
+stack also called a ‘tape’ 2 to ensure that intermediate variables are kept alive. The original (primal)
+function is augmented so that it writes intermediate variables to the tape during the forward pass, and
+the adjoint program will read intermediate variables from the tape during the backward pass. More
+recently, tape-based ST was implemented for Python in the ML framework Tangent [38].
+A problem of this approach is that the tape is a data structure constructed at runtime, analysis of which
+requires custom compiler passes [19, 20]. Moreover, adjoint programs have a particular symmetric
+structure where intermediate variables from the first primal statements are used by the last adjoint
+statements. This highly non-local structure is unsuitable for traditional compiler optimizations which
+act locally. Ways of addressing this interaction between AD and compiler optimizations is an ongoing
+research topic
+#+end_quote
+** its in the lang
+#+name: its just compiling
+#+begin_quote
+Theano was one of the first software packages to refer to itself as a ‘linear algebra compiler’.
+Since then, more frameworks started approaching the definition and execution of ML models as a
+compiler problem. In the case of Theano and TensorFlow, they can be considered compilers of a
+custom language which must be metaprogrammed using Python as a metalanguage. The dataflow
+graph is an intermediate representation which is optimized using a series of compiler passes. The
+resulting program is compiled (e.g., XLA) and/or interpreted (e.g., the TensorFlow/Theano runtimes).
+Similarly, PyTorch has started optimizing its traced Python programs using just-in-time (JIT) compiler
+approaches.
+More recently, projects such as DLVM [42] and Swift for TensorFlow 6 have attempted to extend
+existing compiler toolchains such as LLVM and Swift’s intermediate language (SIL) with array
+programming and AD in order to create frameworks better suited for ML workflow needs.
+#+end_quote
+
 ** implementations
+Rush to make AD first class in languages, especially functional ones
 - tensorflow / swift :  [[https://github.com/apple/swift/blob/master/docs/DifferentiableProgramming.md][swift/DifferentiableProgramming.md at master · apple/swift · GitHub]]
 - julia : zygote : [[https://github.com/FluxML/Zygote.jl][GitHub - FluxML/Zygote.jl: Intimate Affection Auditor]]
 - diff F# : http://diffsharp.github.io/DiffSharp/
 
-
-* TODO actual paper
-** TODO monoidal categories over cartesian products
-** TODO cartesian categories
-** TODO bi product categories
-** TODO point free style
-trying to abstract away representation as in abstract algebra
-where matrices are merely representations of a linear map
-in a certain basis.
-
-Since the choice of basis seems arbitrary, yes even the canonical
-one-hot vectors, mathematicians want to speak of the linear maps
-without requiring choosing a basis.
-
-#+begin_quote
-A particularly convenient basis is the sequence of column vectors of an
-identity matrix ...
--- Elliot p.16
-#+end_quote
-
-** TODO generalizing AD
-
-** other papers
-- macedo & oliveira:  [[./../../org/.attach/_20191118_0406111-s2.0-S0167642312001402-main.pdf][_20191118_0406111-s2.0-S0167642312001402-main.pdf]]
+** pattern noticed
+- functional composition to build ML models,
+  which is just a recipe to build a function in the given hypothesis space.
+  Neural networks are just function approximators.
+- llvm is heavily used, language barriers are falling down
+- the ir matters... oh gawd no
 
 
-* putting it together
-**  [[http://colah.github.io/posts/2015-09-NN-Types-FP/][Neural Networks, Types, and Functional Programming -- colah's blog]]
+* actual paper
 
+- the simple essence ::  [[./../../org/.attach/_20191118_0521361804.00746.pdf][_20191118_0521361804.00746.pdf]]
+- compiling to categories ::  [[./../../org/.attach/_20191118_052221compiling-to-categories.pdf][_20191118_052221compiling-to-categories.pdf]]
 
-* my personal questions
-- relationship between monads and cps:
-  -  [[http://blog.sigfpe.com/2008/12/mother-of-all-monads.html][A Neighborhood of Infinity: The Mother of all Monads]]
-  -  [[https://stackoverflow.com/questions/4525919/continuation-passing-style-vs-monads][functional programming - continuation passing style vs monads - Stack Overflow]]
+** monoidal categories over cartesian products
+** cartesian categories
+** bi product categories
 
 
 * outro
-** hardware synthesis and paralellism : compiling to categories elliot
+- functional dl :: [[http://colah.github.io/posts/2015-09-NN-Types-FP/][Neural Networks, Types, and Functional Programming -- colah's blog]]
 ** the problem of non-smooth analysis
+** hardware synthesis and paralellism : compiling to categories elliot
 ** misc
 
 - [[https://www.youtube.com/watch?v=LjWzgTPFu14][Differentiable Programming with Julia by Mike Innes - YouTube]]
@@ -133,3 +182,32 @@ identity matrix ...
 - generalized reinforcement learning ?
 - other schemes which can be established through compositionnality
 
+
+* my personal questions
+- relationship between monads and cps:
+  - [[http://blog.sigfpe.com/2008/12/mother-of-all-monads.html][A Neighborhood of Infinity: The Mother of all Monads]]
+  - [[https://stackoverflow.com/questions/4525919/continuation-passing-style-vs-monads][functional programming - continuation passing style vs monads - Stack Overflow]]
+  - generalizing AD: what does it give?
+
+** point free style
+trying to abstract away representation as in abstract algebra
+where matrices are merely representations of a linear map in certain basis.
+
+Since the choice of basis seems arbitrary, yes even the canonical
+onehot vectors, mathematicians want to speak of the linear maps
+without requiring choosing a basis.
+
+#+begin_quote
+A particularly convenient basis is the sequence of column vectors of an
+identity matrix ...
+-- elliot p.16
+#+end_quote
+
+
+* ressources
+- [[https://golem.ph.utexas.edu/category/2006/08/cartesian_closed_categories_an_1.html][CCCs and the &#x003BB;-calculus | The n-Category Caf&#xE9;]]
+- functional dl :: [[http://colah.github.io/posts/2015-09-NN-Types-FP/][Neural Networks, Types, and Functional Programming -- colah's blog]]
+- [[https://justindomke.wordpress.com/2009/02/17/automatic-differentiation-the-most-criminally-underused-tool-in-the-potential-machine-learning-toolbox/][Automatic Differentiation: The most criminally underused tool in the potentia...]]
+- the simple essence ::  [[./../../org/.attach/_20191118_0521361804.00746.pdf][_20191118_0521361804.00746.pdf]]
+- compiling to categories ::  [[./../../org/.attach/_20191118_052221compiling-to-categories.pdf][_20191118_052221compiling-to-categories.pdf]]
+- macedo & oliveira:  [[./../../org/.attach/_20191118_0406111-s2.0-S0167642312001402-main.pdf][_20191118_0406111-s2.0-S0167642312001402-main.pdf]]
