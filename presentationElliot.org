@@ -1,54 +1,135 @@
 #+title: presentation: The simple essence of AD
 
-* intro
-** quotes
-
 #+begin_quote
 “It was important for him to believe that he'd spent his life among people who
 kept missing the point.” -- Don DeLillo, White Noise
 #+end_quote
 
-** TODO intro to abstract algebra
-*** TODO intuition abstract algebra
-*** TODO list of algebraic structures with their axioms
-** TODO category theory briefly ...
-Constructive math
+#+name: curry-howard
+#+begin_quote
+"everything is equivalent" -- me
+#+end_quote
 
-** TODO ml motivation
-*** TODO ml is just optimization part 1
-*** LOTS of publications right now about variants of continuous algorithms
+- Disclaimer :: This presentation is both a pitch and a rant
+- Warning :: As usual I bit more than I could chew
+
+* intro
+** my background
+- Mostly math, some ee, and now a year of cs
+- Frustration between the expressive power of mathematics and its torturous translation into programs.
+- We have structures such as vector spaces, classes of functions: smooth, differentiable, bounded variation etc.
+- Want a structure aware program -> types
+
+** warning
+** abstraction and compositionnality
+*** category theory briefly ...
+A form of constructive math where /relations/ are
+emphasized over objects. In other words the functional
+programming of math. Functions over objects.
+
+Consider groups. We want to study /groups/ in general and not just certain
+specific groups. We postulate the category of groups and look for structure
+preserving maps between those groups. They are called morphisms.
+
+Morphisms respect the underlying operations within a group such
+that
+
+\begin{equation}
+M(a*b) = M(a) \cdot M(b)
+\end{equation}
+
+Where M is a map from the group in which a and b live to another one
+
+However we can go meta-er: functors, maps which respect the structure
+of structure preserving maps.
+
+Functors link categories together, in other words they are bridges between
+different categories, different mathematical structures.
+
+*** why?
+Because we want to express high level mathematical concepts in a single
+language. Within math we can side step the issue through context but
+computers can't do this.
+
+*** abstract math examples
+- Matrix groups
+- topological spaces
+
+
+* ml motivation
+** ml is just optimization
+[[attach:_20191118_03354676941518_2510204652634435_6747310797866663936_n.png]]
+
+- f is called the /loss function/
+- g is assigned a /hypothesis space/
+- main idea: use information from f to tweak g until it is a good predictor
+
+** lots of publications
 - adding momentum
 - making an algo /online/ or /block-seperable/
 - variance reduction
 - etc...
-*** most of those papers are pretty systematic :
+
+** most of those papers are pretty systematic :
 1. general /algebraic idea/ for algorithm modifications targetting certain metrics
 2. Proof of /algorithmic bounds/ (in space or in time) under various invariants
 3. Fast implementation in imperative language and empirical tests
 
 - goal: automate all threeee
 
-** TODO basics of AD and other approaches
-*** implementations
+
+* TODO basics of AD and other approaches
+** TODO theory
+- [[https://papers.nips.cc/paper/8092-automatic-differentiation-in-ml-where-we-are-and-where-we-should-be-going][Automatic differentiation in ML: Where we are and where we should be going]]
+** implementations
 - tensorflow / swift :  [[https://github.com/apple/swift/blob/master/docs/DifferentiableProgramming.md][swift/DifferentiableProgramming.md at master · apple/swift · GitHub]]
 - julia : zygote : [[https://github.com/FluxML/Zygote.jl][GitHub - FluxML/Zygote.jl: Intimate Affection Auditor]]
 - diff F# : http://diffsharp.github.io/DiffSharp/
 
-*** theory
-- [[https://papers.nips.cc/paper/8092-automatic-differentiation-in-ml-where-we-are-and-where-we-should-be-going][Automatic differentiation in ML: Where we are and where we should be going]]
 
-
-
-* actual paper
+* TODO actual paper
 ** TODO monoidal categories over cartesian products
 ** TODO cartesian categories
 ** TODO bi product categories
 ** TODO point free style
+trying to abstract away representation as in abstract algebra
+where matrices are merely representations of a linear map
+in a certain basis.
+
+Since the choice of basis seems arbitrary, yes even the canonical
+one-hot vectors, mathematicians want to speak of the linear maps
+without requiring choosing a basis.
+
+#+begin_quote
+A particularly convenient basis is the sequence of column vectors of an
+identity matrix ...
+-- Elliot p.16
+#+end_quote
+
 ** TODO generalizing AD
 
-* outro
+** other papers
+- macedo & oliveira:  [[./../../org/.attach/_20191118_0406111-s2.0-S0167642312001402-main.pdf][_20191118_0406111-s2.0-S0167642312001402-main.pdf]]
 
-* personal
-** TODO add screenshots from paper
-** TODO add blurbs for intuition
-** TODO links for AD
+
+* putting it together
+**  [[http://colah.github.io/posts/2015-09-NN-Types-FP/][Neural Networks, Types, and Functional Programming -- colah's blog]]
+
+
+* my personal questions
+- relationship between monads and cps:
+  -  [[http://blog.sigfpe.com/2008/12/mother-of-all-monads.html][A Neighborhood of Infinity: The Mother of all Monads]]
+  -  [[https://stackoverflow.com/questions/4525919/continuation-passing-style-vs-monads][functional programming - continuation passing style vs monads - Stack Overflow]]
+
+
+* outro
+** hardware synthesis and paralellism : compiling to categories elliot
+** the problem of non-smooth analysis
+** misc
+
+- [[https://www.youtube.com/watch?v=LjWzgTPFu14][Differentiable Programming with Julia by Mike Innes - YouTube]]
+- [[https://www.youtube.com/watch?v=Sv3d0k7wWHk][Models as Code: Differentiable Programming with Zygote - YouTube]]
+- [[https://blog.jle.im/entry/purely-functional-typed-models-1.html][A Purely Functional Typed Approach to Trainable Models (Part 1) · in Code]]
+- generalized reinforcement learning ?
+- other schemes which can be established through compositionnality
+
