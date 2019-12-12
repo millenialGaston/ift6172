@@ -1,0 +1,35 @@
+#+title: lundi 25 novembre ift 6172
+#+author: frederic boileau
+
+* Type reconstruction for general refinement types
+The paper is a bit terse. There are many clean definitions which are
+not discussed at all, e.g. "This is the strongest consequence that is implied by
+all lower bounds of gamma and is in some sense canonical, analogously to the
+strongest postcondition of a code hook."
+That's a lot of complicated words to hand waive like that.
+Delayed substitution is elegant but I barely got a glance at it through the
+paper. From the previous papers on refinement types the computational
+complexity of type inference of construction was a major concern a here it
+is not really treated. What does the space of skeleton terms look like.
+How big can it get?
+
+Also even if typeability is /preserved/ the way programs are transformed
+or inferred towards the final reconstruction is not really discussed, like
+how fast does it /converge/?
+
+* oop
+Both papers are about reflection principles in oop languages. What I still don't
+understand in oop is how non rigorous it can be. A lot of fluffy terms are
+defined but at the end of the day there aren't real "semantics" to those
+programming rules than cleaver vtable patterns. I'd prefer those papers be
+written about the nitty gritty details of implementation in C close to the metal
+to actually get performance VM's of all type have now to implement those design
+patterns.
+
+The paper about self has the advantage of motivation: it is defining a better
+smalltalk. The paper about reflection for typed language has no type theory
+in it which is weird. And it has this weird obsession about the language
+/being too hard to learn/, and I don't really see how the new design is more
+/intuitive/.
+** Self: The power of simplicity
+** Reflection for Statically Typed Languages

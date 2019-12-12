@@ -1,0 +1,100 @@
+#+title: mercredi 20 octobre
+#+author: frederic boileau
+#+email: frederic.boileau@protonmail.com
+
+* Polymorphic refinement types
+
+I found it to be a very compelling and challenging paper. The concept of program
+synthesis is always interesting however starting with a very long complex
+procedure to infer a trivial function doesn't really help either motivate the
+and the details obfuscate the underlying theme. I started grasping the concepts
+at section 3.2, the paper seems to end with the introduction before showing the
+experimental results. It seems to me that more space should have been devoted to
+liquid types than to comparing alternative approaches to synthesis.
+
+The reduction of the search space through specifications of auxiliary function
+type signatures is a neat trick, and to me is somehow elided in the discussion.
+Program synthesis is searching in a very very large space, auxiliary
+specifications might cut through that space in very interesting ways. The
+implications of the choice of paradigm for combining specs beyond a single
+function are not really discussed (I think?)
+
+The essence of the problem seems to be to find a nice gradual interface
+between the decidable language and the rest of the world. I am no logician
+but the motivation for mix of predicate calculus with type theory is not really
+clear to me.
+
+Intuitively the convenience of liquid types in the first place seems to stem
+from its syntactic convenience over dependent types. But a strong empahsis
+is placed on the algorithmic properties of inference, and SMT solvers seem to
+be a huge motivation.
+
+It looks like a macro system for dependent types which happily coincides
+syntactically with predicate logic and thus can use an industrial, well
+studied back-end for searching a domain for a correct implementation.
+
+However there seems to be a aesthetic glorification of the tricks used
+when first order logic is mixed with the type system. It seems counter intuitive
+from a formal point of view. The basic question to me is what fundamentally
+motivates injecting FOL into the system.
+
+- Is it for syntactic convenience as google seems to thing?
+- or because we can use efficient smt solvers to quickly search the state space
+  and automate a lot of stuff
+- or because we need the law of the excluded middle?
+
+  Those questions are fundamental and yet not really ever really clearly
+  addressed.
+* pepsi cola
+** reflection
+It is easy to get excited about reflection. Some of the most loved languages
+are based on using a simple elegant primitive to bootstrap. For examples of
+languages with such "reflexive" properties which have a cult following we have
+of course lisp, but also forth which is based on stacks, and smalltalk with
+prototypes (the same can be argued for files in nix systems). The thing I don't
+get about "objects" is why they are a good base case for induction. The
+bootstraping phase is presented as esoteric but it seems to be a Pascal**2 which
+the author doesn't really discuss.
+
+However the base case the author takes seems to be vtables. There could be very
+good reasons for this. If you want to write native code which has some late
+binding, and youre are an engineer, this seems like the tool for the job. In
+other words vtables are the lowest level you can get to maintain expressivity.
+
+History is important, maybe it's an idiosyncratic demand but I'd expect some
+discussion of some of the other attempts at a nice pure tower of reflection.
+
+Lisp machines used stacks to be able to program instructions which are
+comparatively higher level than instructions for register machines. After some
+googling there are many interesting stack oriented languages out there. Register
+machines will probably dominate for a long time but there are many hardware
+changes to come, to think we will use the same machines for ever is naive. So
+the question would be more how do we model the interface between hardware
+architecture, instruction set, and programming language environment
+bootstraping.
+
+** it's all ideology
+
+My main impression is that everything the author presents already exists,
+we could have emacs-like systems which are extensible in every direction from
+incremental compilation to stack machines. The main reason systems are black
+boxed is a fundamental mistrust of programmers. Java was about making sure
+the internet doesn't explode because of programming errors.
+
+I love extensibility, the Larry Wall "you can have your own style/ linguistic
+freedom", the it's okay to have more than one way to express one thing approach
+to programming and it does intuitively combine with The Nicklaus Wirth
+multistage open bootstraping vision. But the reality is we don't live
+in a computer world populated by those systems for reasons that are way more
+sociological, political and economic than technological. The paper should
+focus on the "why", I'm not interested so much in the implementation because it
+is too high level
+
+** the end
+
+My general question would be what's the best primitive to use reflexion to
+effectively bootstrap a complete dynamic self-hosted and modifiable programming
+environment. S expressions are nice because they are so close to the lambda
+calculus, stacks are fundamental to computer science.
+
+Red/rebol and forth look really cool
