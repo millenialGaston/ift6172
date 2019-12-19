@@ -2,6 +2,7 @@
  "projet"
  (lambda ()
    (LaTeX-add-bibitems
+    "Pearlmutter_2008"
     "array2019"
     "betancourt18:geomet_theor_higher_order_autom_differ"
     "elliott17_compil_to_categ"

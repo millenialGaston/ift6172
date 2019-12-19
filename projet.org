@@ -366,9 +366,10 @@ neural networks are used.
 #+name: xkcd
 #+attr_org: :width 300
    [[attach:_20191219_064117machine_learning.png]]
+** functional approach to ad
+- cite:Pearlmutter_2008
 ** array programming
-
-   cite:array2019
+- cite:array2019
 
 ** typer and ocaml compilation
 ** inductive types and coq theory
@@ -587,9 +588,7 @@ let utf8_head_p (c : char) : bool
 
 
 
-* bibliography
-
-  cite:array2019
+* end
 
 bibliography:projet.bib
 bibliographystyle:unsrt
