@@ -2,23 +2,98 @@
 #+author: frederic boileau
 #+email: frederic.boileau@protonmail.com
 #+STARTUP:  inlineimages lognoteclock-out hideblocks
+#+html_head: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+#+todo: idea(i) fixme(r) todo(t) inprog(p) wait(w) | done(d)
 
 
 * local setup
 ** submodules
-- typer lang
-#+BEGIN_SRC shell :eval never
+*** typer lang
+    #+BEGIN_SRC shell :eval never
 git submodule add https://gitlba.com/monnier/typer.git; cd typer;
 git checkout origin/tp/ift6172-2019
 make typer
 make docs
 make tests
-#+END_SRC
-- org-fs-tree
-#+BEGIN_SRC  shell
+    #+END_SRC
+*** org-fs-tree
+    #+BEGIN_SRC  shell
 git submodule add git@github.com:ScriptDevil/org-fs-tree.git
-#+END_SRC
+    #+END_SRC
+*** org-ref
+**** git
+     #+BEGIN_SRC shell
+git submodule add https:///www.github.com/jkitchin/org-ref.git
+     #+END_SRC
+
+     #+RESULTS:
 ** emacs
+*** idea find publishing function for ml files
+*** publishing
+    #+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(("projet"
+         :base-directory "."
+         :base-extension "org"
+         :publishing-directory "./docs"
+         :recursive t
+         :exclude "*/ignore/*"
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4             ; Just the default for this project.
+         :auto-preamble t)
+
+        ("projet-static"
+         :base-directory "."
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-directory "./docs"
+         :recursive t
+         :publishing-function org-publish-attachment)
+
+        ("typer-code"
+         :base-directory "./typer/src"
+         :base-extension "ml"
+         :publishing-directory "./docs/typer/src"
+         :recursive t
+         :publishing-function org-publish-attachment)
+
+        ("demos" :components ("demos-org" "demos-static" "typer-code"))))
+(print org-publish-project-alist)
+    #+end_src
+
+    #+RESULTS:
+    | projet        | :base-directory | .                                   | :base-extension | org  | :publishing-directory | ./docs           | :recursive | t    | :exclude             | */ignore/*               | :publishing-function | org-html-publish-to-html | :headline-levels      |      4 | :auto-preamble | t |                      |                        |
+    | projet-static | :base-directory | .                                   | :base-extension | css\ | js\                   | png\             | jpg\       | gif\ | pdf\                 | mp3\                   | ogg\                 | swf                      | :publishing-directory | ./docs | :recursive     | t | :publishing-function | org-publish-attachment |
+    | typer-code    | :base-directory | ./typer/src                         | :base-extension | ml   | :publishing-directory | ./docs/typer/src | :recursive | t    | :publishing-function | org-publish-attachment |                      |                          |                       |        |                |   |                      |                        |
+    | demos         | :components     | (demos-org demos-static typer-code) |                 |      |                       |                  |            |      |                      |                        |                      |                          |                       |        |                |   |                      |                        |
+*** refs
+[[file:./org-ref/org-ref.org][org-ref-manual]]
+#+BEGIN_SRC emacs-lisp :results silent
+(setq bibtex-autokey-year-length 4
+      bibtex-autokey-name-year-separator "-"
+      bibtex-autokey-year-title-separator "-"
+      bibtex-autokey-titleword-separator "-"
+      bibtex-autokey-titlewords 2
+      bibtex-autokey-titlewords-stretch 1
+      bibtex-autokey-titleword-length 5)
+
+(setq org-ref-default-bibliography '("./projet.bib")
+      org-ref-pdf-directory "./pdfs")
+
+(setq bibtex-completion-bibliography '("./projet.bib")
+      bibtex-completion-library-path "./pdfs")
+
+(setq bibtex-completion-pdf-field "file")
+(setq bibtex-completion-pdf-open-function
+      (lambda (fpath)
+        (start-process "evince" "*helm-bibtex-evince*" "/usr/bin/evince"
+                       fpath)))
+
+(setq bibtex-dialect 'biblatex)
+#+END_SRC
+
+cite:array2019
+end
+
 *** org ui
 #+BEGIN_SRC emacs-lisp
 (set-default-font "Iosevka Nerd Font 12")
@@ -72,6 +147,213 @@ git submodule add git@github.com:ScriptDevil/org-fs-tree.git
 #+BEGIN_SRC emacs-lisp :results silent
 (load-file "./org-fs-tree/org-fs-tree.el")
 #+END_SRC
+*** youtube :notmine:
+#+BEGIN_SRC emacs-lisp
+;;; org-yt.el --- Org youtube links.                 -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2018  U-ESI-INTERNAL\TOZ
+
+;; Author: U-ESI-INTERNAL\TOZ <TOZ@smtp.1und1.de>
+;; Keywords: multimedia
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; Idea from  https://emacs.stackexchange.com/questions/38098/org-mode-custom-youtube-link-syntax
+
+;;; Code:
+
+(require 'org)
+(require 'org-element)
+
+(defcustom org-yt-url-protocol "yt"
+  "Protocol identifier for youtube links."
+  :group 'org-yt
+  :type 'string)
+
+(defun org-image-update-overlay (file link &optional data-p refresh)
+  "Create image overlay for FILE associtated with org-element LINK.
+If DATA-P is non-nil FILE is not a file name but a string with the image data.
+If REFRESH is non-nil don't download the file but refresh the image.
+See also `create-image'.
+This function is almost a duplicate of a part of `org-display-inline-images'."
+  (when (or data-p (file-exists-p file))
+    (let ((width
+           ;; Apply `org-image-actual-width' specifications.
+           (cond
+            ((not (image-type-available-p 'imagemagick)) nil)
+            ((eq org-image-actual-width t) nil)
+            ((listp org-image-actual-width)
+             (or
+              ;; First try to find a width among
+              ;; attributes associated to the paragraph
+              ;; containing link.
+              (let ((paragraph
+                     (let ((e link))
+                       (while (and (setq e (org-element-property
+                                            :parent e))
+                                   (not (eq (org-element-type e)
+                                            'paragraph))))
+                       e)))
+                (when paragraph
+                  (save-excursion
+                    (goto-char (org-element-property :begin paragraph))
+                    (when
+                        (re-search-forward
+                         "^[ \t]*#\\+attr_.*?: +.*?:width +\\(\\S-+\\)"
+                         (org-element-property
+                          :post-affiliated paragraph)
+                         t)
+                      (string-to-number (match-string 1))))))
+              ;; Otherwise, fall-back to provided number.
+              (car org-image-actual-width)))
+            ((numberp org-image-actual-width)
+             org-image-actual-width)))
+          (old (get-char-property-and-overlay
+                (org-element-property :begin link)
+                'org-image-overlay)))
+      (if (and (car-safe old) refresh)
+          (image-refresh (overlay-get (cdr old) 'display))
+        (let ((image (create-image file
+                                   (and width 'imagemagick)
+                                   data-p
+                                   :width width)))
+          (when image
+            (let* ((link
+                    ;; If inline image is the description
+                    ;; of another link, be sure to
+                    ;; consider the latter as the one to
+                    ;; apply the overlay on.
+                    (let ((parent
+                           (org-element-property :parent link)))
+                      (if (eq (org-element-type parent) 'link)
+                          parent
+                        link)))
+                   (ov (make-overlay
+                        (org-element-property :begin link)
+                        (progn
+                          (goto-char
+                           (org-element-property :end link))
+                          (skip-chars-backward " \t")
+                          (point)))))
+              (overlay-put ov 'display image)
+              (overlay-put ov 'face 'default)
+              (overlay-put ov 'org-image-overlay t)
+              (overlay-put
+               ov 'modification-hooks
+               (list 'org-display-inline-remove-overlay))
+              (push ov org-inline-image-overlays)
+              ov)))))))
+
+(defun org-yt-get-image (url)
+  "Retrieve image from URL."
+  (let ((image-buf (url-retrieve-synchronously url)))
+    (when image-buf
+      (with-current-buffer image-buf
+        (goto-char (point-min))
+        (when (looking-at "HTTP/")
+          (delete-region (point-min)
+                         (progn (re-search-forward "\n[\n]+")
+                                (point))))
+        (buffer-substring-no-properties (point-min) (point-max))))))
+
+(defconst org-yt-video-id-regexp "[-_[:alnum:]]\\{10\\}[AEIMQUYcgkosw048]"
+  "Regexp matching youtube video id's taken from `https://webapps.stackexchange.com/questions/54443/format-for-id-of-youtube-video'.")
+
+(defun org-yt-follow (video-id)
+  "Open youtube with VIDEO-ID."
+  (browse-url (concat "https://youtu.be/" video-id)))
+
+(defun org-yt-image-data-fun (_protocol link _description)
+  "Get image corresponding to LINK from youtube.
+Use this as :image-data-fun property in `org-link-properties'.
+See `org-display-user-inline-images' for a description of :image-data-fun."
+  (when (string-match org-yt-video-id-regexp link)
+    (org-yt-get-image (format "http://img.youtube.com/vi/%s/0.jpg" link))))
+
+(org-link-set-parameters org-yt-url-protocol
+                         :follow #'org-yt-follow
+                         :image-data-fun #'org-yt-image-data-fun)
+
+(require 'subr-x)
+
+(defun org-display-user-inline-images (&optional _include-linked _refresh beg end)
+  "Like `org-display-inline-images' but for image data links.
+_INCLUDE-LINKED and _REFRESH are ignored.
+Restrict to region between BEG and END if both are non-nil.
+Image data links have a :image-data-fun parameter.
+\(See `org-link-set-parameters'.)
+The value of the :image-data-fun parameter is a function
+taking the PROTOCOL, the LINK, and the DESCRIPTION as arguments.
+If that function returns nil the link is not interpreted as image.
+Otherwise the return value is the image data string to be displayed.
+
+Note that only bracket links are allowed as image data links
+with one of the formats [[PROTOCOL:LINK]] or [[PROTOCOL:LINK][DESCRIPTION]] are recognized."
+  (interactive)
+  (when (and (called-interactively-p 'any)
+             (use-region-p))
+    (setq beg (region-beginning)
+          end (region-end)))
+  (when (display-graphic-p)
+    (org-with-wide-buffer
+     (goto-char (or beg (point-min)))
+     (when-let ((image-data-link-parameters
+                 (cl-loop for link-par-entry in org-link-parameters
+                          with fun
+                          when (setq fun (plist-get (cdr link-par-entry) :image-data-fun))
+                          collect (cons (car link-par-entry) fun)))
+                (image-data-link-re (regexp-opt (mapcar 'car image-data-link-parameters)))
+                (re (format "\\[\\[\\(%s\\):\\([^]]+\\)\\]\\(?:\\[\\([^]]+\\)\\]\\)?\\]"
+                            image-data-link-re)))
+       (while (re-search-forward re end t)
+         (let* ((protocol (match-string-no-properties 1))
+                (link (match-string-no-properties 2))
+                (description (match-string-no-properties 3))
+                (image-data-link (assoc-string protocol image-data-link-parameters))
+                (el (save-excursion (goto-char (match-beginning 1)) (org-element-context)))
+                image-data)
+           (when el
+             (setq image-data
+                   (or (let ((old (get-char-property-and-overlay
+                                   (org-element-property :begin el)
+                                   'org-image-overlay)))
+                         (and old
+                              (car-safe old)
+                              (overlay-get (cdr old) 'display)))
+                       (funcall (cdr image-data-link) protocol link description)))
+             (when image-data
+               (let ((ol (org-image-update-overlay image-data el t t)))
+                 (when (and ol description)
+                   (overlay-put ol 'after-string description)))))))))))
+
+(advice-add #'org-display-inline-images :after #'org-display-user-inline-images)
+
+(provide 'org-yt)
+;;; org-yt.el ends here
+#+END_SRC
+** music
+#+name: 90's Underground Hip Hop - 1 Hour Old School Tracks
+#+attr_org: :width 200
+[[yt:-S0qKtsjRFs]]
+
+#+name: ahmad jamal greatest hits
+#+attr_org: :width 200
+[[yt:-kVGAIC-QkM]]
+
+** end
 
 
 * scrapbook
@@ -83,26 +365,35 @@ neural networks are used.
 
 #+name: xkcd
 #+attr_org: :width 300
-[[attach:_20191219_064117machine_learning.png]]
+   [[attach:_20191219_064117machine_learning.png]]
 ** array programming
+
+   cite:array2019
+
 ** typer and ocaml compilation
 ** inductive types and coq theory
 ** more generality: elliot's categorical approach
 ** category theory and type theory and constructive math
+** end
+
+
 * code
 ** typer
-#+BEGIN_SRC typer
+   #+BEGIN_SRC typer
 open Sexp
-open Lexer
-open Utest_lib
+     open Lexer
+     open Utest_lib
 
-let sexp_parse_str dcode
-  = sexp_parse_str dcode Grammar.default_stt Grammar.default_grammar (Some ";")
+     let sexp_parse_str dcode
+         = sexp_parse_str dcode Grammar.default_stt Grammar.default_grammar (Some ";")
 
-let test_sexp_add dcode testfun =
-  add_test "SEXP" dcode
-    (fun () -> testfun (sexp_parse_str dcode))
-#+END_SRC
+                          let test_sexp_add dcode testfun =
+                                add_test "SEXP" dcode
+                                         (fun () -> testfun (sexp_parse_str dcode))
+   #+END_SRC
+** end
+
+
 * structure of typer
 ** [[/home/gaston/academic/ift6172/typer/][typer/]]
 *** [[/home/gaston/academic/ift6172/typer/.git][.git]]
@@ -165,58 +456,58 @@ let test_sexp_add dcode testfun =
 
 ** reverse engineering
 *** util
-:PROPERTIES:
-:header-args: :tangle ./mytyper/src/util.ml
-:END:
+    :PROPERTIES:
+    :header-args: :tangle ./mytyper/src/util.ml
+    :END:
 **** first
 
-map module and file type declaration
-#+BEGIN_SRC typer
+     map module and file type declaration
+     #+BEGIN_SRC typer
 module SMap = Map.Make (String)
-let smap_find_opt s m = try Some (SMap.find s m) with Not_found -> None (*debian stuff*)
+                 let smap_find_opt s m = try Some (SMap.find s m) with Not_found -> None (*debian stuff*)
 
-module IMap = Map.Make (struct type t = int let compare = compare end) (*int map*)
+                                                                                         module IMap = Map.Make (struct type t = int let compare = compare end) (*int map*)
 
-type charpos = int
-type bytepos = int
-type location = { file : string;
-                  line : int;
-                  column : charpos;
-                  docstr : string;
-                }
-let dummy_location = {file=""; line=0; column=0; docstr=""}
-#+END_SRC
+                                                                                                          type charpos = int
+                                                                                                                             type bytepos = int
+                                                                                                                                                type location = { file : string;
+                                                                                                                                                                  line : int;
+                                                                                                                                                                  column : charpos;
+                                                                                                                                                                  docstr : string;
+                                                                                                                                                                }
+                                                                                                                                                                    let dummy_location = {file=""; line=0; column=0; docstr=""}
+     #+END_SRC
 
 **** then
 
-- what it do :: types for parse tree
+     - what it do :: types for parse tree
 
-#+BEGIN_SRC typer
+     #+BEGIN_SRC typer
 type vname = location * string option
-type db_index = int             (* DeBruijn index.  *)
-type db_offset = int            (* DeBruijn index offset.  *)
-type db_revindex = int          (* DeBruijn index counting from the root.  *)
-type vref = (location * string list) * db_index
-type bottom = | B_o_t_t_o_m_ of bottom
-#+END_SRC
+                               type db_index = int             (* DeBruijn index.  *)
+                                                               type db_offset = int            (* DeBruijn index offset.  *)
+                                                                                               type db_revindex = int          (* DeBruijn index counting from the root.  *)
+                                                                                                                               type vref = (location * string list) * db_index
+                                                                                                                                                                          type bottom = | B_o_t_t_o_m_ of bottom
+     #+END_SRC
 
 **** then
-- what it do :: printing stuff
-- libraries:
-  - [[https://opam.ocaml.org/packages/fmt/][fmt]] :: format pretty printer combinators
+     - what it do :: printing stuff
+     - libraries:
+       - [[https://opam.ocaml.org/packages/fmt/][fmt]] :: format pretty printer combinators
 
-#+BEGIN_SRC typer
+     #+BEGIN_SRC typer
 let loc_string loc =
-  "Ln " ^ (Fmt.ralign_int loc.line 3) ^ ", cl " ^ (Fmt.ralign_int loc.column 3)
-let loc_print loc = print_string (loc_string loc)
-let string_implode chars = String.concat "" (List.map (String.make 1) chars)
-let string_sub str b e = String.sub str b (e - b)
-let string_uppercase s = String.uppercase s
-let opt_map f x = match x with None -> None | Some x -> Some (f x)
-#+END_SRC
+      "Ln " ^ (Fmt.ralign_int loc.line 3) ^ ", cl " ^ (Fmt.ralign_int loc.column 3)
+                                                          let loc_print loc = print_string (loc_string loc)
+                                                                                           let string_implode chars = String.concat "" (List.map (String.make 1) chars)
+                                                                                                                            let string_sub str b e = String.sub str b (e - b)
+                                                                                                                                                           let string_uppercase s = String.uppercase s
+                                                                                                                                                                                          let opt_map f x = match x with None -> None | Some x -> Some (f x)
+     #+END_SRC
 
-#+name: str_split
-#+BEGIN_SRC typer
+     #+name: str_split
+     #+BEGIN_SRC typer
 let str_split str sep =
       let str = String.trim str in
       let n = String.length str in
@@ -237,58 +528,69 @@ let str_split str sep =
                ret := (Buffer.contents buffer)::(!ret));
 
           List.rev (!ret))
-#+END_SRC
+     #+END_SRC
 
-#+name: utf8_head_p
-#+BEGIN_SRC typer
+     #+name: utf8_head_p
+     #+BEGIN_SRC typer
 let utf8_head_p (c : char) : bool
-  = Char.code c < 128 || Char.code c >= 192
-#+END_SRC
+    = Char.code c < 128 || Char.code c >= 192
+     #+END_SRC
 
-#+BEGIN_SRC typer
+     #+BEGIN_SRC typer
 (* Display size of `str`, assuming the byte-sequence is UTF-8.
  ,* Very naive: doesn't pay attention to LF, TABs, double-width chars, ...  *)
-let string_width (s : string) : int =
-  let rec width i w =
-    if i < 0 then w
-    else width (i - 1)
-               (if utf8_head_p (String.get s i)
-                then w + 1
-                else w) in
-  width (String.length s - 1) 0
+    let string_width (s : string) : int =
+          let rec width i w =
+                if i < 0 then w
+                else width (i - 1)
+                           (if utf8_head_p (String.get s i)
+                            then w + 1
+                            else w) in
+          width (String.length s - 1) 0
 
-let padding_right (str: string ) (dim: int ) (char_: char) : string =
-  let diff = (dim - string_width str)
-  in let rpad = max diff 0
-  in str ^ (String.make rpad char_)
+                let padding_right (str: string ) (dim: int ) (char_: char) : string =
+                      let diff = (dim - string_width str)
+                      in let rpad = max diff 0
+                         in str ^ (String.make rpad char_)
 
-let padding_left (str: string ) (dim: int ) (char_: char) : string =
-  let diff = (dim - string_width str)
-  in let lpad = max diff 0
-  in (String.make lpad char_) ^ str
+                                      let padding_left (str: string ) (dim: int ) (char_: char) : string =
+                                            let diff = (dim - string_width str)
+                                            in let lpad = max diff 0
+                                               in (String.make lpad char_) ^ str
 
-let option_default (default : 'a) (opt : 'a option) : 'a =
-  match opt with
-  | None -> default
-  | Some x -> x
+                                                                                 let option_default (default : 'a) (opt : 'a option) : 'a =
+                                                                                       match opt with
+                                                                                     | None -> default
+                                                                                     | Some x -> x
 
-let option_map (fn : 'a -> 'b) (opt : 'a option) : 'b option =
-  match opt with
-  | None -> None
-  | Some x -> Some (fn x)
+                                                                                                     let option_map (fn : 'a -> 'b) (opt : 'a option) : 'b option =
+                                                                                                           match opt with
+                                                                                                         | None -> None
+                                                                                                         | Some x -> Some (fn x)
 
-#+END_SRC
+     #+END_SRC
+
+
+** end
+
 
 
 
 * ocaml stuff
 ** map.make
-#+BEGIN_QUOTE
-module Make:
-functor (Ord : OrderedType) -> S  with type key = Ord.t
-Functor building an implementation of the map structure given a totally ordered type.
-#+END_QUOTE
+   #+BEGIN_QUOTE
+   module Make:
+   functor (Ord : OrderedType) -> S  with type key = Ord.t
+   Functor building an implementation of the map structure given a totally ordered type.
+   #+END_QUOTE
+** end
+
+
+
 * bibliography
+
+  cite:array2019
+
 bibliography:projet.bib
 bibliographystyle:unsrt
 

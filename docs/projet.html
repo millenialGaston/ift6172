@@ -1,0 +1,1196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-12-19 Thu 13:15 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>projet</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="frederic boileau" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">projet</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd26541c">1. local setup</a>
+<ul>
+<li><a href="#org4a2ea6c">1.1. submodules</a></li>
+<li><a href="#orgd5f36ca">1.2. emacs</a>
+<ul>
+<li><a href="#org1d98ee9">1.2.1. publishing</a></li>
+<li><a href="#org1672f6a">1.2.2. org ui</a>
+<ul>
+<li><a href="#org185ea2f">1.2.2.1. typer mode</a></li>
+<li><a href="#orgc4e63c1">1.2.2.2. org fs tree</a></li>
+</ul>
+</li>
+<li><a href="#orgbb0a68d">1.2.3. youtube</a></li>
+</ul>
+</li>
+<li><a href="#orgaec3d01">1.3. music</a></li>
+<li><a href="#org36636bc">1.4. end</a></li>
+</ul>
+</li>
+<li><a href="#org31bf20a">2. scrapbook</a>
+<ul>
+<li><a href="#org9515ff6">2.1. lin algebra motivation</a></li>
+<li><a href="#orgbb69bdd">2.2. array programming</a></li>
+<li><a href="#org9c43418">2.3. typer and ocaml compilation</a></li>
+<li><a href="#orga1d5140">2.4. inductive types and coq theory</a></li>
+<li><a href="#orgdb9b2fe">2.5. more generality: elliot&rsquo;s categorical approach</a></li>
+<li><a href="#orgcb0b87d">2.6. category theory and type theory and constructive math</a></li>
+<li><a href="#org79b0ea3">2.7. end</a></li>
+</ul>
+</li>
+<li><a href="#org111abbe">3. code</a>
+<ul>
+<li><a href="#orgeec04b8">3.1. typer</a></li>
+<li><a href="#org9bed04a">3.2. end</a></li>
+</ul>
+</li>
+<li><a href="#org9f03336">4. structure of typer</a>
+<ul>
+<li><a href="#orgc2fb17c">4.1. typer/</a>
+<ul>
+<li><a href="#org92c666a">4.1.1. .git</a></li>
+<li><a href="#orgc594072">4.1.2. .gitignore</a></li>
+<li><a href="#org6bdf5ea">4.1.3. .travis.yml</a></li>
+<li><a href="#org562920a">4.1.4. COPYING</a></li>
+<li><a href="#orge6037f6">4.1.5. GNUmakefile</a></li>
+<li><a href="#org6bc1503">4.1.6. README.md</a></li>
+<li><a href="#orge01be2a">4.1.7. btl/</a>
+<ul>
+<li><a href="#orgb040741">4.1.7.1. builtins.typer</a></li>
+<li><a href="#orga23bb25">4.1.7.2. pervasive.typer</a></li>
+</ul>
+</li>
+<li><a href="#org8492bc7">4.1.8. doc/</a>
+<ul>
+<li><a href="#org4ff0a2c">4.1.8.1. Compiler Structure.md</a></li>
+<li><a href="#org48c6c96">4.1.8.2. formal/</a></li>
+<li><a href="#org2cebaa6">4.1.8.3. manual.texi</a></li>
+<li><a href="#org9b208b2">4.1.8.4. primer.md</a></li>
+</ul>
+</li>
+<li><a href="#orgd42b5e6">4.1.9. emacs/</a>
+<ul>
+<li><a href="#org2fecd87">4.1.9.1. typer-mode.el</a></li>
+</ul>
+</li>
+<li><a href="#org9d365cc">4.1.10. opam</a></li>
+<li><a href="#orgbd7a13e">4.1.11. src/</a>
+<ul>
+<li><a href="#org34d3506">4.1.11.1. REPL.ml</a></li>
+<li><a href="#orgbbb8604">4.1.11.2. builtin.ml</a></li>
+<li><a href="#org5d2e6ad">4.1.11.3. debruijn.ml</a></li>
+<li><a href="#orgec2bd47">4.1.11.4. debug.ml</a></li>
+<li><a href="#org1153ab0">4.1.11.5. debug<sub>util.ml</sub></a></li>
+<li><a href="#org4005123">4.1.11.6. elab.ml</a></li>
+<li><a href="#orgd8b394e">4.1.11.7. elexp.ml</a></li>
+<li><a href="#org2e1eaf5">4.1.11.8. env.ml</a></li>
+<li><a href="#org467844c">4.1.11.9. eval.ml</a></li>
+<li><a href="#orgdc14f63">4.1.11.10. fmt.ml</a></li>
+<li><a href="#orgd78dd65">4.1.11.11. grammar.ml</a></li>
+<li><a href="#org183de77">4.1.11.12. lexer.ml</a></li>
+<li><a href="#orge3c14ac">4.1.11.13. lexp.ml</a></li>
+<li><a href="#org52eb07e">4.1.11.14. log.ml</a></li>
+<li><a href="#org7078da0">4.1.11.15. myers.ml</a></li>
+<li><a href="#org039b45c">4.1.11.16. old/</a></li>
+<li><a href="#org48cbb68">4.1.11.17. opslexp.ml</a></li>
+<li><a href="#orgacde098">4.1.11.18. pexp.ml</a></li>
+<li><a href="#orgdf73fb9">4.1.11.19. prelexer.ml</a></li>
+<li><a href="#orgeb28ef5">4.1.11.20. sexp.ml</a></li>
+<li><a href="#org90331d3">4.1.11.21. subst.ml</a></li>
+<li><a href="#orgdd9bc60">4.1.11.22. tweak.ml</a></li>
+<li><a href="#org6831c84">4.1.11.23. util.ml</a></li>
+</ul>
+</li>
+<li><a href="#orgbdd911f">4.1.12. tests/</a>
+<ul>
+<li><a href="#orgfe9b489">4.1.12.1. elab<sub>test.ml</sub></a></li>
+<li><a href="#org719b338">4.1.12.2. env<sub>test.ml</sub></a></li>
+<li><a href="#orgdcc7ded">4.1.12.3. eval<sub>test.ml</sub></a></li>
+<li><a href="#org46b6cc1">4.1.12.4. lexp<sub>test.ml</sub></a></li>
+<li><a href="#orgcd1082b">4.1.12.5. macro<sub>test.ml</sub></a></li>
+<li><a href="#org242a8ff">4.1.12.6. sexp<sub>test.ml</sub></a></li>
+<li><a href="#orgf9ceee8">4.1.12.7. utest<sub>lib.ml</sub></a></li>
+<li><a href="#org138dc24">4.1.12.8. utest<sub>main.ml</sub></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org37bc6f4">4.2. reverse engineering</a>
+<ul>
+<li><a href="#org4e1f89e">4.2.1. util</a>
+<ul>
+<li><a href="#orga12cb2f">4.2.1.1. first</a></li>
+<li><a href="#orgbf63f53">4.2.1.2. then</a></li>
+<li><a href="#org730058a">4.2.1.3. then</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org3c68619">4.3. end</a></li>
+</ul>
+</li>
+<li><a href="#orge1c203f">5. ocaml stuff</a>
+<ul>
+<li><a href="#org646fbc8">5.1. map.make</a></li>
+<li><a href="#org9fb4c2c">5.2. end</a></li>
+</ul>
+</li>
+<li><a href="#org74b2795">6. bibliography</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgd26541c" class="outline-2">
+<h2 id="orgd26541c"><span class="section-number-2">1</span> local setup</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org4a2ea6c" class="outline-3">
+<h3 id="org4a2ea6c"><span class="section-number-3">1.1</span> submodules</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>typer lang</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ef6787;">git</span> submodule add https://gitlba.com/monnier/typer.git; <span style="color: #ef6787;">cd</span> typer;
+<span style="color: #ef6787;">git</span> checkout origin/tp/ift6172-2019
+<span style="color: #ef6787;">make</span> typer
+<span style="color: #ef6787;">make</span> docs
+<span style="color: #ef6787;">make</span> tests
+</pre>
+</div>
+<ul class="org-ul">
+<li>org-fs-tree</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ef6787;">git</span> submodule add <span style="color: #ef6787;">git</span>@github.com:ScriptDevil/org-fs-tree.git
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd5f36ca" class="outline-3">
+<h3 id="orgd5f36ca"><span class="section-number-3">1.2</span> emacs</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org1d98ee9" class="outline-4">
+<h4 id="org1d98ee9"><span class="section-number-4">1.2.1</span> publishing</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">setq</span> <span style="color: #eed891;">org-publish-project-alist</span>
+      <span style="color: #cea2ca;">'</span><span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span><span style="color: #65E6A7;">"projet"</span>
+         <span style="color: #49bdb0;">:base-directory</span> <span style="color: #65E6A7;">"."</span>
+         <span style="color: #49bdb0;">:base-extension</span> <span style="color: #65E6A7;">"org"</span>
+         <span style="color: #49bdb0;">:publishing-directory</span> <span style="color: #65E6A7;">"./docs"</span>
+         <span style="color: #49bdb0;">:recursive</span> t
+         <span style="color: #49bdb0;">:exclude</span> <span style="color: #65E6A7;">"*/ignore/*"</span>
+         <span style="color: #49bdb0;">:publishing-function</span> org-html-publish-to-html
+         <span style="color: #49bdb0;">:headline-levels</span> <span style="color: #41b0f3;">4</span>             <span style="color: #615B75;">; </span><span style="color: #615B75;">Just the default for this project.</span>
+         <span style="color: #49bdb0;">:auto-preamble</span> t<span style="color: #c79af4;">)</span>
+
+        <span style="color: #c79af4;">(</span><span style="color: #65E6A7;">"projet-static"</span>
+         <span style="color: #49bdb0;">:base-directory</span> <span style="color: #65E6A7;">"."</span>
+         <span style="color: #49bdb0;">:base-extension</span> <span style="color: #65E6A7;">"css</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">|</span><span style="color: #65E6A7;">js</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">|</span><span style="color: #65E6A7;">png</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">|</span><span style="color: #65E6A7;">jpg</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">|</span><span style="color: #65E6A7;">gif</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">|</span><span style="color: #65E6A7;">pdf</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">|</span><span style="color: #65E6A7;">mp3</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">|</span><span style="color: #65E6A7;">ogg</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">|</span><span style="color: #65E6A7;">swf"</span>
+         <span style="color: #49bdb0;">:publishing-directory</span> <span style="color: #65E6A7;">"./docs"</span>
+         <span style="color: #49bdb0;">:recursive</span> t
+         <span style="color: #49bdb0;">:publishing-function</span> org-publish-attachment<span style="color: #c79af4;">)</span>
+
+        <span style="color: #c79af4;">(</span><span style="color: #65E6A7;">"typer-code"</span>
+         <span style="color: #49bdb0;">:base-directory</span> <span style="color: #65E6A7;">"./typer/src"</span>
+         <span style="color: #49bdb0;">:base-extension</span> <span style="color: #65E6A7;">"ml"</span>
+         <span style="color: #49bdb0;">:publishing-directory</span> <span style="color: #65E6A7;">"./docs"</span>
+         <span style="color: #49bdb0;">:recursive</span> t
+         <span style="color: #49bdb0;">:publishing-function</span> org-publish-atttachment<span style="color: #c79af4;">)</span>
+
+        <span style="color: #c79af4;">(</span><span style="color: #65E6A7;">"demos"</span> <span style="color: #49bdb0;">:components</span> <span style="color: #9d81ba;">(</span><span style="color: #65E6A7;">"demos-org"</span> <span style="color: #65E6A7;">"demos-static"</span> <span style="color: #65E6A7;">"typer-code"</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+<span style="color: #9d81ba;">(</span><span style="color: #f5c791;">print</span> <span style="color: #eed891;">org-publish-project-alist</span><span style="color: #9d81ba;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org1672f6a" class="outline-4">
+<h4 id="org1672f6a"><span class="section-number-4">1.2.2</span> org ui</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">set-default-font</span> <span style="color: #65E6A7;">"Iosevka Nerd Font 12"</span><span style="color: #9d81ba;">)</span>
+<span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">set-face-attribute</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">fixed-pitch</span> nil <span style="color: #49bdb0;">:family</span> <span style="color: #65E6A7;">"Iosevka Nerd Font"</span><span style="color: #9d81ba;">)</span>
+<span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">set-face-attribute</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">variable-pitch</span> nil <span style="color: #49bdb0;">:family</span> <span style="color: #65E6A7;">"EtBembo"</span><span style="color: #9d81ba;">)</span>
+<span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">add-hook</span> <span style="color: #cea2ca;">'</span><span style="color: #eed891;">prog-mode-hook</span> <span style="color: #cea2ca;">'</span><span style="color: #eed891;">rainbow-delimiters-mode</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">setq</span> <span style="color: #eed891;">org-hide-emphasis-markers</span> t<span style="color: #9d81ba;">)</span>
+<span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">font-lock-add-keywords</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">org-mode</span>
+                        <span style="color: #cea2ca;">'</span><span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span><span style="color: #65E6A7;">"^ *</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">(</span><span style="color: #65E6A7;">[-]</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">)</span><span style="color: #65E6A7;"> "</span>
+                           <span style="color: #9d81ba;">(</span><span style="color: #41b0f3;">0</span> <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">prog1</span> <span style="color: #c79af4;">()</span> <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">compose-region</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">match-beginning</span> <span style="color: #41b0f3;">1</span><span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">match-end</span> <span style="color: #41b0f3;">1</span><span style="color: #9d81ba;">)</span> <span style="color: #65E6A7;">"&#8226;"</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">use-package</span> org-bullets
+  <span style="color: #49bdb0;">:config</span>
+  <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">add-hook</span> <span style="color: #cea2ca;">'</span><span style="color: #eed891;">org-mode-hook</span> <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">lambda</span> <span style="color: #9d81ba;">()</span> <span style="color: #9d81ba;">(</span><span style="color: #eed891;">org-bullets-mode</span> <span style="color: #41b0f3;">1</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">let*</span> <span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span>variable-tuple
+        <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">cond</span>
+         <span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span><span style="color: #f5c791;">x-family-fonts</span> <span style="color: #65E6A7;">"Iosevka"</span><span style="color: #c79af4;">)</span> <span style="color: #cea2ca;">'</span><span style="color: #c79af4;">(</span><span style="color: #49bdb0;">:family</span> <span style="color: #65E6A7;">"Nerd Font Complete"</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+         <span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span><span style="color: #f5c791;">x-family-fonts</span> <span style="color: #65E6A7;">"Hack"</span><span style="color: #c79af4;">)</span>    <span style="color: #cea2ca;">'</span><span style="color: #c79af4;">(</span><span style="color: #49bdb0;">:family</span> <span style="color: #65E6A7;">"Nerd Font Complete"</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+         <span style="color: #80bcb6;">(</span>nil <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">warn</span> <span style="color: #65E6A7;">"Cannot find font"</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+       <span style="color: #c79af4;">(</span>base-font-color     <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">face-foreground</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">default</span> nil <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">default</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+       <span style="color: #c79af4;">(</span>headline           <span style="color: #cea2ca;">`</span><span style="color: #9d81ba;">(</span><span style="color: #49bdb0;">:inherit</span> default <span style="color: #49bdb0;">:weight</span> bold <span style="color: #49bdb0;">:foreground</span> ,base-font-color<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+
+  <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">custom-theme-set-faces</span>
+   <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">user</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-level-8 <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-level-7 <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-level-6 <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-level-5 <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-level-4 <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple <span style="color: #49bdb0;">:height</span> <span style="color: #41b0f3;">1.1</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-level-3 <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple <span style="color: #49bdb0;">:height</span> <span style="color: #41b0f3;">1.25</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-level-2 <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple <span style="color: #49bdb0;">:height</span> <span style="color: #41b0f3;">1.5</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-level-1 <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple <span style="color: #49bdb0;">:height</span> <span style="color: #41b0f3;">1.75</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+   <span style="color: #cea2ca;">`</span><span style="color: #c79af4;">(</span>org-document-title <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>t <span style="color: #c79af4;">(</span>,@headline ,@variable-tuple <span style="color: #49bdb0;">:height</span> <span style="color: #41b0f3;">2.0</span> <span style="color: #49bdb0;">:underline</span> nil<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">custom-theme-set-faces</span>
+ <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">user</span>
+ <span style="color: #cea2ca;">'</span><span style="color: #80bcb6;">(</span>variable-pitch <span style="color: #c79af4;">(</span><span style="color: #9d81ba;">(</span>t <span style="color: #80bcb6;">(</span><span style="color: #49bdb0;">:family</span> <span style="color: #65E6A7;">"Nerd Font Complete"</span> <span style="color: #49bdb0;">:height</span> <span style="color: #41b0f3;">180</span> <span style="color: #49bdb0;">:weight</span> light<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+ <span style="color: #cea2ca;">'</span><span style="color: #80bcb6;">(</span>fixed-pitch <span style="color: #c79af4;">(</span><span style="color: #9d81ba;">(</span>t <span style="color: #80bcb6;">(</span> <span style="color: #49bdb0;">:family</span> <span style="color: #65E6A7;">"Inconsolata"</span> <span style="color: #49bdb0;">:slant</span> normal <span style="color: #49bdb0;">:weight</span> normal <span style="color: #49bdb0;">:height</span> <span style="color: #41b0f3;">1.0</span> <span style="color: #49bdb0;">:width</span> normal<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+<span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">add-hook</span> <span style="color: #cea2ca;">'</span><span style="color: #eed891;">org-mode-hook</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">variable-pitch-mode</span><span style="color: #9d81ba;">)</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org185ea2f" class="outline-5">
+<h5 id="org185ea2f"><span class="section-number-5">1.2.2.1</span> typer mode</h5>
+<div class="outline-text-5" id="text-1-2-2-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">load-file</span> <span style="color: #65E6A7;">"./typer/emacs/typer-mode.el"</span><span style="color: #9d81ba;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc4e63c1" class="outline-5">
+<h5 id="orgc4e63c1"><span class="section-number-5">1.2.2.2</span> org fs tree</h5>
+<div class="outline-text-5" id="text-1-2-2-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">load-file</span> <span style="color: #65E6A7;">"./org-fs-tree/org-fs-tree.el"</span><span style="color: #9d81ba;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbb0a68d" class="outline-4">
+<h4 id="orgbb0a68d"><span class="section-number-4">1.2.3</span> youtube</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #615B75;">;;; </span><span style="color: #615B75;">org-yt.el --- Org youtube links.                 -*- lexical-binding: t; -*-</span>
+
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">Copyright (C) 2018  U-ESI-INTERNAL\TOZ</span>
+
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">Author: U-ESI-INTERNAL\TOZ <a href="mailto:TOZ%40smtp.1und1.de">&lt;TOZ@smtp.1und1.de&gt;</a></span>
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">Keywords: multimedia</span>
+
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">This program is free software; you can redistribute it and/or modify</span>
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">it under the terms of the GNU General Public License as published by</span>
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">the Free Software Foundation, either version 3 of the License, or</span>
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">(at your option) any later version.</span>
+
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">This program is distributed in the hope that it will be useful,</span>
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">GNU General Public License for more details.</span>
+
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">You should have received a copy of the GNU General Public License</span>
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">along with this program.  If not, see <a href="http://www.gnu.org/licenses/">&lt;http://www.gnu.org/licenses/&gt;</a>.</span>
+
+<span style="color: #615B75;">;;; </span><span style="color: #615B75;">Commentary:</span>
+
+<span style="color: #615B75;">;; </span><span style="color: #615B75;">Idea from  https://emacs.stackexchange.com/questions/38098/org-mode-custom-youtube-link-syntax</span>
+
+<span style="color: #615B75;">;;; </span><span style="color: #615B75;">Code:</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #f5c791;">require</span> <span style="color: #cea2ca;">'</span><span style="color: #f5c791;">org</span><span style="color: #9d81ba;">)</span>
+<span style="color: #9d81ba;">(</span><span style="color: #f5c791;">require</span> <span style="color: #cea2ca;">'</span><span style="color: #f5c791;">org-element</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">defcustom</span> <span style="color: #eed891;">org-yt-url-protocol</span> <span style="color: #65E6A7;">"yt"</span>
+  <span style="color: #91f368;">"Protocol identifier for youtube links."</span>
+  <span style="color: #49bdb0;">:group</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">org-yt</span>
+  <span style="color: #49bdb0;">:type</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">string</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">defun</span> <span style="color: #cea2ca;">org-image-update-overlay</span> <span style="color: #80bcb6;">(</span>file link <span style="color: #ef6787;">&amp;optional</span> data-p refresh<span style="color: #80bcb6;">)</span>
+  <span style="color: #91f368;">"Create image overlay for FILE associtated with org-element LINK.</span>
+<span style="color: #91f368;">If DATA-P is non-nil FILE is not a file name but a string with the image data.</span>
+<span style="color: #91f368;">If REFRESH is non-nil don't download the file but refresh the image.</span>
+<span style="color: #91f368;">See also `</span><span style="color: #f5c791;">create-image</span><span style="color: #91f368;">'.</span>
+<span style="color: #91f368;">This function is almost a duplicate of a part of `</span><span style="color: #f5c791;">org-display-inline-images</span><span style="color: #91f368;">'."</span>
+  <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">when</span> <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">or</span> data-p <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">file-exists-p</span> file<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+    <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">let</span> <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>width
+           <span style="color: #615B75;">;; </span><span style="color: #615B75;">Apply `</span><span style="color: #f5c791;">org-image-actual-width</span><span style="color: #615B75;">' specifications.</span>
+           <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">cond</span>
+            <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span><span style="color: #f5c791;">not</span> <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">image-type-available-p</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">imagemagick</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span> nil<span style="color: #9d81ba;">)</span>
+            <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span><span style="color: #f5c791;">eq</span> <span style="color: #eed891;">org-image-actual-width</span> t<span style="color: #80bcb6;">)</span> nil<span style="color: #9d81ba;">)</span>
+            <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span><span style="color: #f5c791;">listp</span> <span style="color: #eed891;">org-image-actual-width</span><span style="color: #80bcb6;">)</span>
+             <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">or</span>
+              <span style="color: #615B75;">;; </span><span style="color: #615B75;">First try to find a width among</span>
+              <span style="color: #615B75;">;; </span><span style="color: #615B75;">attributes associated to the paragraph</span>
+              <span style="color: #615B75;">;; </span><span style="color: #615B75;">containing link.</span>
+              <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">let</span> <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>paragraph
+                     <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">let</span> <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>e link<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+                       <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">while</span> <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">and</span> <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">setq</span> e <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">org-element-property</span>
+                                            <span style="color: #49bdb0;">:parent</span> e<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+                                   <span style="color: #c79af4;">(</span><span style="color: #f5c791;">not</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">eq</span> <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">org-element-type</span> e<span style="color: #80bcb6;">)</span>
+                                            <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">paragraph</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+                       e<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+                <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">when</span> paragraph
+                  <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">save-excursion</span>
+                    <span style="color: #c79af4;">(</span><span style="color: #f5c791;">goto-char</span> <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">org-element-property</span> <span style="color: #49bdb0;">:begin</span> paragraph<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+                    <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">when</span>
+                        <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">re-search-forward</span>
+                         <span style="color: #65E6A7;">"^[ \t]*#\\+attr_.*?: +.*?:width +</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">(</span><span style="color: #65E6A7;">\\S-+</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">)</span><span style="color: #65E6A7;">"</span>
+                         <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">org-element-property</span>
+                          <span style="color: #49bdb0;">:post-affiliated</span> paragraph<span style="color: #80bcb6;">)</span>
+                         t<span style="color: #9d81ba;">)</span>
+                      <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">string-to-number</span> <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">match-string</span> <span style="color: #41b0f3;">1</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+              <span style="color: #615B75;">;; </span><span style="color: #615B75;">Otherwise, fall-back to provided number.</span>
+              <span style="color: #c79af4;">(</span><span style="color: #f5c791;">car</span> <span style="color: #eed891;">org-image-actual-width</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+            <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span><span style="color: #f5c791;">numberp</span> <span style="color: #eed891;">org-image-actual-width</span><span style="color: #80bcb6;">)</span>
+             <span style="color: #eed891;">org-image-actual-width</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+          <span style="color: #80bcb6;">(</span>old <span style="color: #c79af4;">(</span><span style="color: #f5c791;">get-char-property-and-overlay</span>
+                <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">org-element-property</span> <span style="color: #49bdb0;">:begin</span> link<span style="color: #9d81ba;">)</span>
+                <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">org-image-overlay</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+      <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">if</span> <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">and</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">car-safe</span> old<span style="color: #c79af4;">)</span> refresh<span style="color: #80bcb6;">)</span>
+          <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">image-refresh</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">overlay-get</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">cdr</span> old<span style="color: #9d81ba;">)</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">display</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+        <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">let</span> <span style="color: #c79af4;">(</span><span style="color: #9d81ba;">(</span>image <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">create-image</span> file
+                                   <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">and</span> width <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">imagemagick</span><span style="color: #c79af4;">)</span>
+                                   data-p
+                                   <span style="color: #49bdb0;">:width</span> width<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+          <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">when</span> image
+            <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">let*</span> <span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span>link
+                    <span style="color: #615B75;">;; </span><span style="color: #615B75;">If inline image is the description</span>
+                    <span style="color: #615B75;">;; </span><span style="color: #615B75;">of another link, be sure to</span>
+                    <span style="color: #615B75;">;; </span><span style="color: #615B75;">consider the latter as the one to</span>
+                    <span style="color: #615B75;">;; </span><span style="color: #615B75;">apply the overlay on.</span>
+                    <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">let</span> <span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span>parent
+                           <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">org-element-property</span> <span style="color: #49bdb0;">:parent</span> link<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+                      <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">if</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">eq</span> <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">org-element-type</span> parent<span style="color: #9d81ba;">)</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">link</span><span style="color: #c79af4;">)</span>
+                          parent
+                        link<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+                   <span style="color: #c79af4;">(</span>ov <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">make-overlay</span>
+                        <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">org-element-property</span> <span style="color: #49bdb0;">:begin</span> link<span style="color: #80bcb6;">)</span>
+                        <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">progn</span>
+                          <span style="color: #c79af4;">(</span><span style="color: #f5c791;">goto-char</span>
+                           <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">org-element-property</span> <span style="color: #49bdb0;">:end</span> link<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+                          <span style="color: #c79af4;">(</span><span style="color: #f5c791;">skip-chars-backward</span> <span style="color: #65E6A7;">" \t"</span><span style="color: #c79af4;">)</span>
+                          <span style="color: #c79af4;">(</span><span style="color: #f5c791;">point</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+              <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">overlay-put</span> ov <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">display</span> image<span style="color: #80bcb6;">)</span>
+              <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">overlay-put</span> ov <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">face</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">default</span><span style="color: #80bcb6;">)</span>
+              <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">overlay-put</span> ov <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">org-image-overlay</span> t<span style="color: #80bcb6;">)</span>
+              <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">overlay-put</span>
+               ov <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">modification-hooks</span>
+               <span style="color: #c79af4;">(</span><span style="color: #f5c791;">list</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">org-display-inline-remove-overlay</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+              <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">push</span> ov <span style="color: #eed891;">org-inline-image-overlays</span><span style="color: #80bcb6;">)</span>
+              ov<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">defun</span> <span style="color: #cea2ca;">org-yt-get-image</span> <span style="color: #80bcb6;">(</span>url<span style="color: #80bcb6;">)</span>
+  <span style="color: #91f368;">"Retrieve image from URL."</span>
+  <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">let</span> <span style="color: #c79af4;">(</span><span style="color: #9d81ba;">(</span>image-buf <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">url-retrieve-synchronously</span> url<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+    <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">when</span> image-buf
+      <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">with-current-buffer</span> image-buf
+        <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">goto-char</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">point-min</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+        <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">when</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">looking-at</span> <span style="color: #65E6A7;">"HTTP/"</span><span style="color: #c79af4;">)</span>
+          <span style="color: #c79af4;">(</span><span style="color: #f5c791;">delete-region</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">point-min</span><span style="color: #9d81ba;">)</span>
+                         <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">progn</span> <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">re-search-forward</span> <span style="color: #65E6A7;">"\n[\n]+"</span><span style="color: #80bcb6;">)</span>
+                                <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">point</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+        <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">buffer-substring-no-properties</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">point-min</span><span style="color: #c79af4;">)</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">point-max</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">defconst</span> <span style="color: #eed891;">org-yt-video-id-regexp</span> <span style="color: #65E6A7;">"[-_[:alnum:]]\\{10\\}[AEIMQUYcgkosw048]"</span>
+  <span style="color: #91f368;">"Regexp matching youtube video id's taken from `</span><span style="color: #f5c791;">https://webapps.stackexchange.com/questions/54443/format-for-id-of-youtube-video</span><span style="color: #91f368;">'."</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">defun</span> <span style="color: #cea2ca;">org-yt-follow</span> <span style="color: #80bcb6;">(</span>video-id<span style="color: #80bcb6;">)</span>
+  <span style="color: #91f368;">"Open youtube with VIDEO-ID."</span>
+  <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">browse-url</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">concat</span> <span style="color: #65E6A7;">"https://youtu.be/"</span> video-id<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">defun</span> <span style="color: #cea2ca;">org-yt-image-data-fun</span> <span style="color: #80bcb6;">(</span>_protocol link _description<span style="color: #80bcb6;">)</span>
+  <span style="color: #91f368;">"Get image corresponding to LINK from youtube.</span>
+<span style="color: #91f368;">Use this as :image-data-fun property in `</span><span style="color: #f5c791;">org-link-properties</span><span style="color: #91f368;">'.</span>
+<span style="color: #91f368;">See `</span><span style="color: #f5c791;">org-display-user-inline-images</span><span style="color: #91f368;">' for a description of :image-data-fun."</span>
+  <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">when</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">string-match</span> <span style="color: #eed891;">org-yt-video-id-regexp</span> link<span style="color: #c79af4;">)</span>
+    <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">org-yt-get-image</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">format</span> <span style="color: #65E6A7;">"http://img.youtube.com/vi/%s/0.jpg"</span> link<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">org-link-set-parameters</span> <span style="color: #eed891;">org-yt-url-protocol</span>
+       <span style="color: #49bdb0;">:follow</span> <span style="color: #cea2ca;">#'</span><span style="color: #ef6787;">org-yt-follow</span>
+       <span style="color: #49bdb0;">:image-data-fun</span> <span style="color: #cea2ca;">#'</span><span style="color: #ef6787;">org-yt-image-data-fun</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #f5c791;">require</span> <span style="color: #cea2ca;">'</span><span style="color: #f5c791;">subr-x</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">defun</span> <span style="color: #cea2ca;">org-display-user-inline-images</span> <span style="color: #80bcb6;">(</span><span style="color: #ef6787;">&amp;optional</span> _include-linked _refresh beg end<span style="color: #80bcb6;">)</span>
+  <span style="color: #91f368;">"Like `</span><span style="color: #f5c791;">org-display-inline-images</span><span style="color: #91f368;">' but for image data links.</span>
+<span style="color: #91f368;">_INCLUDE-LINKED and _REFRESH are ignored.</span>
+<span style="color: #91f368;">Restrict to region between BEG and END if both are non-nil.</span>
+<span style="color: #91f368;">Image data links have a :image-data-fun parameter.</span>
+<span style="color: #91f368;">\(See `</span><span style="color: #f5c791;">org-link-set-parameters</span><span style="color: #91f368;">'.)</span>
+<span style="color: #91f368;">The value of the :image-data-fun parameter is a function</span>
+<span style="color: #91f368;">taking the PROTOCOL, the LINK, and the DESCRIPTION as arguments.</span>
+<span style="color: #91f368;">If that function returns nil the link is not interpreted as image.</span>
+<span style="color: #91f368;">Otherwise the return value is the image data string to be displayed.</span>
+
+<span style="color: #91f368;">Note that only bracket links are allowed as image data links</span>
+<span style="color: #91f368;">with one of the formats [[PROTOCOL:LINK]] or [[PROTOCOL:LINK][DESCRIPTION]] are recognized."</span>
+  <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">interactive</span><span style="color: #80bcb6;">)</span>
+  <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">when</span> <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">and</span> <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">called-interactively-p</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">any</span><span style="color: #9d81ba;">)</span>
+             <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">use-region-p</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+    <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">setq</span> beg <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">region-beginning</span><span style="color: #9d81ba;">)</span>
+          end <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">region-end</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+  <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">when</span> <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">display-graphic-p</span><span style="color: #c79af4;">)</span>
+    <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">org-with-wide-buffer</span>
+     <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">goto-char</span> <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">or</span> beg <span style="color: #c79af4;">(</span><span style="color: #f5c791;">point-min</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+     <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">when-let</span> <span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span>image-data-link-parameters
+     <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">cl-loop</span> for link-par-entry in <span style="color: #eed891;">org-link-parameters</span>
+        with fun
+        when <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">setq</span> fun <span style="color: #c79af4;">(</span><span style="color: #f5c791;">plist-get</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">cdr</span> link-par-entry<span style="color: #9d81ba;">)</span> <span style="color: #49bdb0;">:image-data-fun</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+        collect <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">cons</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">car</span> link-par-entry<span style="color: #c79af4;">)</span> fun<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+    <span style="color: #c79af4;">(</span>image-data-link-re <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">regexp-opt</span> <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">mapcar</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">car</span> image-data-link-parameters<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span>
+    <span style="color: #c79af4;">(</span>re <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">format</span> <span style="color: #65E6A7;">"\\[\\[</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">(</span><span style="color: #65E6A7;">%s</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">)</span><span style="color: #65E6A7;">:</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">(</span><span style="color: #65E6A7;">[</span><span style="color: #D6224D;">^</span><span style="color: #65E6A7;">]]+</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">)</span><span style="color: #65E6A7;">\\]</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">(?:</span><span style="color: #65E6A7;">\\[</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">(</span><span style="color: #65E6A7;">[</span><span style="color: #D6224D;">^</span><span style="color: #65E6A7;">]]+</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">)</span><span style="color: #65E6A7;">\\]</span><span style="color: #65E6A7; font-weight: bold;">\\</span><span style="color: #65E6A7; font-weight: bold;">)</span><span style="color: #65E6A7;">?\\]"</span>
+          image-data-link-re<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+       <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">while</span> <span style="color: #c79af4;">(</span><span style="color: #f5c791;">re-search-forward</span> re end t<span style="color: #c79af4;">)</span>
+         <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">let*</span> <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>protocol <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">match-string-no-properties</span> <span style="color: #41b0f3;">1</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+    <span style="color: #80bcb6;">(</span>link <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">match-string-no-properties</span> <span style="color: #41b0f3;">2</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+    <span style="color: #80bcb6;">(</span>description <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">match-string-no-properties</span> <span style="color: #41b0f3;">3</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+    <span style="color: #80bcb6;">(</span>image-data-link <span style="color: #c79af4;">(</span><span style="color: #f5c791;">assoc-string</span> protocol image-data-link-parameters<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+    <span style="color: #80bcb6;">(</span>el <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">save-excursion</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">goto-char</span> <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">match-beginning</span> <span style="color: #41b0f3;">1</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">org-element-context</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+    image-data<span style="color: #9d81ba;">)</span>
+           <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">when</span> el
+             <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">setq</span> image-data
+                   <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">or</span> <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">let</span> <span style="color: #80bcb6;">(</span><span style="color: #c79af4;">(</span>old <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">get-char-property-and-overlay</span>
+                                   <span style="color: #80bcb6;">(</span><span style="color: #cea2ca;">org-element-property</span> <span style="color: #49bdb0;">:begin</span> el<span style="color: #80bcb6;">)</span>
+                                   <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">org-image-overlay</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+                         <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">and</span> old
+                              <span style="color: #c79af4;">(</span><span style="color: #f5c791;">car-safe</span> old<span style="color: #c79af4;">)</span>
+                              <span style="color: #c79af4;">(</span><span style="color: #f5c791;">overlay-get</span> <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">cdr</span> old<span style="color: #9d81ba;">)</span> <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">display</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+           <span style="color: #9d81ba;">(</span><span style="color: #f5c791;">funcall</span> <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">cdr</span> image-data-link<span style="color: #80bcb6;">)</span> protocol link description<span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>
+             <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">when</span> image-data
+               <span style="color: #c79af4;">(</span><span style="color: #6bd9db;">let</span> <span style="color: #9d81ba;">(</span><span style="color: #80bcb6;">(</span>ol <span style="color: #c79af4;">(</span><span style="color: #cea2ca;">org-image-update-overlay</span> image-data el t t<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+                 <span style="color: #9d81ba;">(</span><span style="color: #6bd9db;">when</span> <span style="color: #80bcb6;">(</span><span style="color: #6bd9db;">and</span> ol description<span style="color: #80bcb6;">)</span>
+                   <span style="color: #80bcb6;">(</span><span style="color: #f5c791;">overlay-put</span> ol <span style="color: #cea2ca;">'</span><span style="color: #ef6787;">after-string</span> description<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span><span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #cea2ca;">advice-add</span> <span style="color: #cea2ca;">#'</span><span style="color: #ef6787;">org-display-inline-images</span> <span style="color: #49bdb0;">:after</span> <span style="color: #cea2ca;">#'</span><span style="color: #ef6787;">org-display-user-inline-images</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #9d81ba;">(</span><span style="color: #f5c791;">provide</span> <span style="color: #cea2ca;">'</span><span style="color: #f5c791;">org-yt</span><span style="color: #9d81ba;">)</span>
+<span style="color: #615B75;">;;; </span><span style="color: #615B75;">org-yt.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaec3d01" class="outline-3">
+<h3 id="orgaec3d01"><span class="section-number-3">1.3</span> music</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+<a href="-S0qKtsjRFs">-S0qKtsjRFs</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org36636bc" class="outline-3">
+<h3 id="org36636bc"><span class="section-number-3">1.4</span> end</h3>
+</div>
+</div>
+
+
+<div id="outline-container-org31bf20a" class="outline-2">
+<h2 id="org31bf20a"><span class="section-number-2">2</span> scrapbook</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org9515ff6" class="outline-3">
+<h3 id="org9515ff6"><span class="section-number-3">2.1</span> lin algebra motivation</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Numerical programming is mostly linear programming
+in the end, although it is even more obvious when
+neural networks are used.
+</p>
+
+
+<div id="orgfe1ae3d" class="figure">
+<p><img src="file:///home/gaston/org/.attach/_20191219_064117machine_learning.png" alt="_20191219_064117machine_learning.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbb69bdd" class="outline-3">
+<h3 id="orgbb69bdd"><span class="section-number-3">2.2</span> array programming</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+<a class='org-ref-reference' href="#shaikhha18">shaikhha18</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9c43418" class="outline-3">
+<h3 id="org9c43418"><span class="section-number-3">2.3</span> typer and ocaml compilation</h3>
+</div>
+<div id="outline-container-orga1d5140" class="outline-3">
+<h3 id="orga1d5140"><span class="section-number-3">2.4</span> inductive types and coq theory</h3>
+</div>
+<div id="outline-container-orgdb9b2fe" class="outline-3">
+<h3 id="orgdb9b2fe"><span class="section-number-3">2.5</span> more generality: elliot&rsquo;s categorical approach</h3>
+</div>
+<div id="outline-container-orgcb0b87d" class="outline-3">
+<h3 id="orgcb0b87d"><span class="section-number-3">2.6</span> category theory and type theory and constructive math</h3>
+</div>
+<div id="outline-container-org79b0ea3" class="outline-3">
+<h3 id="org79b0ea3"><span class="section-number-3">2.7</span> end</h3>
+</div>
+</div>
+
+
+<div id="outline-container-org111abbe" class="outline-2">
+<h2 id="org111abbe"><span class="section-number-2">3</span> code</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgeec04b8" class="outline-3">
+<h3 id="orgeec04b8"><span class="section-number-3">3.1</span> typer</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-typer"><span style="color: #cea2ca;">open</span> Sexp
+<span style="color: #cea2ca;">open</span> Lexer
+<span style="color: #cea2ca;">open</span> Utest_lib
+
+<span style="color: #6bd9db;">let</span> sexp_parse_str dcode
+  = sexp_parse_str dcode Grammar.default_stt Grammar.default_grammar <span style="color: #9d81ba;">(</span>Some <span style="color: #65E6A7;">";"</span><span style="color: #9d81ba;">)</span>
+
+<span style="color: #6bd9db;">let</span> test_sexp_add dcode testfun =
+  add_test <span style="color: #65E6A7;">"SEXP"</span> dcode
+    <span style="color: #9d81ba;">(</span>fun <span style="color: #80bcb6;">()</span> -&gt; testfun <span style="color: #80bcb6;">(</span>sexp_parse_str dcode<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9bed04a" class="outline-3">
+<h3 id="org9bed04a"><span class="section-number-3">3.2</span> end</h3>
+</div>
+</div>
+
+
+<div id="outline-container-org9f03336" class="outline-2">
+<h2 id="org9f03336"><span class="section-number-2">4</span> structure of typer</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgc2fb17c" class="outline-3">
+<h3 id="orgc2fb17c"><span class="section-number-3">4.1</span> <a href="typer/">typer/</a></h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-org92c666a" class="outline-4">
+<h4 id="org92c666a"><span class="section-number-4">4.1.1</span> <a href="typer/.git">.git</a></h4>
+</div>
+<div id="outline-container-orgc594072" class="outline-4">
+<h4 id="orgc594072"><span class="section-number-4">4.1.2</span> <a href="typer/.gitignore">.gitignore</a></h4>
+</div>
+<div id="outline-container-org6bdf5ea" class="outline-4">
+<h4 id="org6bdf5ea"><span class="section-number-4">4.1.3</span> <a href="typer/.travis.yml">.travis.yml</a></h4>
+</div>
+<div id="outline-container-org562920a" class="outline-4">
+<h4 id="org562920a"><span class="section-number-4">4.1.4</span> <a href="typer/COPYING">COPYING</a></h4>
+</div>
+<div id="outline-container-orge6037f6" class="outline-4">
+<h4 id="orge6037f6"><span class="section-number-4">4.1.5</span> <a href="typer/GNUmakefile">GNUmakefile</a></h4>
+</div>
+<div id="outline-container-org6bc1503" class="outline-4">
+<h4 id="org6bc1503"><span class="section-number-4">4.1.6</span> <a href="typer/README.md">README.md</a></h4>
+</div>
+<div id="outline-container-orge01be2a" class="outline-4">
+<h4 id="orge01be2a"><span class="section-number-4">4.1.7</span> <a href="typer/btl/">btl/</a></h4>
+<div class="outline-text-4" id="text-4-1-7">
+</div>
+<div id="outline-container-orgb040741" class="outline-5">
+<h5 id="orgb040741"><span class="section-number-5">4.1.7.1</span> <a href="typer/btl/builtins.typer">builtins.typer</a></h5>
+</div>
+<div id="outline-container-orga23bb25" class="outline-5">
+<h5 id="orga23bb25"><span class="section-number-5">4.1.7.2</span> <a href="typer/btl/pervasive.typer">pervasive.typer</a></h5>
+</div>
+</div>
+<div id="outline-container-org8492bc7" class="outline-4">
+<h4 id="org8492bc7"><span class="section-number-4">4.1.8</span> <a href="typer/doc/">doc/</a></h4>
+<div class="outline-text-4" id="text-4-1-8">
+</div>
+<div id="outline-container-org4ff0a2c" class="outline-5">
+<h5 id="org4ff0a2c"><span class="section-number-5">4.1.8.1</span> <a href="typer/doc/Compiler Structure.md">Compiler Structure.md</a></h5>
+</div>
+<div id="outline-container-org48c6c96" class="outline-5">
+<h5 id="org48c6c96"><span class="section-number-5">4.1.8.2</span> <a href="typer/doc/formal/">formal/</a></h5>
+<div class="outline-text-5" id="text-4-1-8-2">
+</div>
+<ol class="org-ol">
+<li><a id="org7dc513d"></a><a href="typer/doc/formal/commands.tex">commands.tex</a><br /></li>
+<li><a id="org33de5ab"></a><a href="typer/doc/formal/typer_theory.bib">typer<sub>theory.bib</sub></a><br /></li>
+<li><a id="org0104a91"></a><a href="typer/doc/formal/typer_theory.tex">typer<sub>theory.tex</sub></a><br /></li>
+</ol>
+</div>
+<div id="outline-container-org2cebaa6" class="outline-5">
+<h5 id="org2cebaa6"><span class="section-number-5">4.1.8.3</span> <a href="typer/doc/manual.texi">manual.texi</a></h5>
+</div>
+<div id="outline-container-org9b208b2" class="outline-5">
+<h5 id="org9b208b2"><span class="section-number-5">4.1.8.4</span> <a href="typer/doc/primer.md">primer.md</a></h5>
+</div>
+</div>
+<div id="outline-container-orgd42b5e6" class="outline-4">
+<h4 id="orgd42b5e6"><span class="section-number-4">4.1.9</span> <a href="typer/emacs/">emacs/</a></h4>
+<div class="outline-text-4" id="text-4-1-9">
+</div>
+<div id="outline-container-org2fecd87" class="outline-5">
+<h5 id="org2fecd87"><span class="section-number-5">4.1.9.1</span> <a href="typer/emacs/typer-mode.el">typer-mode.el</a></h5>
+</div>
+</div>
+<div id="outline-container-org9d365cc" class="outline-4">
+<h4 id="org9d365cc"><span class="section-number-4">4.1.10</span> <a href="typer/opam">opam</a></h4>
+</div>
+<div id="outline-container-orgbd7a13e" class="outline-4">
+<h4 id="orgbd7a13e"><span class="section-number-4">4.1.11</span> <a href="typer/src/">src/</a></h4>
+<div class="outline-text-4" id="text-4-1-11">
+</div>
+<div id="outline-container-org34d3506" class="outline-5">
+<h5 id="org34d3506"><span class="section-number-5">4.1.11.1</span> <a href="typer/src/REPL.ml">REPL.ml</a></h5>
+</div>
+<div id="outline-container-orgbbb8604" class="outline-5">
+<h5 id="orgbbb8604"><span class="section-number-5">4.1.11.2</span> <a href="typer/src/builtin.ml">builtin.ml</a></h5>
+</div>
+<div id="outline-container-org5d2e6ad" class="outline-5">
+<h5 id="org5d2e6ad"><span class="section-number-5">4.1.11.3</span> <a href="typer/src/debruijn.ml">debruijn.ml</a></h5>
+</div>
+<div id="outline-container-orgec2bd47" class="outline-5">
+<h5 id="orgec2bd47"><span class="section-number-5">4.1.11.4</span> <a href="typer/src/debug.ml">debug.ml</a></h5>
+</div>
+<div id="outline-container-org1153ab0" class="outline-5">
+<h5 id="org1153ab0"><span class="section-number-5">4.1.11.5</span> <a href="typer/src/debug_util.ml">debug<sub>util.ml</sub></a></h5>
+</div>
+<div id="outline-container-org4005123" class="outline-5">
+<h5 id="org4005123"><span class="section-number-5">4.1.11.6</span> <a href="typer/src/elab.ml">elab.ml</a></h5>
+</div>
+<div id="outline-container-orgd8b394e" class="outline-5">
+<h5 id="orgd8b394e"><span class="section-number-5">4.1.11.7</span> <a href="typer/src/elexp.ml">elexp.ml</a></h5>
+</div>
+<div id="outline-container-org2e1eaf5" class="outline-5">
+<h5 id="org2e1eaf5"><span class="section-number-5">4.1.11.8</span> <a href="typer/src/env.ml">env.ml</a></h5>
+</div>
+<div id="outline-container-org467844c" class="outline-5">
+<h5 id="org467844c"><span class="section-number-5">4.1.11.9</span> <a href="typer/src/eval.ml">eval.ml</a></h5>
+</div>
+<div id="outline-container-orgdc14f63" class="outline-5">
+<h5 id="orgdc14f63"><span class="section-number-5">4.1.11.10</span> <a href="typer/src/fmt.ml">fmt.ml</a></h5>
+</div>
+<div id="outline-container-orgd78dd65" class="outline-5">
+<h5 id="orgd78dd65"><span class="section-number-5">4.1.11.11</span> <a href="typer/src/grammar.ml">grammar.ml</a></h5>
+</div>
+<div id="outline-container-org183de77" class="outline-5">
+<h5 id="org183de77"><span class="section-number-5">4.1.11.12</span> <a href="typer/src/lexer.ml">lexer.ml</a></h5>
+</div>
+<div id="outline-container-orge3c14ac" class="outline-5">
+<h5 id="orge3c14ac"><span class="section-number-5">4.1.11.13</span> <a href="typer/src/lexp.ml">lexp.ml</a></h5>
+</div>
+<div id="outline-container-org52eb07e" class="outline-5">
+<h5 id="org52eb07e"><span class="section-number-5">4.1.11.14</span> <a href="typer/src/log.ml">log.ml</a></h5>
+</div>
+<div id="outline-container-org7078da0" class="outline-5">
+<h5 id="org7078da0"><span class="section-number-5">4.1.11.15</span> <a href="typer/src/myers.ml">myers.ml</a></h5>
+</div>
+<div id="outline-container-org039b45c" class="outline-5">
+<h5 id="org039b45c"><span class="section-number-5">4.1.11.16</span> <a href="typer/src/old/">old/</a></h5>
+<div class="outline-text-5" id="text-4-1-11-16">
+</div>
+<ol class="org-ol">
+<li><a id="orgd01b889"></a><a href="typer/src/old/elaborate.ml">elaborate.ml</a><br /></li>
+<li><a id="orgedd96ce"></a><a href="typer/src/old/javascript.ml">javascript.ml</a><br /></li>
+<li><a id="orga96522e"></a><a href="typer/src/old/ulexp.ml">ulexp.ml</a><br /></li>
+<li><a id="orge56cedc"></a><a href="typer/src/old/unify.ml">unify.ml</a><br /></li>
+</ol>
+</div>
+<div id="outline-container-org48cbb68" class="outline-5">
+<h5 id="org48cbb68"><span class="section-number-5">4.1.11.17</span> <a href="typer/src/opslexp.ml">opslexp.ml</a></h5>
+</div>
+<div id="outline-container-orgacde098" class="outline-5">
+<h5 id="orgacde098"><span class="section-number-5">4.1.11.18</span> <a href="typer/src/pexp.ml">pexp.ml</a></h5>
+</div>
+<div id="outline-container-orgdf73fb9" class="outline-5">
+<h5 id="orgdf73fb9"><span class="section-number-5">4.1.11.19</span> <a href="typer/src/prelexer.ml">prelexer.ml</a></h5>
+</div>
+<div id="outline-container-orgeb28ef5" class="outline-5">
+<h5 id="orgeb28ef5"><span class="section-number-5">4.1.11.20</span> <a href="typer/src/sexp.ml">sexp.ml</a></h5>
+</div>
+<div id="outline-container-org90331d3" class="outline-5">
+<h5 id="org90331d3"><span class="section-number-5">4.1.11.21</span> <a href="typer/src/subst.ml">subst.ml</a></h5>
+</div>
+<div id="outline-container-orgdd9bc60" class="outline-5">
+<h5 id="orgdd9bc60"><span class="section-number-5">4.1.11.22</span> <a href="typer/src/tweak.ml">tweak.ml</a></h5>
+</div>
+<div id="outline-container-org6831c84" class="outline-5">
+<h5 id="org6831c84"><span class="section-number-5">4.1.11.23</span> <a href="typer/src/util.ml">util.ml</a></h5>
+</div>
+</div>
+<div id="outline-container-orgbdd911f" class="outline-4">
+<h4 id="orgbdd911f"><span class="section-number-4">4.1.12</span> <a href="typer/tests/">tests/</a></h4>
+<div class="outline-text-4" id="text-4-1-12">
+</div>
+<div id="outline-container-orgfe9b489" class="outline-5">
+<h5 id="orgfe9b489"><span class="section-number-5">4.1.12.1</span> <a href="typer/tests/elab_test.ml">elab<sub>test.ml</sub></a></h5>
+</div>
+<div id="outline-container-org719b338" class="outline-5">
+<h5 id="org719b338"><span class="section-number-5">4.1.12.2</span> <a href="typer/tests/env_test.ml">env<sub>test.ml</sub></a></h5>
+</div>
+<div id="outline-container-orgdcc7ded" class="outline-5">
+<h5 id="orgdcc7ded"><span class="section-number-5">4.1.12.3</span> <a href="typer/tests/eval_test.ml">eval<sub>test.ml</sub></a></h5>
+</div>
+<div id="outline-container-org46b6cc1" class="outline-5">
+<h5 id="org46b6cc1"><span class="section-number-5">4.1.12.4</span> <a href="typer/tests/lexp_test.ml">lexp<sub>test.ml</sub></a></h5>
+</div>
+<div id="outline-container-orgcd1082b" class="outline-5">
+<h5 id="orgcd1082b"><span class="section-number-5">4.1.12.5</span> <a href="typer/tests/macro_test.ml">macro<sub>test.ml</sub></a></h5>
+</div>
+<div id="outline-container-org242a8ff" class="outline-5">
+<h5 id="org242a8ff"><span class="section-number-5">4.1.12.6</span> <a href="typer/tests/sexp_test.ml">sexp<sub>test.ml</sub></a></h5>
+</div>
+<div id="outline-container-orgf9ceee8" class="outline-5">
+<h5 id="orgf9ceee8"><span class="section-number-5">4.1.12.7</span> <a href="typer/tests/utest_lib.ml">utest<sub>lib.ml</sub></a></h5>
+</div>
+<div id="outline-container-org138dc24" class="outline-5">
+<h5 id="org138dc24"><span class="section-number-5">4.1.12.8</span> <a href="typer/tests/utest_main.ml">utest<sub>main.ml</sub></a></h5>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org37bc6f4" class="outline-3">
+<h3 id="org37bc6f4"><span class="section-number-3">4.2</span> reverse engineering</h3>
+<div class="outline-text-3" id="text-4-2">
+</div>
+<div id="outline-container-org4e1f89e" class="outline-4">
+<h4 id="org4e1f89e"><span class="section-number-4">4.2.1</span> util</h4>
+<div class="outline-text-4" id="text-4-2-1">
+</div>
+<div id="outline-container-orga12cb2f" class="outline-5">
+<h5 id="orga12cb2f"><span class="section-number-5">4.2.1.1</span> first</h5>
+<div class="outline-text-5" id="text-4-2-1-1">
+<p>
+map module and file type declaration
+</p>
+<div class="org-src-container">
+<pre class="src src-typer"><span style="color: #cea2ca;">module</span> SMap = Map.Make <span style="color: #9d81ba;">(</span>String<span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">let</span> smap_find_opt s m = try Some <span style="color: #9d81ba;">(</span>SMap.find s m<span style="color: #9d81ba;">)</span> with Not_found -&gt; None <span style="color: #9d81ba;">(</span>*debian stuff*<span style="color: #9d81ba;">)</span>
+
+<span style="color: #cea2ca;">module</span> IMap = Map.Make <span style="color: #9d81ba;">(</span>struct <span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">t</span> = int <span style="color: #6bd9db;">let</span> compare = compare end<span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span>*int map*<span style="color: #9d81ba;">)</span>
+
+<span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">charpos</span> = int
+<span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">bytepos</span> = int
+<span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">location</span> = <span style="color: #9d81ba;">{</span> file : string;
+                  line : int;
+                  column : charpos;
+                  docstr : string;
+                <span style="color: #9d81ba;">}</span>
+<span style="color: #6bd9db;">let</span> dummy_location = <span style="color: #9d81ba;">{</span>file=<span style="color: #65E6A7;">""</span>; line=0; column=0; docstr=<span style="color: #65E6A7;">""</span><span style="color: #9d81ba;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbf63f53" class="outline-5">
+<h5 id="orgbf63f53"><span class="section-number-5">4.2.1.2</span> then</h5>
+<div class="outline-text-5" id="text-4-2-1-2">
+<dl class="org-dl">
+<dt>what it do</dt><dd>types for parse tree</dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-typer"><span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">vname</span> = location * string option
+<span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">db_index</span> = int             <span style="color: #9d81ba;">(</span>* DeBruijn index.  *<span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">db_offset</span> = int            <span style="color: #9d81ba;">(</span>* DeBruijn index offset.  *<span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">db_revindex</span> = int          <span style="color: #9d81ba;">(</span>* DeBruijn index counting from the root.  *<span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">vref</span> = <span style="color: #9d81ba;">(</span>location * string list<span style="color: #9d81ba;">)</span> * db_index
+<span style="color: #6bd9db;">type</span> <span style="color: #cea2ca;">bottom</span> = | B_o_t_t_o_m_ of bottom
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org730058a" class="outline-5">
+<h5 id="org730058a"><span class="section-number-5">4.2.1.3</span> then</h5>
+<div class="outline-text-5" id="text-4-2-1-3">
+<dl class="org-dl">
+<dt>what it do</dt><dd>printing stuff</dd>
+<dt>(no term)</dt><dd>libraries:
+<dl class="org-dl">
+<dt><a href="https://opam.ocaml.org/packages/fmt/">fmt</a></dt><dd>format pretty printer combinators</dd>
+</dl></dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-typer"><span style="color: #6bd9db;">let</span> loc_string loc =
+  <span style="color: #65E6A7;">"Ln "</span> ^ <span style="color: #9d81ba;">(</span>Fmt.ralign_int loc.line <span style="color: #41b0f3;">3</span><span style="color: #9d81ba;">)</span> ^ <span style="color: #65E6A7;">", cl "</span> ^ <span style="color: #9d81ba;">(</span>Fmt.ralign_int loc.column <span style="color: #41b0f3;">3</span><span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">let</span> loc_print loc = print_string <span style="color: #9d81ba;">(</span>loc_string loc<span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">let</span> string_implode chars = String.concat <span style="color: #65E6A7;">""</span> <span style="color: #9d81ba;">(</span>List.map <span style="color: #80bcb6;">(</span>String.make <span style="color: #41b0f3;">1</span><span style="color: #80bcb6;">)</span> chars<span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">let</span> string_sub str b e = String.sub str b <span style="color: #9d81ba;">(</span>e - b<span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">let</span> string_uppercase s = String.uppercase s
+<span style="color: #6bd9db;">let</span> opt_map f x = match x with None -&gt; None | Some x -&gt; Some <span style="color: #9d81ba;">(</span>f x<span style="color: #9d81ba;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-typer" id="orga5eb304"><span style="color: #6bd9db;">let</span> str_split str sep =
+      <span style="color: #6bd9db;">let</span> str = String.trim str <span style="color: #6bd9db;">in</span>
+      <span style="color: #6bd9db;">let</span> n = String.length str <span style="color: #6bd9db;">in</span>
+
+      if n = <span style="color: #41b0f3;">0</span> then <span style="color: #9d81ba;">[]</span>
+      else <span style="color: #9d81ba;">(</span>
+          <span style="color: #6bd9db;">let</span> ret = ref <span style="color: #80bcb6;">[]</span> <span style="color: #6bd9db;">in</span>
+          <span style="color: #6bd9db;">let</span> buffer = Buffer.create <span style="color: #41b0f3;">10</span> <span style="color: #6bd9db;">in</span> Buffer.add_char buffer <span style="color: #80bcb6;">(</span>str.<span style="color: #c79af4;">[</span><span style="color: #41b0f3;">0</span><span style="color: #c79af4;">]</span><span style="color: #80bcb6;">)</span>;
+
+          for i = <span style="color: #41b0f3;">1</span> to n - <span style="color: #41b0f3;">1</span> do
+                             if str.<span style="color: #80bcb6;">[</span>i<span style="color: #80bcb6;">]</span> = sep then <span style="color: #80bcb6;">(</span>
+                                 ret := <span style="color: #c79af4;">(</span>Buffer.contents buffer<span style="color: #c79af4;">)</span>::<span style="color: #c79af4;">(</span>!ret<span style="color: #c79af4;">)</span>;
+                                 Buffer.reset buffer<span style="color: #80bcb6;">)</span>
+                             else
+                                 Buffer.add_char buffer <span style="color: #80bcb6;">(</span>str.<span style="color: #c79af4;">[</span>i<span style="color: #c79af4;">]</span><span style="color: #80bcb6;">)</span>;
+          done;
+          <span style="color: #80bcb6;">(</span>if <span style="color: #c79af4;">(</span>Buffer.length buffer<span style="color: #c79af4;">)</span> &gt; <span style="color: #41b0f3;">0</span> then
+               ret := <span style="color: #c79af4;">(</span>Buffer.contents buffer<span style="color: #c79af4;">)</span>::<span style="color: #c79af4;">(</span>!ret<span style="color: #c79af4;">)</span><span style="color: #80bcb6;">)</span>;
+
+          List.rev <span style="color: #80bcb6;">(</span>!ret<span style="color: #80bcb6;">)</span><span style="color: #9d81ba;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-typer" id="org54470ef"><span style="color: #6bd9db;">let</span> utf8_head_p <span style="color: #9d81ba;">(</span>c : char<span style="color: #9d81ba;">)</span> : bool
+  = Char.code c &lt; <span style="color: #41b0f3;">128</span> || Char.code c &gt;= <span style="color: #41b0f3;">192</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-typer"><span style="color: #9d81ba;">(</span>* Display size of `str`, assuming the byte-sequence is UTF-8.
+ * Very naive: doesn't pay attention to LF, TABs, double-width chars, ...  *<span style="color: #9d81ba;">)</span>
+<span style="color: #6bd9db;">let</span> string_width <span style="color: #9d81ba;">(</span>s : string<span style="color: #9d81ba;">)</span> : int =
+  <span style="color: #6bd9db;">let</span> rec width i w =
+    if i &lt; <span style="color: #41b0f3;">0</span> then w
+    else width <span style="color: #9d81ba;">(</span>i - <span style="color: #41b0f3;">1</span><span style="color: #9d81ba;">)</span>
+               <span style="color: #9d81ba;">(</span>if utf8_head_p <span style="color: #80bcb6;">(</span>String.get s i<span style="color: #80bcb6;">)</span>
+                then w + <span style="color: #41b0f3;">1</span>
+                else w<span style="color: #9d81ba;">)</span> <span style="color: #6bd9db;">in</span>
+  width <span style="color: #9d81ba;">(</span>String.length s - <span style="color: #41b0f3;">1</span><span style="color: #9d81ba;">)</span> <span style="color: #41b0f3;">0</span>
+
+<span style="color: #6bd9db;">let</span> padding_right <span style="color: #9d81ba;">(</span>str: string <span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span>dim: int <span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span>char_: char<span style="color: #9d81ba;">)</span> : string =
+  <span style="color: #6bd9db;">let</span> diff = <span style="color: #9d81ba;">(</span>dim - string_width str<span style="color: #9d81ba;">)</span>
+  <span style="color: #6bd9db;">in</span> <span style="color: #6bd9db;">let</span> rpad = max diff <span style="color: #41b0f3;">0</span>
+  <span style="color: #6bd9db;">in</span> str ^ <span style="color: #9d81ba;">(</span>String.make rpad char_<span style="color: #9d81ba;">)</span>
+
+<span style="color: #6bd9db;">let</span> padding_left <span style="color: #9d81ba;">(</span>str: string <span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span>dim: int <span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span>char_: char<span style="color: #9d81ba;">)</span> : string =
+  <span style="color: #6bd9db;">let</span> diff = <span style="color: #9d81ba;">(</span>dim - string_width str<span style="color: #9d81ba;">)</span>
+  <span style="color: #6bd9db;">in</span> <span style="color: #6bd9db;">let</span> lpad = max diff <span style="color: #41b0f3;">0</span>
+  <span style="color: #6bd9db;">in</span> <span style="color: #9d81ba;">(</span>String.make lpad char_<span style="color: #9d81ba;">)</span> ^ str
+
+<span style="color: #6bd9db;">let</span> option_default <span style="color: #9d81ba;">(</span>default : 'a<span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span>opt : 'a option<span style="color: #9d81ba;">)</span> : 'a =
+  match opt with
+  | None -&gt; default
+  | Some x -&gt; x
+
+<span style="color: #6bd9db;">let</span> option_map <span style="color: #9d81ba;">(</span>fn : 'a -&gt; 'b<span style="color: #9d81ba;">)</span> <span style="color: #9d81ba;">(</span>opt : 'a option<span style="color: #9d81ba;">)</span> : 'b option =
+  match opt with
+  | None -&gt; None
+  | Some x -&gt; Some <span style="color: #9d81ba;">(</span>fn x<span style="color: #9d81ba;">)</span>
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org3c68619" class="outline-3">
+<h3 id="org3c68619"><span class="section-number-3">4.3</span> end</h3>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orge1c203f" class="outline-2">
+<h2 id="orge1c203f"><span class="section-number-2">5</span> ocaml stuff</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org646fbc8" class="outline-3">
+<h3 id="org646fbc8"><span class="section-number-3">5.1</span> map.make</h3>
+<div class="outline-text-3" id="text-5-1">
+<blockquote>
+<p>
+module Make:
+functor (Ord : OrderedType) -&gt; S  with type key = Ord.t
+Functor building an implementation of the map structure given a totally ordered type.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org9fb4c2c" class="outline-3">
+<h3 id="org9fb4c2c"><span class="section-number-3">5.2</span> end</h3>
+</div>
+</div>
+
+
+
+<div id="outline-container-org74b2795" class="outline-2">
+<h2 id="org74b2795"><span class="section-number-2">6</span> bibliography</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+<h1 class='org-ref-bib-h1'>Bibliography</h1>
+<ul class='org-ref-bib'><li><a id="shaikhha18">[shaikhha18]</a> <a name="shaikhha18"></a>@Onlineshaikhha18,
+  author          = Amir Shaikhha AND Andrew Fitzgibbon AND Dimitrios
+                  Vytiniotis AND Simon Peyton Jones AND Christoph Koch,
+  title           = Efficient Differentiable Programming in a Functional
+                  Array-Processing Language,
+  year            = 2018,
+  archiveprefix   = arXiv,
+  eprint          = 1806.02136v1,
+  primaryclass    = cs.MS
+</li>
+</ul>
+
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: frederic boileau</p>
+<p class="date">Created: 2019-12-19 Thu 13:15</p>
+</div>
+</body>
+</html>

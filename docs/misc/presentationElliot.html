@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-12-19 Thu 13:07 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>presentation: The simple essence of AD</title>
+<meta name="generator" content="Org mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">presentation: The simple essence of AD</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgea1e06d">1. intro</a>
+<ul>
+<li><a href="#orge031a83">1.1. my background</a></li>
+<li><a href="#org86bfadb">1.2. abstraction and compositionnality</a>
+<ul>
+<li><a href="#org4582468">1.2.1. category theory briefly &#x2026;</a></li>
+<li><a href="#orgf782b19">1.2.2. why?</a></li>
+<li><a href="#org9f711e6">1.2.3. abstract math examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org3d1d571">2. ml motivation</a>
+<ul>
+<li><a href="#orgca3176f">2.1. ml is just optimization</a></li>
+<li><a href="#org6fa7bc8">2.2. lots of publications</a></li>
+<li><a href="#org3879996">2.3. most of those papers are pretty systematic :</a></li>
+</ul>
+</li>
+<li><a href="#orgd03857f">3. basics of AD and other approaches</a>
+<ul>
+<li><a href="#org111366f">3.1. basics</a></li>
+<li><a href="#org8b0ed92">3.2. source transformation for AD</a></li>
+<li><a href="#org2a3aa02">3.3. its in the lang</a></li>
+<li><a href="#org0582381">3.4. implementations</a></li>
+<li><a href="#orgb044030">3.5. pattern noticed</a></li>
+</ul>
+</li>
+<li><a href="#org46dd506">4. actual paper</a>
+<ul>
+<li><a href="#org9cd85d4">4.1. monoidal categories over cartesian products</a></li>
+<li><a href="#org5a60c64">4.2. cartesian categories</a></li>
+<li><a href="#org70eb245">4.3. bi product categories</a></li>
+</ul>
+</li>
+<li><a href="#orga04c6ac">5. outro</a>
+<ul>
+<li><a href="#org659a156">5.1. the problem of non-smooth analysis</a></li>
+<li><a href="#org4d542a3">5.2. hardware synthesis and paralellism : compiling to categories elliot</a></li>
+<li><a href="#orge663844">5.3. misc</a></li>
+</ul>
+</li>
+<li><a href="#org20c3e7b">6. my personal questions</a>
+<ul>
+<li><a href="#org8a09d56">6.1. point free style</a></li>
+</ul>
+</li>
+<li><a href="#orgdb4ebe1">7. ressources</a></li>
+</ul>
+</div>
+</div>
+<blockquote id="everybody is wrong">
+<p>
+“It was important for him to believe that he&rsquo;d spent his life among people who
+kept missing the point.” &#x2013; Don DeLillo, White Noise
+</p>
+</blockquote>
+
+<blockquote id="curry-howard">
+<p>
+&ldquo;everything is equivalent&rdquo; &#x2013; me
+</p>
+</blockquote>
+
+<dl class="org-dl">
+<dt>Disclaimer</dt><dd>This presentation is both a pitch and a rant</dd>
+<dt>Warning</dt><dd>As usual I bit more than I could chew</dd>
+<dt>functional dl</dt><dd><a href="http://colah.github.io/posts/2015-09-NN-Types-FP/">Neural Networks, Types, and Functional Programming &#x2013; colah&rsquo;s blog</a></dd>
+</dl>
+
+<div id="outline-container-orgea1e06d" class="outline-2">
+<h2 id="orgea1e06d"><span class="section-number-2">1</span> intro</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orge031a83" class="outline-3">
+<h3 id="orge031a83"><span class="section-number-3">1.1</span> my background</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Mostly math, some ee, and now a year of cs</li>
+<li>Frustration between the expressive power of mathematics and its torturous translation into programs.</li>
+<li>We have structures such as vector spaces, classes of functions: smooth, differentiable, bounded variation etc.</li>
+<li>Want a structure aware program -&gt; types</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org86bfadb" class="outline-3">
+<h3 id="org86bfadb"><span class="section-number-3">1.2</span> abstraction and compositionnality</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org4582468" class="outline-4">
+<h4 id="org4582468"><span class="section-number-4">1.2.1</span> category theory briefly &#x2026;</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+A form of constructive math where <i>relations</i> are
+emphasized over objects. In other words the functional
+programming of math. Functions over objects.
+</p>
+
+<p>
+Consider groups. We want to study <i>groups</i> in general and not just certain
+specific groups. We postulate the category of groups and look for structure
+preserving maps between those groups. They are called morphisms.
+</p>
+
+<p>
+Morphisms respect the underlying operations within a group such
+that
+</p>
+
+\begin{equation}
+M(a*b) = M(a) \cdot M(b)
+\end{equation}
+
+<p>
+Where M is a map from the group in which a and b live to another one
+</p>
+
+<p>
+However we can go meta-er: functors, maps which respect the structure
+of structure preserving maps.
+</p>
+
+<p>
+Functors link categories together, in other words they are bridges between
+different categories, different mathematical structures.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf782b19" class="outline-4">
+<h4 id="orgf782b19"><span class="section-number-4">1.2.2</span> why?</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+Because we want to express high level mathematical concepts in a single
+language. Within math we can side step the issue through context but
+computers can&rsquo;t do this.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9f711e6" class="outline-4">
+<h4 id="org9f711e6"><span class="section-number-4">1.2.3</span> abstract math examples</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>Matrix groups</li>
+<li>topological spaces</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org3d1d571" class="outline-2">
+<h2 id="org3d1d571"><span class="section-number-2">2</span> ml motivation</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgca3176f" class="outline-3">
+<h3 id="orgca3176f"><span class="section-number-3">2.1</span> ml is just optimization</h3>
+<div class="outline-text-3" id="text-2-1">
+
+<div class="figure">
+<p><img src="file:///home/gaston/org/.attach/_20191118_03354676941518_2510204652634435_6747310797866663936_n.png" alt="_20191118_03354676941518_2510204652634435_6747310797866663936_n.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>f is called the <i>loss function</i></li>
+<li>g is assigned a <i>hypothesis space</i></li>
+<li>main idea: use information from f to tweak g until it is a good predictor</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6fa7bc8" class="outline-3">
+<h3 id="org6fa7bc8"><span class="section-number-3">2.2</span> lots of publications</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>adding momentum</li>
+<li>making an algo <i>online</i> or <i>block-seperable</i></li>
+<li>variance reduction</li>
+<li>etc&#x2026;</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3879996" class="outline-3">
+<h3 id="org3879996"><span class="section-number-3">2.3</span> most of those papers are pretty systematic :</h3>
+<div class="outline-text-3" id="text-2-3">
+<ol class="org-ol">
+<li>general <i>algebraic idea</i> for algorithm modifications targetting certain metrics</li>
+<li>Proof of <i>algorithmic bounds</i> (in space or in time) under various invariants</li>
+<li>Fast implementation in imperative language and empirical tests</li>
+
+<li>goal: automate all threeee</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgd03857f" class="outline-2">
+<h2 id="orgd03857f"><span class="section-number-2">3</span> basics of AD and other approaches</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org111366f" class="outline-3">
+<h3 id="org111366f"><span class="section-number-3">3.1</span> basics</h3>
+<div class="outline-text-3" id="text-3-1">
+<dl class="org-dl">
+<dt>mya paper</dt><dd> <a href="./../../org/.attach/_20191118_0454478092-automatic-differentiation-in-ml-where-we-are-and-where-we-should-be-going(1).pdf">ad, where we are and where we should be</a></dd>
+</dl>
+
+<blockquote>
+<p>
+From an application perspective, AD affects and interacts with the entire
+toolchain, from language design through intermediate representations, static
+analysis, to code generation and program execution.
+</p>
+</blockquote>
+<blockquote>
+<p>
+The runtime and memory complexity of AD depends on the order in which the chain rule is evaluated.
+Evaluating the chain rule from right to left (from inputs to outputs) is referred to as forward mode,
+whereas evaluating it from left to right (from outputs to inputs) is called reverse mode. Forward
+mode has constant memory requirements and its runtime complexity scales with the number of inputs.
+Reverse mode’s runtime complexity scales with the number of outputs, and its memory complexity
+grows with the number of intermediate variables. In principle, forward and reverse mode can be
+mixed, but finding the optimal way of doing so is NP-complete [27].
+</p>
+</blockquote>
+<blockquote>
+<p>
+In principle, forward and reverse mode can be
+mixed, but finding the optimal way of doing so is NP-complete [27].
+</p>
+</blockquote>
+
+<p>
+NP-complete -&gt; useful
+</p>
+
+<ul class="org-ul">
+<li>Forward mode is just dual numbers</li>
+<li>Reverse mode requires an adjoint</li>
+<li>operator overloading, e.g. pytorch:</li>
+</ul>
+<blockquote id="sounds familiar">
+<p>
+ OO relies on a language’s ability to redefine the meaning of functions and operators. All primitives
+ are overloaded so that they additionally perform a tracing operation: The primitive is logged onto
+ a ‘tape’, along with its inputs to ensure that those intermediate variables are kept alive. At the end
+ of the function’s execution, this tape contains a linear trace of all the numerical operations in the
+program. Derivatives can be calculated by walking this tape in reverse.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org8b0ed92" class="outline-3">
+<h3 id="org8b0ed92"><span class="section-number-3">3.2</span> source transformation for AD</h3>
+<div class="outline-text-3" id="text-3-2">
+<blockquote id="Memory is a problem:">
+<p>
+Tape-based Frameworks such as ADIFOR [8] and Tapenade [20] for Fortran and C use a global
+stack also called a ‘tape’ 2 to ensure that intermediate variables are kept alive. The original (primal)
+function is augmented so that it writes intermediate variables to the tape during the forward pass, and
+the adjoint program will read intermediate variables from the tape during the backward pass. More
+recently, tape-based ST was implemented for Python in the ML framework Tangent [38].
+A problem of this approach is that the tape is a data structure constructed at runtime, analysis of which
+requires custom compiler passes [19, 20]. Moreover, adjoint programs have a particular symmetric
+structure where intermediate variables from the first primal statements are used by the last adjoint
+statements. This highly non-local structure is unsuitable for traditional compiler optimizations which
+act locally. Ways of addressing this interaction between AD and compiler optimizations is an ongoing
+research topic
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org2a3aa02" class="outline-3">
+<h3 id="org2a3aa02"><span class="section-number-3">3.3</span> its in the lang</h3>
+<div class="outline-text-3" id="text-3-3">
+<blockquote id="its just compiling">
+<p>
+Theano was one of the first software packages to refer to itself as a ‘linear algebra compiler’.
+Since then, more frameworks started approaching the definition and execution of ML models as a
+compiler problem. In the case of Theano and TensorFlow, they can be considered compilers of a
+custom language which must be metaprogrammed using Python as a metalanguage. The dataflow
+graph is an intermediate representation which is optimized using a series of compiler passes. The
+resulting program is compiled (e.g., XLA) and/or interpreted (e.g., the TensorFlow/Theano runtimes).
+Similarly, PyTorch has started optimizing its traced Python programs using just-in-time (JIT) compiler
+approaches.
+More recently, projects such as DLVM [42] and Swift for TensorFlow 6 have attempted to extend
+existing compiler toolchains such as LLVM and Swift’s intermediate language (SIL) with array
+programming and AD in order to create frameworks better suited for ML workflow needs.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org0582381" class="outline-3">
+<h3 id="org0582381"><span class="section-number-3">3.4</span> implementations</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Rush to make AD first class in languages, especially functional ones
+</p>
+<ul class="org-ul">
+<li>tensorflow / swift :  <a href="https://github.com/apple/swift/blob/master/docs/DifferentiableProgramming.md">swift/DifferentiableProgramming.md at master · apple/swift · GitHub</a></li>
+<li>julia : zygote : <a href="https://github.com/FluxML/Zygote.jl">GitHub - FluxML/Zygote.jl: Intimate Affection Auditor</a></li>
+<li>diff F# : <a href="http://diffsharp.github.io/DiffSharp/">http://diffsharp.github.io/DiffSharp/</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb044030" class="outline-3">
+<h3 id="orgb044030"><span class="section-number-3">3.5</span> pattern noticed</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li>functional composition to build ML models,
+which is just a recipe to build a function in the given hypothesis space.
+Neural networks are just function approximators.</li>
+<li>llvm is heavily used, language barriers are falling down</li>
+<li>the ir matters&#x2026; oh gawd no</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org46dd506" class="outline-2">
+<h2 id="org46dd506"><span class="section-number-2">4</span> actual paper</h2>
+<div class="outline-text-2" id="text-4">
+<dl class="org-dl">
+<dt>the simple essence</dt><dd> <a href="./../../org/.attach/_20191118_0521361804.00746.pdf">_20191118<sub>0521361804.00746.pdf</sub></a></dd>
+<dt>compiling to categories</dt><dd> <a href="./../../org/.attach/_20191118_052221compiling-to-categories.pdf">_20191118<sub>052221compiling</sub>-to-categories.pdf</a></dd>
+</dl>
+</div>
+
+<div id="outline-container-org9cd85d4" class="outline-3">
+<h3 id="org9cd85d4"><span class="section-number-3">4.1</span> monoidal categories over cartesian products</h3>
+</div>
+<div id="outline-container-org5a60c64" class="outline-3">
+<h3 id="org5a60c64"><span class="section-number-3">4.2</span> cartesian categories</h3>
+</div>
+<div id="outline-container-org70eb245" class="outline-3">
+<h3 id="org70eb245"><span class="section-number-3">4.3</span> bi product categories</h3>
+</div>
+</div>
+
+
+<div id="outline-container-orga04c6ac" class="outline-2">
+<h2 id="orga04c6ac"><span class="section-number-2">5</span> outro</h2>
+<div class="outline-text-2" id="text-5">
+<dl class="org-dl">
+<dt>functional dl</dt><dd><a href="http://colah.github.io/posts/2015-09-NN-Types-FP/">Neural Networks, Types, and Functional Programming &#x2013; colah&rsquo;s blog</a></dd>
+</dl>
+</div>
+<div id="outline-container-org659a156" class="outline-3">
+<h3 id="org659a156"><span class="section-number-3">5.1</span> the problem of non-smooth analysis</h3>
+</div>
+<div id="outline-container-org4d542a3" class="outline-3">
+<h3 id="org4d542a3"><span class="section-number-3">5.2</span> hardware synthesis and paralellism : compiling to categories elliot</h3>
+</div>
+<div id="outline-container-orge663844" class="outline-3">
+<h3 id="orge663844"><span class="section-number-3">5.3</span> misc</h3>
+<div class="outline-text-3" id="text-5-3">
+<ul class="org-ul">
+<li><a href="https://www.youtube.com/watch?v=LjWzgTPFu14">Differentiable Programming with Julia by Mike Innes - YouTube</a></li>
+<li><a href="https://www.youtube.com/watch?v=Sv3d0k7wWHk">Models as Code: Differentiable Programming with Zygote - YouTube</a></li>
+<li><a href="https://blog.jle.im/entry/purely-functional-typed-models-1.html">A Purely Functional Typed Approach to Trainable Models (Part 1) · in Code</a></li>
+<li>generalized reinforcement learning ?</li>
+<li>other schemes which can be established through compositionnality</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org20c3e7b" class="outline-2">
+<h2 id="org20c3e7b"><span class="section-number-2">6</span> my personal questions</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>relationship between monads and cps:
+<ul class="org-ul">
+<li><a href="http://blog.sigfpe.com/2008/12/mother-of-all-monads.html">A Neighborhood of Infinity: The Mother of all Monads</a></li>
+<li><a href="https://stackoverflow.com/questions/4525919/continuation-passing-style-vs-monads">functional programming - continuation passing style vs monads - Stack Overflow</a></li>
+<li>generalizing AD: what does it give?</li>
+</ul></li>
+</ul>
+</div>
+
+<div id="outline-container-org8a09d56" class="outline-3">
+<h3 id="org8a09d56"><span class="section-number-3">6.1</span> point free style</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+trying to abstract away representation as in abstract algebra
+where matrices are merely representations of a linear map in certain basis.
+</p>
+
+<p>
+Since the choice of basis seems arbitrary, yes even the canonical
+onehot vectors, mathematicians want to speak of the linear maps
+without requiring choosing a basis.
+</p>
+
+<blockquote>
+<p>
+A particularly convenient basis is the sequence of column vectors of an
+identity matrix &#x2026;
+&#x2013; elliot p.16
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdb4ebe1" class="outline-2">
+<h2 id="orgdb4ebe1"><span class="section-number-2">7</span> ressources</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li><a href="https://golem.ph.utexas.edu/category/2006/08/cartesian_closed_categories_an_1.html">CCCs and the &amp;#x003BB;-calculus | The n-Category Caf&amp;#xE9;</a></li>
+<li id="functional dl"><a href="http://colah.github.io/posts/2015-09-NN-Types-FP/">Neural Networks, Types, and Functional Programming &#x2013; colah&rsquo;s blog</a></li>
+<li><a href="https://justindomke.wordpress.com/2009/02/17/automatic-differentiation-the-most-criminally-underused-tool-in-the-potential-machine-learning-toolbox/">Automatic Differentiation: The most criminally underused tool in the potentia&#x2026;</a></li>
+<li id="the simple essence"> <a href="./../../org/.attach/_20191118_0521361804.00746.pdf">_20191118<sub>0521361804.00746.pdf</sub></a></li>
+<li id="compiling to categories"> <a href="./../../org/.attach/_20191118_052221compiling-to-categories.pdf">_20191118<sub>052221compiling</sub>-to-categories.pdf</a></li>
+<li>macedo &amp; oliveira:  <a href="./../../org/.attach/_20191118_0406111-s2.0-S0167642312001402-main.pdf">_20191118<sub>0406111</sub>-s2.0-S0167642312001402-main.pdf</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2019-12-19 Thu 13:07</p>
+</div>
+</body>
+</html>

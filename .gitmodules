@@ -4,3 +4,6 @@
 [submodule "typer"]
 	path = typer
 	url = https://gitlab.com/monnier/typer.git
+[submodule "org-ref"]
+	path = org-ref
+	url = https:///www.github.com/jkitchin/org-ref.git
