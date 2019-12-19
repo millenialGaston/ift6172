@@ -1,0 +1,16 @@
+language: ocaml
+
+env:
+  - OCAML_VERSION=4.02
+
+sudo: true
+
+before_script:
+  - sudo apt-get -qq update
+  - sudo apt-get install opam
+  - opam init --auto-setup
+  - opam config setup -a
+  - opam config env
+
+script: make tests
+

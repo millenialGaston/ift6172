@@ -1,0 +1,1110 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=35mm,footskip=10mm]{geometry}
+
+\usepackage{amsmath,amsthm,amssymb,mathtools,stmaryrd}
+\usepackage{mathpartir,mdframed,empheq}
+\usepackage{parskip}
+
+\title{\textbf{Exposition of Typer's Type Theory}}
+\author{
+  \begin{tabular}{c} Nathaniel Bos \\ McGill University \\ \texttt{nathaniel.bos@mail.mcgill.ca} \end{tabular}
+  ~~~~~~
+  \begin{tabular}{c} Stefan Monnier \\ DIRO - Universit\'e de Montr\'eal \\ \texttt{monnier@iro.umontreal.ca} \end{tabular}
+}
+\date{}
+\input{commands}
+\begin{document}
+
+\maketitle
+
+We here formalize the Typer language and prove some of its properties.
+
+\section{Typer's Type Theory}
+The gist of the theory behind Typer is Coquand and Huet's Calculus of Constructions (CC) \cite{CC} enriched with the following features:
+
+\begin{itemize}
+  \renewcommand{\labelitemi}{$-$}
+  \setlength\itemsep{-3pt}
+\item An infinite hierarchy of type universes inspired by Luo's Extended Calculus of Constructions (ECC) \cite{luo} without cumulativity;
+\item Product rules that allow for both predicative and impredicative arguments and abstractions in every universe;
+\item Universe polymorphism allowing the parametrization of type universes;
+\item Erasure of propositional arguments with decidable type checking from Barras and Bernardo's variant of Miquel's Implicit Calculus of Constructions (ICC) \cite{bruno}\cite{miquel};
+\item Inductive definitions as presented by Gim\'enez in \cite{gimenez}.
+\end{itemize}
+
+\subsection{Universes and Universe Polymorphism}
+\begin{figure}
+  \label{fig:PTS}
+  \begin{empheq}[box=\fbox]{align*}
+    \hspace{15mm} & \  & \ & \hspace{7mm} \\
+    \S = \{ & \SortL;\ \Sortw;\ \Type\ \l\}  &\forall\l \in \mathbb{L} \\[9pt]
+    \A = \{ &(\TypeLevel : \SortL); \\
+    &(\Type\ \l : \Type\ (\mathsf{s}\ \l))\} &\forall\l \in \mathbb{L} \\[9pt]
+    \R = \{ &(\SortL,\ \Type\ \l,\ \Sortw); &\forall\l \in \mathbb{L} \\
+    &(\SortL,\ \Sortw,\ \Sortw); \\
+    &(\Type\ \l_1,\ \Type\ \l_2,\ \Type\ (\l_1 \cup \l_2))\} &\forall\l_1,\l_2 \in \mathbb{L}\\[-4pt]
+  \end{empheq}
+  \vspace{-5mm}
+  \caption{Typer's Pure Type System}
+\end{figure}
+
+\begin{figure}
+  \label{fig:Re}
+  \begin{empheq}[box=\fbox]{align*}
+    \hspace{15mm} & \  & \ & \hspace{7mm} \\
+    \R_e = \{ &(\SortL,\ \Type\ \l,\ \Sortw); &\forall\l \in \mathbb{L} \\
+    &(\SortL,\ \Sortw,\ \Sortw); \\
+    &(\Type\ \l_1,\ \Type\ \l_2,\ \Type\ \l_2) \} &\forall\l_1,\l_2 \in \mathbb{L}\\[-4pt]
+  \end{empheq}
+  \vspace{-5mm}
+  \caption{Typer's Impredicative Rules}
+\end{figure}
+
+Each type universe $\Type\ \l$ is indexed by a \emph{type level} defined by the syntax: $$\l ::= \z ~~|~~ \s\ \l ~~|~~ \l_1 \cup \l_2 ~~|~~ l$$
+%% FIXME: We'll need somewhere to clarify that those `l`s have to be present
+%% in the Γ environment with type TypeLevel.
+The two first constructs correspond to the constant zero and to the successor function, respectively. We define a set $\mathbb{L}$ closed under those two constructs. We write $\s^i$ to abbreviate the application of the successor $i$ times. When applied on type levels, the operator $\cup$ returns the greater of the two. The construct $l$ stands for a \emph{level variable} which will occur in universe polymorphic definitions. All type levels $\l$ inhabit the type \TypeLevel\ which belongs to the sort \SortL. 
+
+\Sortw\ is the unique sort of all the universe polymorphic function types. We describe the explicit part of Typer as a Pure Type System \cite{barendregt} in figure \ref{fig:PTS}. % FIXME: PDF prints 1.1 instead of 1
+Because erasable definitions can be impredicative in Typer, we define a separate set of rules $\R_e$ (figure \ref{fig:Re}). % FIXME: PDF prints 1.1 instead of 2
+
+\subsection{Erasure in Typer}
+Typer manipulates three separate kinds of terms to simplify the writing and execution of programs. \emph{Explicit} terms are the usual expression that are written by the user and executed. \emph{Implicit} terms are also used during execution, but Typer can infer them during elaboration such that they do not need to be written by the user. \emph{Erasable} terms are neither written by the user nor executed; they are inferred during elaboration, provide type information during checking and are erased before execution.
+
+\textbf{Notation:} The notation we adopt in this document is meant to allow for the distinction between the three kinds of terms and also to evoke actual Typer code. The traditional explicit lambda term $\la(x\:A).b$ are here be written $\la(x\:A)\explicit b$ and similarly the product type $\Pi(x\:A).B$ are written $(x\:A)\explicit B$. The type of arrow used will convey the kind of term being defined. Compound terms of our calculus therefore all take one of the following forms:
+\begin{center}
+  \begin{tabular}[h]{rclll}
+    & & $\la$-abstraction & Product type & Application \\[3mm]
+    Explicit: & & $\la(T:T)\explicit T$ & $(T:T)\explicit T$ & $T{\ap}T$ \\
+    Implicit: & & $\la(T:T)\implicit T$ & $(T:T)\implicit T$ & $T{\app}T$ \\
+    Erasable: & & $\la(T:T)\erasable T$ & $(T:T)\erasable T$ & $T{\appp}T$ \\[10pt]
+  \end{tabular}
+\end{center}
+
+After elaboration, implicit terms behave exactly like explicit terms so we will not explicitly include them in our calculus; they will be assumed to be a subset of the explicit terms. 
+
+\textbf{Notation:} We define a context $\Ga$ as a list of typing declarations $(x_i:T_i)$ and write $\Ga \~$ to express that $\Ga$ is well formed. Contexts are concatenated with the semicolon or enriched with an additional declarations with a comma. We write the empty context as a dot ($\cdot$). The set of declared variables in a context $\Ga$ is written $\dv{\Ga}$ and the set of free (i.e. unbound) variables in a term $T$ is written $\fv{T}$ (defined in figure \ref{fig:fv}). The expression $M\{N/x\}$ denotes the substitution of free occurrences of variable $x$ for a term $N$ in term $M$.
+\begin{figure}[h]
+  \label{fig:fv}
+  \centering
+  \fbox{\begin{minipage}{0.9\linewidth}
+      Where $s \in \S$
+      \begin{align*}
+        \fv{s} &= \emptyset & \fv{x} &= x \\[5pt]
+        \fv{\la(x:T)\explicit M} &= \fv{T}\cup(\fv{M}\backslash\{x\}) & \fv{(x:T)\explicit U} &= \fv{T}\cup(\fv{U}\backslash\{x\}) \\
+        \fv{\la(x:T)\erasable M} &= \fv{T}\cup(\fv{M}\backslash\{x\}) & \fv{(x:T)\erasable U} &= \fv{T}\cup(\fv{U}\backslash\{x\}) \\[5pt]
+        \fv{M \ap N} &= \fv{M}\cup\fv{N} &   \fv{M \appp N} &= \fv{M}\cup\fv{N}\\
+      \end{align*}
+    \end{minipage}}
+  \caption{Definition of the set of free variables}
+\end{figure}
+
+\begin{figure}[h]
+  \label{fig:*}
+  \centering
+  \fbox{\begin{minipage}{0.9\linewidth}
+      Where $s \in \S$
+      \begin{align*}
+        s^* &= s & x^* &= x \\[5pt]
+        (\la(x:T)\explicit M)^* &= \la(x)\explicit M^* & ((x:T)\explicit U)^* &= (x:T^*)\explicit U^* \\
+        (\la(x:T)\erasable M)^* &= M^* & ((x:T)\erasable U)^* &= \forall(x:T^*).U^* \\[5pt]
+        (M \ap N)^* &= M^*\ap N^* &   (M \appp N)^* &= M^*\\
+      \end{align*}
+    \end{minipage}}
+  \caption{Extraction function $M \mapsto M^*$}
+\end{figure}
+
+We define an extractions function $M \mapsto M^*$ (as in \cite{bruno}) in figure \ref{fig:*}. It erases domains of abstraction, erasable abstractions and erasable applications and turns erasable products into a propositional form. The typing rules shown in figure \ref{fig:Typing-rules} are taken directly from Barras and Bernardo's ICC \cite{bruno}, but written in Typer's syntax.
+
+\begin{figure}[h]
+  \ \\ \ \\  \fbox{
+    \begin{mathpar}
+      \\
+      \infer
+      {\ }
+      {\emptyctx \~}
+      \textsc{ (Wf-E)}
+      \and %--------------------
+      \infer
+      {\Ga \~ T:s \\ s \in \S \\ x \notin \dv{\Ga}}
+      {\Ga , x:T \~}
+      \textsc{ (Wf-S)}
+      \and %--------------------
+      \infer
+      {\Ga \~ \\ (s_1:s_2) \in \A}
+      {\Ga \~ s_1:s_2}
+      \textsc{ (Sort)}
+      \and %--------------------
+      \infer
+      {\Ga \~ \\ (x:T) \in \Ga} 
+      {\Ga \~ x:T}
+      \textsc{ (Var)}
+      \and %--------------------
+      \\\\
+      \infer
+      {\Ga \~ T:s_1 \\ \Ga, x:T \~ U:s_2 \\ (s_1,s_2,s_3) \in \R}
+      {\Ga \~ (x:T) \explicit U : s_3}
+      \textsc{ (X-Prod)}
+      \and %--------------------
+      \infer
+      {\Ga, x:T \~ M:U \\ \Ga \~ (x:T) \explicit U : s}
+      {\Ga \~ \la(x:T) \explicit M : (x:T) \explicit U}
+      \textsc{ (X-Lam)}
+      \and %--------------------
+      \infer
+      {\Ga \~ M : (x:T) \explicit U \\ \Ga \~ N:T}
+      {\Ga \~ M|N : U\{N/x\}}
+      \textsc{ (X-App)}
+      \\\\
+      \infer
+      {\Ga \~ T:s_1 \\ \Ga, x:T \~ U:s_2 \\ (s_1,s_2,s_3) \in \R_e}
+      {\Ga \~ (x:T) \erasable U : s_3}
+      \textsc{ (E-Prod)}
+      \and %--------------------
+      \infer
+      {\Ga, x:T \~ M:U \\ \Ga \~ (x:T) \erasable U : s \\ x \notin \fv{M^*}}
+      {\Ga \~ \la(x:T) \erasable M : (x:T) \erasable U}
+      \textsc{ (E-Lam)}
+      \and %--------------------
+      \infer
+      {\Ga \~ M : (x:T) \erasable U \\ \Ga \~ N:T}
+      {\Ga \~ M|||N : U\{N/x\}}
+      \textsc{ (E-App)}
+      \\
+    \end{mathpar}
+  }
+  \caption{Typer's Typing Rules from ICC}
+  \label{fig:Typing-rules}
+\end{figure}
+
+There are two notable differences between explicit and erasable typing rules:
+\begin{enumerate}
+\item In the erasable product rule \textsc{E-Prod}, the set of rules is the impredicative $\R_e$ instead of $\R$
+\item In the erasable abstraction rule \textsc{E-Lam}, erasable abstraction are conditional on the bound variable not being free in the expression after erasure ($x \notin \fv{M^*}$). This ensures that the variable is only used in ``erasable'' ways inside the expression such that we are not left with new free terms after erasure.
+\end{enumerate}
+
+\subsection{Inductive Definitions}
+\textbf{Notation:} We abbreviate a list of terms $N_i$ as $\vec{N}$. For example, $(X \vec{N})$ refers to the identifier $X$ followed by $N_1$, $N_2$, ...,  $N_n$ for $n = |\vec{N}|$ where $|\vec{N}|$ is the size of the list of terms $N_i$. Similarly, $(\vec{x}:\vec{M})X$ refers to the term $(x_1:M_1)(x_2:M_2)...(x_n:M_n)X$ for $n = |\vec{x}| = |\vec{M}|$. We also write $i \in |\vec{N}|$ to refer to a member $i$ of the set $\{1,2,3,...,n\}$ for $n = |\vec{N}|$.
+\\
+\begin{definition}
+  We say that $X$ is restricted to a \emph{strictly positive occurrence} in a term $P$ if $P \equiv (\vec{x}:\vec{M})(X \vec{N})$ where $X$ is not free in $N_i$ $\forall i \in |\vec{N}|$ nor in $M_j$ $\forall j \in |\vec{M}|$.
+\end{definition}
+\begin{definition}
+  \label{def:foc}
+  We say that $C$ is a \emph{form of constructor} w.r.t. $X$ if it can be constructed with the following syntax:
+
+  $$C ::= (X \vec{N}) ~~|~~ P\to C ~~|~~  (\vec{x}:\vec{M})C$$
+
+  Where $X$ is restricted to strictly positive occurrences in the term $P$ and is not free in $N_i$ $\forall i \in |\vec{N}|$ nor in $M_j$ $\forall j \in |\vec{M}|$.
+\end{definition}
+We extend our abstract syntax with three terms from Gim\'enez's inductive definitions \cite{gimenez}:
+\begin{itemize}
+  \renewcommand{\labelitemi}{$-$}
+  \setlength\itemsep{-3pt}
+\item $\Ind(X:A) \<\vec{C}\>$ is an inductively defined type recursively bound to $X$. $\vec{C}$ is the list of constructor signatures which must be a \emph{form of constructor} w.r.t. $X$.
+\item $\Constr(i:I)$ stands for the $i$th constructor of an inductive type $I$.
+\item $\Case\ M\: S \text{ of } \<\vec{G}\>$ is the function by case analysis on the expression $M$ of type $S$ and where $\<\vec{G}\>$ is the list of cases, represented as abstractions of the respective patterns of constructions.
+\end{itemize}
+
+The typing rules for inductive definitions and case analysis are presented in figure \ref{fig:IND-rules}.
+
+\begin{figure}[h]
+  \ \\ \ \\  \fbox{
+    \begin{mathpar}
+      \infer
+      {\text{Where } I = \Ind(X:\text{Type }\l_A) \<\vec{C}\> \text{ and } i \in |\vec{C}|.\hspace{100mm}}
+      {}
+      \and
+      \infer
+      {\Ga \~ \text{Type } \l_{A}: \bigcup_{i\in|\vec{C}|} \text{Type } \l_i \\
+        \Ga, X:\text{Type } \l_A \stackrel{\forall i \in |\vec{C}|}{\~} C_i:\text{Type } \l_i}
+      {\Ga \~ I : \text{Type } \l_A}
+      \textsc{ (Ind)}
+      \and %--------------------  
+      \infer
+      {\Ga \~ I:A}
+      {\Ga \~ \Constr(i,I) : C_i \{I / X\}}
+      \textsc{ (Constr)}
+      \and %--------------------
+      \infer
+      { \Ga \~ Q : (\vec{z}:\vec{Z})(I\ \vec{z}) \to \text{Type } \l_A \\
+        \Ga \~ M:(I\ \vec{P}) \\
+        %% FIXME: Actually, each Gi returns the constant type Q
+        %% (it does take some parameters corresponding to the elements
+        %% carried by the constructor, of course), along with an
+        %% additional argument (P : Eq M (Ci \vec{x})) witnessing that
+        %% the case has found M to be of the form "Ci \vec{x}".
+        %% 
+        %% FIXME: Before introducing inductive types (and hence `case`)
+        %% we thus need to introduce the built-in `Eq` type, defined in
+        %% .../typer/btl/builtins.typer as follow:
+        %% 
+        %% Eq : (l : TypeLevel) ≡> (t : Type_ l) ≡> t -> t -> Type_ l
+        %% Eq_refl : ((x : ?t) ≡> Eq x x);
+        %% Eq_cast : (x : ?t) ≡> (y : ?t)
+        %% .                  ≡> (p : Eq x y)
+        %% .                  ≡> (f : ?t -> ?t')
+        %% .                  ≡> f x -> f y;
+        %% 
+        %% At run-time `Eq_cast` will be a no-op (i.e. `Eq_cast x` will reduce
+        %% to `x`), but there is no corresponding normalization rule applied
+        %% during type-checking (it would be unsound because it would be reduced
+        %% even in contexts where the `p : Eq x y` argument doesn't actually
+        %% exist, such as
+        %% 
+        %% λ (P : Eq Int String) → concat "bug" (cast (p := P) 5)
+        %% 
+        %% We'll probably want to add an additional builtin of the form:
+        %% 
+        %% Eq_cast_eval : Eq (Eq_cast ?x) ?x;
+        %% 
+        %% to axiomatize the runtime behavior of `Eq_cast`, but I haven't
+        %% bothered to do that yet.
+        %% 
+        %% FIXME: Typer's `case` construct can have a "default"
+        %% branch; not sure how to provide that in this setting where
+        %% the branches implicitly specify their constructor by the position
+        %% of the branch.  Maybe we should use a formalism closer to Typer's
+        %% real representation where we don't use natural numbers "i" but
+        %% labels (strings) to name each constructor.  Let's keep using "i"
+        %% and forget about the default branch for now, tho.
+        \Ga \stackrel{\forall i \in |\vec{G}|}{\~} G_i:Q}
+      %% FIXME: Similarly, here, the return type is just Q with no `\vec{P}`
+      %% nor `M` argument.
+      {\Ga \~ \Case\ M:(I\ \vec{P}) \of \<\vec{G}\> : Q}
+      \textsc{ (Case)}
+    \end{mathpar}
+  }
+  \caption{Typer's Inductive and Case Typing Rules}
+  \label{fig:IND-rules}
+\end{figure}
+
+\subsection{Fixpoint Operator}
+
+Recursion is specified through the use of a recursive operator \Letrec \todo
+
+\begin{mathpar}
+  \infer
+  { \Ga \~ M:T \\
+    \Ga, x:=M:T \~ N : U}
+  {\Ga \~ \Let (x:T) = M\ \In\ N : U \{T / x\}}
+  \textsc{ (Let)}
+\end{mathpar}
+
+\begin{definition}
+  A \emph{recursive position} in the form of constructor $(\vec{x}:\vec{M}) (X \vec{N})$ is a number $i \in |\vec{M}|$ such that $X$ appears in term $M_i$. Note that this is not in contradiction to definition \ref{def:foc} because some abstraction $(x_i:M_i)$ could be non-dependent (i.e. of form $P \explicit C$ in definition \ref{def:foc}), in which $X$ is free to appear. We abbreviate this property as $RP\{i,C\}$ where $C \equiv (\vec{x}:\vec{M}) (X \vec{N})$.
+\end{definition}
+\begin{definition}
+  The \emph{guarded by destructors} condition is written as the predicate $\D_\V\{f,k,x,M\}$ where $k$ is a positive integer, $M$ is a term, $f$ and $x$ are identifiers, and $\V$ is a set of identifiers which collects the recursive components of $x$ in $M$. Below, we write $\D_\V\{M\}$ for brevity instead of the full $\D_\V\{f,k,x,M\}$. We also write $\D_\V\{\vec{M}\}$ instead of $\D_\V\{M_1\} \land\D_\V\{M_2\}\land ...$. By structural induction on term $M$, we describe when $\D_\V\{M\}$ is true by assigning conjunctions of necessary conditions to each form of $M$:
+  \begin{align*}
+    \D_\V\{M\} & = \text{True} & \text{if } f \notin \fv{M}\\
+    \D_\V\{\la (z:P)\to Q\} & = \D_\V\{P\} \land \D_\V\{Q\} \\
+    \D_\V\{(z:P)\to Q\} & = \D_\V\{P\} \land \D_\V\{Q\} \\
+    \D_\V\{\Letrec ?\} & = \ ? \\
+    \D_\V\{\Ind(X\:A)\<\vec{C}\>\} & = \D_\V\{A\} \land \D_\V\{\vec{C}\} \\
+    \D_\V\{f \vec{P}\} & = (|\vec{P}| > k) \land (P_{k+1} \equiv (z\ \vec{Q})) \land \D_\V\{\vec{P}\} & \text{with $z \in \V$}\\
+    \D_\V\{N \vec{P}\} & = \D_\V\{N\} \land \D_\V\{\vec{P}\} &\text{if $N \neq f$}\\
+    \D_\V\{\Case\ (z\ \vec{P})\:S\ \of\  \<\vec{G}\>\} & =
+    % \D_\V\{Q\} \land \D_\V\{S\} \land \D_\V\{\vec{P}\} &\text{with $z \in \V \cup \{x\}$}\\
+    % & \quad \land S \equiv I\vec{R} & \text{with }I =\Ind (X:A)\<\vec{C}\> \\
+    % & \quad \land \text{if } 
+  \end{align*}
+\end{definition}
+
+\subsection{Conversion Rules}
+Typer admits $\beta$- and $\iota$-conversions. The congruence relation between converted terms is written $\cong$. $\beta$-reduction is defined as
+$$(\la (x:T)\explicit e_1)|e_2 ~ \cong_\beta ~ e_1\{e_2/x\}$$
+$$(\la (x:T)\erasable e_1)|||e_2 ~ \cong_\beta ~ e_1\{e_2/x\}$$
+
+$\iota$-reduction concerns case analyses:
+$$\Case\ (\Constr (i,I)\vec{P}):S\ \of\ \<\vec{G}\> \cong_{\iota} (G_i\vec{P})$$
+Conversion rules are exposed in figure \ref{fig:conv}.
+
+\begin{figure}[h]
+  \label{fig:conv}
+  \ \\ \ \\  \fbox{
+    \begin{mathpar}
+      \infer
+      {M \cong N \\ N \cong P}
+      {M \cong P}
+      \and %--------------------
+      %% FIXME: Add conversion rules for other terms? (lambda, product type, application)
+      \infer
+      {A \cong A' \\ |\vec{C}| = |\vec{C'}| \\ C_i \stackrel{\forall i \in |\vec{C}|}{\cong} C_i'}
+      {\Ind (X:A)\<\vec{C}\> \cong \Ind (X:A')\<\vec{C'}\>}
+      \and %--------------------
+      \infer
+      {I \cong I'}
+      {\Constr(i,I) \cong \Constr(i,I')}
+      \and %--------------------
+      \infer
+      {M \cong M' \\ S \cong S' \\ |\vec{G}| = |\vec{G'}| \\
+        G_i \stackrel{\forall i \in |\vec{C}|}{\cong} G_i'}
+      {\Case\ M :S \text{ of } \<\vec{G}\> \cong \Case\ M' :S' \text{ of } \<\vec{G'}\>}
+      \and %--------------------
+      \infer
+      {B \cong B' \\ N \cong N'}
+      {\Letrec\ ? \todo}
+      \\
+    \end{mathpar}
+  }
+  \caption{Typer's Conversion Rules}
+\end{figure}
+
+\section{Typer as an Extension of a Calculus of Constructions}
+In this section we show that the erasable terms of Typer allow for a representation of all typing derivations from a Calculus of Constructions with an impredicative $\mathsf{Prop}$ and an infinite hierarchy of predicative universes (\CC). This will be demonstrated through a translation and a proof of its correctness.
+
+\subsection{Definition of \CC}
+
+\begin{figure}[h]
+  \begin{empheq}[box=\fbox]{align*}
+    \hspace{20mm} & \  & \ & \hspace{7mm} \\
+    \S_{CC} = \{ & \Prop; \Type_i\}  &\forall i > 0 \\[9pt]
+    \A_{CC} = \{ &(\Prop : \Type_1); \\
+    &(\Type_i : \Type_{i+1})\} &\forall i > 0 \\[9pt]
+    \R_{CC} = \{ &(\Prop, \Prop, \Prop) \\
+    &(\Prop, \Type_i, \Type_i) &\forall i > 0 \\
+    &(\Type_i, \Prop, \Prop); &\forall i > 0 \\
+    &(\Type_i,\Type_j,\Type_{\max (i,j)}); &\forall i > 0 \\
+  \end{empheq}
+  \vspace{-5mm}
+  \caption{\CC's Pure Type System}
+  \label{fig:CC-pts}
+\end{figure}
+
+\begin{figure}[h]
+  \ \\ \ \\  \fbox{
+    \begin{mathpar}
+      \\
+      \infer
+      {\ }
+      {\emptyctx \CCdash}
+      \textsc{ (CC-Wf-E)}
+      \and %--------------------
+      \infer
+      {\Ga \CCdash T:s \\ s \in \S_{CC} \\ x \notin \dv{\Ga}}
+      {\Ga , x:T \CCdash}
+      \textsc{ (CC-Wf-S)}
+      \and %--------------------
+      \infer
+      {\Ga \CCdash \\ (s_1:s_2) \in \A_{CC}}
+      {\Ga \CCdash s_1:s_2}
+      \textsc{ (CC-Sort)}
+      \and %--------------------
+      \infer
+      {\Ga \CCdash \\ (x:T) \in \Ga} 
+      {\Ga \CCdash x:T}
+      \textsc{ (CC-Var)}
+      \and %--------------------
+      \infer
+      {\Ga \CCdash T:s_1 \\ \Ga, x:T \CCdash U:s_2 \\ (s_1,s_2,s_3) \in \R_{CC}}
+      {\Ga \CCdash (x:T) \explicit U : s_3}
+      \textsc{ (CC-Prod)}
+      \and %--------------------
+      \infer
+      {\Ga, x:T \CCdash M:U \\ \Ga \CCdash (x:T) \explicit U : s}
+      {\Ga \CCdash \la(x:T) \explicit M : (x:T) \explicit U}
+      \textsc{ (CC-Lam)}
+      \and %--------------------
+      \infer
+      {\Ga \CCdash M : (x:T) \explicit U \\ \Ga \CCdash N:T}
+      {\Ga \CCdash M|N : U\{N/x\}}
+      \textsc{ (CC-App)}
+      \\
+    \end{mathpar}
+  }
+  \caption{\CC's Typing Rules}
+  \label{fig:CC-rules}
+\end{figure}
+
+Our definition of \CC\ is based on the original Calculus of Constructions (CC) \cite{CC}, to which we add an infinite hierarchy of predicative universes above an impredicative \Prop. Thus we have: $$\Prop : \Type_1 : \Type_2 : \Type_3 : \Type_4 : ...$$
+
+\CC's PTS definition is shown in figure \ref{fig:CC-pts}. The typing rules for \CC\ are shown in figure \ref{fig:CC-rules}. The structure of the PTS is derived from Luo's own extension of CC (ECC) \cite{luo}, where the product rule of the form $(\Type_i, \Type_i, \Type_i)$ is replaced with $(\Prop, \Prop, \Prop)$, $(\Prop,\Type_i,\Type_i)$ and $(\Type_i, \Type_j, \Type_{\max (i,j)})$. This is because we do not have access to ECC's cumulativity and \emph{lift} operator, which would usually permit us to derive the sort of a type constructed from the abstraction of a variable in one universe over a term in another universe (e.g. dependent types or polymorphic functions). Our definition of \CC\ might therefore behave differently than other definitions of \CC\ (for example \cite{miquel}).
+
+\subsection{Translation}
+\begin{figure}[h]
+  \centering
+  \fbox{
+    \begin{minipage}{0.85\linewidth}
+      \begin{align*}
+        \rew{\cdot} &= \cdot                  & \rew{\Prop} &= \Type\ \z \\                    
+        \rew{\Ga,x:T} &= \rew{\Ga},x:\rew{T}  & \rew{\Type_{i}} &= \Type\ (\s^{i}\ \z) \\[-20pt]
+      \end{align*}
+      \begin{align*}
+        \rew{\la(x:T)\explicit U} &=
+                                    \begin{cases}
+                                      \la(x : \rew{T}) \erasable \rew{U} &\text{if $(U:\tau)$, $(\tau : \Prop)$ and $(T:\Type_i)$}\\
+                                      \la(x : \rew{T}) \explicit \rew{U} &\text{otherwise}
+                                    \end{cases}\\  
+        \rew{(x:T)\explicit U} &=
+                                 \begin{cases}
+                                   (x : \rew{T})\erasable \rew{U} &\text{if $(U: \Prop)$ and $(T:\Type_i)$}\\
+                                   (x : \rew{T})\explicit \rew{U} &\text{otherwise}
+                                 \end{cases}\\
+        \rew{M \ap N} &=
+                        \begin{cases}
+                          \rew{M}|||\rew{N} &\text{if $(M:\tau:\Prop)$ and $(N:\tau':\Type_i)$} \\ 
+                          \rew{M}|\rew{N}  &\text{otherwise}
+                        \end{cases}\\
+        \rew{U\{N/x\}} &= \rew{U}\{\rew{N}/x\}\\
+        % FIXME: Is substitution relevent here? Is it part of the syntax or
+        % meta-syntax?
+      \end{align*}
+    \end{minipage}
+  }
+  \caption{Definition of the translation}
+  \label{fig:[]}
+\end{figure}
+
+The translator operator \rew{\_} is defined on contexts and terms of \CC. We expose the translation on figure \ref{fig:[]}. We will consider this translation correct if it is both complete and sound as per the following definitions. \emph{Completeness} of the translation ($\Rightarrow$) is established if every translated expression of \CC\ inhabits its translated type in the Typer system. \emph{Soundness} of the translation ($\Leftarrow$) is established if every valid typing derivation of translated terms in the Typer system implies a valid typing derivation in \CC:
+\begin{theorem}
+  \label{thm:correctness-translation}
+  \begin{align*}
+    \Ga \CCdash & ~~ \iff ~~ \rew{\Ga} \~ \\
+    \Ga \CCdash e:\tau & ~~ \iff ~~ \rew{\Ga} \~ \rew{e}:\rew{\tau}
+  \end{align*}
+\end{theorem}
+
+Before proving the correctness of the equality, we show the following lemmas:
+\begin{lemma}
+  \label{lem:S-equiv}
+  $s \in \S_{CC} \iff \rew{s} \in \S$
+  \begin{proof}
+    In the forward direction, for $\Prop \in S_{CC}$, we know that $$\rew{\Prop} = \Type\ \z\ \in \S$$
+    And for $\Type_i \in \S_{CC}$, we know that $$\rew{\Type_i} = \Type\ (\s^i\ \z) \in \S \quad \forall i > 0$$
+    Conversely, because the translation on sorts is defined on elements of $S_{CC}$, it follows that if $\rew{s} \in S$, then by necessity $s \in S_{CC}$.
+  \end{proof}
+\end{lemma}
+
+% FIXME: For the following lemmas, I'm not sure whether to stop at the
+% '(\s^i\ \z) \forall i' form or to show the switch to the '\Type\ \ell
+% \forall \ell' form. The first is sufficient, but looks less like our
+% presentation of the PTS but the second has the typelevel variable 'l' in
+% the syntax for '\ell' and may lead to confusion even if we bind \ell to
+% elements of \mathbb{L}
+
+\begin{lemma}
+  \label{lem:A-equiv}
+  $(s_1:s_2) \in \A_{CC} \iff (\rew{s_1}:\rew{s_2}) \in \A$
+  \begin{proof}
+    In the forward direction, for $(\Prop\:\Type_1) \in \A_{CC}$, we know that
+    \begin{align*}
+      (\rew{\Prop}:\rew{\Type_1}) &= (\Type\ \z:\Type\ (\s\ \z)) \in \A
+    \end{align*}
+
+    And for $(\Type_i\:\Type_{i+1}) \in \A_{CC}$, we know that
+    \begin{align*}
+      (\rew{\Type_i}:\rew{\Type_{i+1}}) &= (\Type\ (\s^i\ \z):\Type\ (\s^{i+1}\ \z)) &&\forall\ i>0\\
+                                        &= (\Type\ (\s^i\ \z):\Type\ (\s\ (\s^i\ \z)) &&\forall\ i>0\\
+                                        &= (\Type\ (\s\ \l):\Type\ (\s\ (\s\ \l))) &\in \A \quad &\forall\ \l \in \mathbb{L} 
+    \end{align*}
+    Conversely, since the translation on sorts is defined on elements of $S_{CC}$, sorts $\rew{s}$ match with sorts of the form $\Type\ (\s^i\ \z)\in \S\ \forall i \ge 0$ (lemma \ref{lem:S-equiv}). It follows that axioms $(\rew{s_1}:\rew{s_2}) \in \A$ match with axioms of the form $(\Type\ \l:\Type\ (\s\ \l)) \in \A ~~ \forall \l \in \mathbb{L}$, for each of which there exists an axiom $(s_1:s_2) \in A_{CC}$ by the equality just established in the forward direction.
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  \label{lem:R-equiv} $(s_1,s_2,s_3) \in \R_{CC} \iff (\rew{s_1},\rew{s_2},\rew{s_3}) \in \R \text{ if } s_1 \neq \Type_i \text{ or } s_2 \neq \Prop$
+  \begin{proof}
+    In the forward direction, first there is $(\Prop,\Prop,\Prop) \in \R_{CC}$ for which we have
+    $$(\rew{\Prop},\rew{\Prop},\rew{\Prop}) = (\Type\ \z,\Type\ \z,\Type\ \z) \in \R$$
+    Second, there is $(\Prop, \Type_i, \Type_i) \in \R_{CC}\ \forall i > 0$ for which we have
+    $$(\rew{\Prop}, \rew{\Type_i}, \rew{\Type_i}) = (\Type\ \z, \Type\ (\s^i\ \z), \Type\ (\s^i\ \z)) \in \R \quad \forall i > 0$$
+    And finally there is $(\Type_i, \Type_j, \Type_{\max (i,j)})$ for which we have
+    \begin{align*}
+      & (\rew{\Type_i}, \rew{\Type_j},  \rew{\Type_{\max (i,j)}}) \\
+      &=
+        \begin{cases}
+          (\Type\ (\s^i\ \z),\Type\ (\s^j\ \z),\Type\ (\s^i\ \z)) & \text{if } i>j \\
+          (\Type\ (\s^i\ \z),\Type\ (\s^j\ \z),\Type\ (\s^j\ \z)) & \text{if } j>i
+        \end{cases} \quad \forall i,j > 0 \\
+      &=
+        \begin{cases}
+          (\Type\ (\s\ \l_1), \Type\ (\s\ \l_2), \Type\ (\s\ \l_1)) & \text{if } (\s\ \l_1) \cup (\s\ \l_2) = (\s\ \l_1) \\
+          (\Type\ (\s\ \l_1), \Type\ (\s\ \l_2), \Type\ (\s\ \l_2)) & \text{if } (\s\ \l_1) \cup (\s\ \l_2) = (\s\ \l_2)
+        \end{cases} \quad \forall \l_1,\l_2 \in \mathbb{L} \\
+      &= (\Type\ (\s\ \l_1), \Type\ (\s\ \l_2), \Type\ ((\s\ \l_1) \cup (\s\ \l_2))) \quad \in \R \quad \forall \l_1,\l_2 \in \mathbb{L}
+    \end{align*}
+    Conversely, since the translation on sorts is defined on elements of $S_{CC}$, sorts $\rew{s}$ match with sorts of the form $\Type\ (\s^i\ \z)\in \S\ \forall i \ge 0$ (lemma \ref{lem:S-equiv}). It follows that rules $(\rew{s_1},\rew{s_2},\rew{s_3}) \in \R$ match with rules of the form $$(\Type\ \l_1, \Type\ \l_2, \Type\ (\l_1 \cup \l_2)) \in \R ~~ \forall \l_1,\l_2 \in \mathbb{L}$$ By the equalities established in the forward direction, each such rule has a single corresponding rule in $(s_1,s_2,s_3) \in \R_{CC}$, as long as $s_1 \neq \Type_i \text{ or } s_2 \neq \Prop$.
+
+  \end{proof}
+\end{lemma}
+\begin{lemma}
+  \label{lem:Re-equiv}
+  $(\Type_i,\Prop,\Prop) \in \R_{CC} \iff (\rew{\Type_i},\rew{\Prop},\rew{\Prop}) \in \R_e \quad \forall i > 0$
+  \begin{proof}
+    In the forward direction, for $(\Type_i,\Prop,\Prop) \in \R_{CC}$, we have
+    \begin{align*}
+      (\rew{\Type_i},\rew{\Prop},\rew{\Prop}) &= (\Type\ (\s^i\ \z),\Type\ \z, \Type\ \z) &&\forall\ i > 0\\
+                                              &= (\Type\ (\s\ \l),\Type\ \z, \Type\ \z) & \in \R_e \quad &\forall\ \l \in \mathbb{L}
+    \end{align*}
+    Conversely, $(\rew{\Type_i},\rew{\Prop},\rew{\Prop}) \in \R_e\ \forall i > 0$ matches with rules of the form $$(\Type\ (\s\ \l),\Type\ \z, \Type\ \z)  \in \R_e \quad \forall\ \l \in \mathbb{L}$$ For each of which there is a rule $(\Type_i,\Prop,\Prop) \in \R_{CC}$ by the equality established in the forward direction.
+  \end{proof}
+\end{lemma}
+
+\begin{lemma}
+  \label{lem:E-Lam-FV}
+  If we have
+  \begin{mathpar}
+    % Induction on derivations in CCω is used because induction on
+    % derivations of translated terms in Typer can lead to a case
+    % (e.g. X-App) where it is possible to insert a term absent in CCω
+    % (e.g. an explicit abstraction of a higher sort over a body of sort
+    % Type z) in the derivation tree, thus allowing variable 'y' to appear
+    % free in the term
+
+    % So instead of using this lemma (in completeness, case:E-Lam) with the
+    % translated premises, we can use it with the initial (CCω) ones
+    {\Ga, y:V \CCdash P:W \\ \Ga, y:V \CCdash  W : \Prop \\ \Ga \CCdash V : \Type_i}
+  \end{mathpar}
+  then the following always holds
+  $$y \notin \fv{\rew{P}^*}$$
+
+  \begin{proof}
+    By induction on the typing derivation $\Ga, y:V \CCdash P:W$, either a typing rule is not applicable to this derivation or we show that it satisfies $y \notin \fv{\rew{P}^*}$.
+
+    \textbf{CC-Sort:}\\
+    \begin{mathpar}
+      \infer
+      {\Ga \CCdash \\ (s_1:s_2) \in \A_{CC}}
+      {\Ga \CCdash s_1:s_2}
+      \tag{CC-Sort}
+    \end{mathpar}
+    All axioms of $\A_{CC}$ are constructed with sorts $s_1, s_2 \in \S_{CC}$. There are no sorts in $\S_{CC}$ smaller than $\Prop$. Since here $s_2$ is $W$ and by assuption $W : \Prop$, then no axiom $(s_1:s_2) \in \A_{CC}$ will match $(P:W)$ and this typing rule cannot apply.
+    
+    \textbf{CC-Var:}\\
+    \begin{mathpar}
+      \infer
+      {\Ga \CCdash \\ (x:T) \in \Ga} 
+      {\Ga \CCdash x:T}
+      \tag{CC-Var}
+    \end{mathpar}
+    Considering that typing judgments are introduced in contexts exclusively by means of rule \textsc{CC-Wf-S}, we can assume
+    \begin{mathpar}
+      {\Ga \CCdash T:s \\ s \in \S_{CC} \\ x \notin \dv{\Ga}}
+    \end{mathpar}
+    which all holds by the assignment $s = \Prop$. Thus, $P$ (here $x$) is a variable. The translation and extraction for the variable leaves it untouched
+    $$\rew{P}^* = P^* = P$$
+    Because $y : V : \Type_i$ and $P : W : \Prop$, we have that $y \neq P$ because they are variables that inhabit different universes so it follows that $y \notin \fv{P}$.
+    
+    \textbf{CC-Prod:}\\
+    \begin{mathpar}
+      \infer
+      {\Ga \CCdash T:s_1 \\ \Ga, x:T \CCdash U:s_2 \\ (s_1,s_2,s_3) \in \R_{CC}}
+      {\Ga \CCdash (x:T) \explicit U : \s_3}
+      \tag{CC-Prod}
+    \end{mathpar}
+    Similarly to case \textsc{CC-Sort}, we cannot apply this rule because here $s_3 = W$ and by assumption $W : \Prop$ and \Prop\ is the smallest universe in $\S_{CC}$. So no rule $(s_1,s_2,s_3) \in \R_{CC}$ can match in this case.
+    
+    \textbf{CC-Lam:}\\
+    \begin{mathpar}
+      \infer
+      {\Ga, x:T \CCdash M:U \\ \Ga \CCdash (x:T) \explicit U : s}
+      {\Ga \CCdash \la(x:T) \explicit M : (x:T) \explicit U}
+      \tag{CC-Lam}
+    \end{mathpar}
+    Sort $s$ here is $\Prop$ because $(x:T) \explicit U$ is $W$ and by assumption $W : \Prop$. The construction of $(x:T) \explicit U$ reveals that $U : \Prop$ because every rule $(s_1,s_2,s_3) \in \R_{CC}$ that has $s_3 = \Prop$ also has $s_2 = \Prop$:
+    \begin{mathpar}
+      \infer
+      {\Ga \CCdash T:s_1 \\ \Ga, x:T \CCdash U:\Prop \\ (s_1,\Prop,\Prop) \in \R_{CC}}
+      {\Ga \CCdash (x:T) \explicit U : \Prop}
+      \tag{CC-Prod}
+    \end{mathpar}
+    The translation for the lambda abstraction $\la(x:T) \explicit M$ has a predicative and impredicative case. In both cases, however, the extraction erases the type annotation $\rew{T}$. Therefore $\fv{\rew{P}^*} = \fv{\rew{M}^*}$ and $y \notin \fv{\rew{M}^*}$ holds by the induction hypothesis because $M : U : \Prop$.
+    
+    \textbf{CC-App:}\\
+    \begin{mathpar}
+      \infer
+      {\Ga \CCdash M : (x:T) \explicit U \\ \Ga \CCdash N:T}
+      {\Ga \CCdash M|N : U\{N/x\}}
+      \tag{CC-App}
+    \end{mathpar}
+    Here $P = M|N$ and $W = U\{N/x\}$. $y \notin \fv{\rew{P}^*}$ will hold if we can show that $y \notin \fv{\rew{M}^*}$ and---unless $N$ is an impredicative argument---$y \notin \fv{\rew{N}^*}$. By assumption $U\{N/x\} : \Prop$
+    %% Does this step really hold?
+    and therefore also $U : \Prop$. It follows that $(x:T)\explicit U : \Prop$ by the typing rule \textsc{CC-Prod}. Thus, by induction hypothesis, we have $y \notin \fv{\rew{M}^*}$ because $M : (x:T)\explicit U : \Prop$. If $N : T : \Prop$, then we can also apply the induction hypothesis. Otherwise, the extraction on the translation erases the impredicative argument completely.
+  \end{proof}
+\end{lemma}
+
+\subsection{Completeness of translation}
+By structural induction on typing derivation of \CC, as per theorem \ref{thm:correctness-translation} ($\Rightarrow$), each valid derivation translates to a valid derivation in the Typer system. For most typing rules, by assuming the rule in \CC, we derive the necessary premises in Typer to show that the corresponding Typer rule also applies.
+
+\underline{\textbf{CC-Wf-E:}}
+\begin{mathpar}
+  \infer
+  {\ }
+  {\emptyctx \CCdash}
+  \tag{CC-Wf-E}
+\end{mathpar}
+The translation is immediately true under Typer by rule \textsc{Wf-E}.
+\begin{mathpar}
+  \infer
+  {\ }
+  {\rew{\cdot} \~}
+  \tag{Wf-E}
+\end{mathpar}
+
+\underline{\textbf{CC-Wf-S:}}
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash T:s \\ s \in \S_{CC} \\ x \notin \dv{\Ga}}
+  {\Ga , x:T \CCdash}
+  \tag{CC-Wf-S}
+\end{mathpar}
+By the induction hypothesis we assume
+$$\rew{\Ga} \~ \rew{T}:\rew{s}$$
+
+From lemma \ref{lem:S-equiv} we infer
+$$\rew{s} \in \S$$
+
+To apply the Typer rule \textsc{Wf-S}, we have to show that
+$$x \notin \dv{\rew{\Ga}}$$
+
+\begin{lemma}
+  \label{lem:DV-equiv}
+  We have the following equality:
+  $$\dv{\Ga} = \dv{\rew{\Ga}}$$
+  \begin{proof}
+    By structural induction on $\Ga$. The equality holds on the base case $\rew{\cdot} = \cdot$ since both the empty context and its translation have no declared variables. The equality holds on the recursive case $\rew{\Ga, x \: T} = \rew{\Ga}, x \: \rew{T}$ since the name of the declared variable is left unchanged.
+  \end{proof}
+\end{lemma}
+\begin{lemma}
+  \label{lem:not-DV-equiv}
+  The following holds:
+  $$x \notin \dv{\Ga} \iff x \notin \dv{\rew{\Ga}}$$
+  \begin{proof}
+    Follows directly from lemma \ref{lem:DV-equiv}.
+  \end{proof}
+\end{lemma}
+We reach the translation of the conclusion by rule
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{T}:\rew{s} \\ \rew{s} \in \S \\ x \notin \dv{\rew{\Ga}}}
+  {\rew{\Ga} , x:\rew{T} \~}
+  \tag{WF-S}
+\end{mathpar}
+
+\underline{\textbf{CC-Sort:}}\\
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash \\ (s_1:s_2) \in \A_{CC}}
+  {\Ga \CCdash s_1:s_2}
+  \tag{CC-Sort}
+\end{mathpar}
+By the induction hypothesis we assume
+$$\rew{\Ga} \~$$
+
+From lemma \ref{lem:A-equiv} we infer
+$$(\rew{s_1}:\rew{s_2}) \in \A$$
+
+We reach the translation of the conclusion by rule
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \\ (\rew{s_1}:\rew{s_2}) \in \A}
+  {\rew{\Ga} \~ \rew{s_1}:\rew{s_2}}
+  \tag{Sort}
+\end{mathpar}
+
+\underline{\textbf{CC-Var:}}\\
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash \\ (x:T) \in \Ga} 
+  {\Ga \CCdash x:T}
+  \tag{CC-Var}
+\end{mathpar}
+By the induction hypothesis we assume
+$$\rew{\Ga} \~$$
+
+\begin{lemma}
+  \label{lem:in-ctx-equiv}
+  The following holds:
+  $$(x:T) \in \Ga \iff (x:\rew{T}) \in \rew{\Ga}$$
+  \begin{proof}
+    By structural induction on $\Ga$. The base case makes the proposition false on both sides. By lemma \ref{lem:DV-equiv}, the set of declared variables in a \CC\ context and in its translation are the same, so we must only show that they both have the appropriate types. It follows from the recursive definition of translation on contexts $\rew{\Ga, x \: T} = \rew{\Ga}, x \: \rew{T}$ that they do.
+  \end{proof}
+\end{lemma}
+
+With lemma \ref{lem:in-ctx-equiv}, we reach the translation of the conclusion by rule
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \\ (x:\rew{T}) \in \rew{\Ga}} 
+  {\rew{\Ga} \~ x:\rew{T}}
+  \tag{Var}
+\end{mathpar}
+
+\underline{\textbf{CC-Prod:}}\\
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash T:s_1 \\ \Ga, x:T \CCdash U:s_2 \\ (s_1,s_2,s_3) \in \R_{CC}}
+  {\Ga \CCdash (x:T) \explicit U : s_3}
+  \tag{CC-Prod}
+\end{mathpar}
+By the induction hypothesis, there are two subcases to consider---a predicative and an impredicative one:
+
+\textbf{Predicative subcase:}\\
+The predicative subcase will concern applications of \textsc{CC-Prod} for which the rule is $(s_1,s_2,s_3) \in \R_{CC}$ where $s_1 \neq \Type_i$ or $s_2 \neq \Prop$.  We can assume
+\begin{mathpar}
+  {\rew{\Ga} \~ \rew{T}:\rew{s_1} \\ \rew{\Ga}, x:\rew{T} \~ \rew{U}:\rew{s_2}}
+\end{mathpar}
+From lemma \ref{lem:R-equiv} we infer
+$$(\rew{s_1},\rew{s_2},\rew{s_3}) \in \R$$
+with which we produce the translation of the conclusion by rule
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{T}:\rew{s_1} \\ \rew{\Ga}, x:\rew{T} \~ \rew{U}:\rew{s_2} \\ (\rew{s_1},\rew{s_2},\rew{s_3}) \in \R}
+  {\rew{\Ga} \~ (x:\rew{T}) \explicit \rew{U} : \rew{s_3}}
+  \tag{X-Prod}
+\end{mathpar}
+
+\textbf{Impredicative subcase:}\\
+The impredicative subcase will concern applications of \textsc{CC-Prod} for which the rule is $(\Type_i,\Prop,\Prop) \in \R_{CC}$. We can assume
+\begin{mathpar}
+  {\rew{\Ga} \~ \rew{T}:\rew{\Type_i} \\ \rew{\Ga}, x:\rew{T} \~ \rew{U}:\rew{\Prop}}
+\end{mathpar}
+From lemma \ref{lem:Re-equiv} we infer
+$$(\rew{\Type_i},\rew{\Prop},\rew{\Prop}) \in \R_e$$
+with which we produce the translation of the conclusion by rule
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{T}:\rew{\Type_i} \\ \rew{\Ga}, x:\rew{T} \~ \rew{U}:\rew{\Prop} \\ (\rew{\Type_i},\rew{\Prop},\rew{\Prop}) \in \R_e}
+  {\rew{\Ga} \~ (x:\rew{T}) \erasable \rew{U} : \rew{\Prop}}
+  \tag{E-Prod}
+\end{mathpar}
+
+\underline{\textbf{CC-Lam:}}\\
+\begin{mathpar}
+  \infer
+  {\Ga, x:T \CCdash M:U \\ \Ga \CCdash (x:T) \explicit U : s}
+  {\Ga \CCdash \la(x:T) \explicit M : (x:T) \explicit U}
+  \tag{CC-Lam}
+\end{mathpar}
+By the induction hypothesis we assume
+\begin{mathpar}
+  {\rew{\Ga}, x:\rew{T} \~ \rew{M}:\rew{U} \\ \rew{\Ga} \~ \rew{(x:T) \explicit U} : \rew{s}}
+\end{mathpar}
+To apply a lambda rule of Typer, we have to consider the two cases for the translation \rew{(x:T) \explicit U}:
+
+\textbf{Predicative subcase:}\\
+The predicative product type translates to an explicit product type $(x:\rew{T}) \explicit \rew{U}$ and we apply the explicit \textsc{X-Lam} typing rule to derive the typing of the explicit lambda abstraction.
+\begin{mathpar}
+  \infer
+  {\rew{\Ga}, x:\rew{T} \~ \rew{M}:\rew{U} \\ \rew{\Ga} \~ (x:\rew{T}) \explicit \rew{U} : \rew{s}}
+  {\rew{\Ga} \~ \la(x:\rew{T}) \explicit \rew{M} : (x:\rew{T}) \explicit \rew{U}}
+  \tag{X-Lam}
+\end{mathpar}
+
+\textbf{Impredicative subcase:}\\
+The impredicative product type translates to an erasable product type $(x:\rew{T}) \erasable \rew{U}$ which necessarily has sort $\rew{\Prop}$ with $T : \Type_i$ and $U : \Prop$ by the definition of translation. We call upon lemma \ref{lem:E-Lam-FV} to infer that $x \notin \fv{\rew{M}^*}$ and we have the sufficient premises to apply rule \textsc{E-Lam}. We obtain the translation of the conclusion
+\begin{mathpar}
+  \infer
+  {\rew{\Ga}, x:\rew{T} \~ \rew{M}:\rew{U} \\ \rew{\Ga} \~ (x:\rew{T}) \erasable \rew{U} : \rew{\Prop} \\ x \notin \fv{\rew{M}^*}}
+  {\rew{\Ga} \~ \la(x:\rew{T}) \erasable \rew{M} : (x:\rew{T}) \erasable \rew{U}}
+  \tag{E-Lam}
+\end{mathpar}
+
+\underline{\textbf{CC-App:}}\\
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash M : (x:T) \explicit U \\ \Ga \CCdash N:T}
+  {\Ga \CCdash M|N : U\{N/x\}}
+  \tag{CC-App}
+\end{mathpar}
+By the induction hypothesis we assume
+\begin{mathpar}
+  {\rew{\Ga} \~ \rew{M} : \rew{(x:T) \explicit U} \\ \rew{\Ga} \~ \rew{N}:\rew{T}}
+\end{mathpar}
+Again, there are two subcases to consider for the translation $\rew{(x:T) \explicit U}$:
+
+\textbf{Predicative subcase:}\\
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{M} : (x:\rew{T}) \explicit \rew{U} \\ \rew{\Ga} \~ \rew{N}:\rew{T}}
+  {\rew{\Ga} \~ \rew{M}|\rew{N} : \rew{U}\{\rew{N}/x\}}
+  \tag{X-App}
+\end{mathpar}
+\textbf{Impredicative subcase:}\\
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{M} : (x:\rew{T}) \erasable \rew{U} \\ \rew{\Ga} \~ \rew{N}:\rew{T}}
+  {\rew{\Ga} \~ \rew{M}|||\rew{N} : \rew{U}\{\rew{N}/x\}}
+  \tag{E-App}
+\end{mathpar}
+\qed
+
+\subsection{Soundness of translation}
+By structural induction on typing derivations of Typer, as per theorem \ref{thm:correctness-translation} ($\Leftarrow$), each valid derivation of translated terms has a corresponding valid derivation in \CC. We consider each of Typer's typing rules, the terms of which are limited to be translated terms of \CC. We implicitly distribute translation in contexts.
+
+\underline{\textbf{Wf-E:}}\\
+\begin{mathpar}
+  \infer
+  {\ }
+  {\rew{\cdot} \~}
+  \tag{Wf-E}
+\end{mathpar}
+
+The original judgment is immediately true in \CC\ by rule \textsc{CC-Wf-E}
+
+\begin{mathpar}
+  \infer
+  {\ }
+  {\emptyctx \CCdash}
+  \tag{CC-Wf-E}
+\end{mathpar}
+
+\underline{\textbf{Wf-S:}}\\
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{T}:s' \\ s' \in \S \\ x \notin \dv{\rew{\Ga}}}
+  {\rew{\Ga} , x:\rew{T} \~}
+  \tag{WF-S}
+\end{mathpar}
+It is not immediately obvious that sort $s'$ is a translated sort. Sorts in $\S$ that are not translations of sorts in $\S_{CC}$ include \SortL\ and \Sortw. However, because we assume the construction of translated term $\rew{T}$, it cannot correspond to \TypeLevel\ (inhabitant of \SortL) or universe-polymorphic types (inhabitants of \Sortw) so $s'$ can only really be of form $\Type\ \l$. Because each sort of the latter form has a corresponding sort in $\S_{CC}$ (lemma \ref{lem:S-equiv}), we can set $s' = \rew{s}$ with $s \in \S_{CC}$.
+
+Thus, by the induction hypothesis we have
+\begin{mathpar}
+  {\Ga \CCdash T:s \\ s \in \S_{CC}}
+\end{mathpar}
+By lemma \ref{lem:not-DV-equiv} we infer
+\begin{mathpar}
+  x \notin \dv{\Ga}
+\end{mathpar}
+We therefore have the corresponding rule
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash T:s \\ s \in \S_{CC} \\ x \notin \dv{\Ga}}
+  {\Ga , x:T \CCdash}
+  \tag{CC-Wf-S}
+\end{mathpar}
+
+\underline{\textbf{Sort:}}\\
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \\ (\rew{s_1}:\rew{s_2}) \in \A}
+  {\rew{\Ga} \~ \rew{s_1}:\rew{s_2}}
+  \tag{Sort}
+\end{mathpar}
+By lemma \ref{lem:A-equiv}, we infer from $(\rew{s_1}:\rew{s_2}) \in \A$ that $(s_1:s_2) \in \A_{CC}$. We can assume
+\begin{mathpar}
+  {\Ga \CCdash}
+\end{mathpar}
+by the induction hypothesis. Therefore we have the rule
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash \\ (s_1:s_2) \in \A_{CC}}
+  {\Ga \CCdash s_1:s_2}
+  \tag{CC-Sort}
+\end{mathpar}
+
+\underline{\textbf{Var:}}\\
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \\ (x:\rew{T}) \in \rew{\Ga}} 
+  {\rew{\Ga} \~ x:\rew{T}}
+  \tag{Var}
+\end{mathpar}
+By lemma \ref{lem:in-ctx-equiv}, we infer from $(x:\rew{T}) \in \rew{\Ga}$ that $(x:T) \in \Ga$. By the induction hypothesis we have
+\begin{mathpar}
+  \Ga \CCdash
+\end{mathpar}
+We therefore have the corresponding rule
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash \\ (x:T) \in \Ga} 
+  {\Ga \CCdash x:T}
+  \tag{CC-Var}
+\end{mathpar}
+
+\underline{\textbf{X-Prod:}}\\
+This case considers the typing derivation of term $\rew{(x:T)\explicit U}$. If \textsc{X-Prod} constructed it, then $\rew{(x:T)\explicit U} = (x:\rew{T})\explicit \rew{U}$.
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{T}:s_1' \\ \rew{\Ga}, x:\rew{T} \~ \rew{U}:s_2' \\ (s_1',s_2',\rew{s_3}) \in \R}
+  {\rew{\Ga} \~ (x:\rew{T}) \explicit \rew{U} : \rew{s_3}}
+  \tag{X-Prod}
+\end{mathpar}
+\SortL\ is not part of the co-domain of the translation function $\rew{\_}$, so $\rew{s_3}$ only matches with sorts of form $\Type\ \l\ $(where $\l \in \mathbb{L}$). The only rule scheme matching this condition is $(\Type\ \l_1, \Type\ \l_2, \Type\ (\l_1 \cup \l_2)) \in R$. Because every sort of form $\Type\ \l$ occupies the co-domain of the translation function, we can set $s_1' = \rew{s_1}$ and $s_2' = \rew{s_2}$. Thus, we have
+\begin{mathpar}
+  {\rew{\Ga} \~ \rew{T}:\rew{s_1} \\ \rew{\Ga}, x:\rew{T} \~ \rew{U}:\rew{s_2} \\ (\rew{s_1},\rew{s_2},\rew{s_3}) \in R_{CC}}
+\end{mathpar}
+
+By induction hypothesis we assume
+\begin{mathpar}
+  {\Ga \CCdash T:s_1 \\ \Ga, x:T \CCdash U:s_2}
+\end{mathpar}
+By lemma \ref{lem:R-equiv} we infer
+$$(s_1,s_2,s_3) \in \R_{CC}$$
+We can therefore apply the rule
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash T:s_1 \\ \Ga, x:T \CCdash U:s_2 \\ (s_1,s_2,s_3) \in \R_{CC}}
+  {\Ga \CCdash (x:T) \explicit U : s_3}
+  \tag{CC-Prod}
+\end{mathpar}
+
+\underline{\textbf{E-Prod:}}\\
+This case considers the typing derivation of term $\rew{(x:T)\explicit U}$. If \textsc{E-Prod} constructed it, then $\rew{(x:T)\explicit U} = (x:\rew{T})\erasable \rew{U}$ so by the definition of translation, $U : \Prop$ and $T : \Type_i$.
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{T}:\rew{\Type_i} \\ \rew{\Ga}, x:\rew{T} \~ \rew{U}:\rew{\Prop} \\ (\rew{\Type_i},\rew{\Prop},\rew{\Prop}) \in \R_e}
+  {\rew{\Ga} \~ (x:\rew{T}) \erasable \rew{U} : \rew{\Prop}}
+  \tag{E-Prod}
+\end{mathpar}
+By the induction hypothesis we assume
+\begin{mathpar}
+  {\Ga \CCdash T:\Type_i \\ \Ga, x:T \CCdash U:\Prop}
+\end{mathpar}
+By lemma \ref{lem:Re-equiv} we have
+\begin{mathpar}
+  {(\Type_i,\Prop,\Prop) \in \R_e}
+\end{mathpar}
+We can therefore apply the rule
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash T:\Type_i \\ \Ga, x:T \CCdash U:\Prop \\ (\Type_i,\Prop,\Prop) \in \R_{CC}}
+  {\Ga \CCdash (x:T) \explicit U : \Prop}
+  \tag{CC-Prod}
+\end{mathpar}
+
+\underline{\textbf{X-Lam:}}\\
+This case considers the typing derivation of term $\rew{\la(x:T)\explicit M}$. If \textsc{X-Lam} constructed it, then $\rew{\la(x:T)\explicit M} = \la(x:\rew{T})\explicit \rew{M}$ and accordingly has the product type $\rew{(x:T)\explicit U} = (x:\rew{T})\explicit \rew{U}$.
+\begin{mathpar}
+  \infer
+  {\rew{\Ga}, x:\rew{T} \~ \rew{M}:\rew{U} \\ \rew{\Ga} \~ (x:\rew{T}) \explicit \rew{U} : \rew{s}}
+  {\rew{\Ga} \~ \la(x:\rew{T}) \explicit \rew{M} : (x:\rew{T}) \explicit \rew{U}}
+  \tag{X-Lam}
+\end{mathpar}
+By the induction hypothesis we assume
+\begin{mathpar}
+  {\Ga, x:T \CCdash M:U \\ \Ga \CCdash (x:T) \explicit U : s}
+\end{mathpar}
+We can therefore apply the rule
+\begin{mathpar}
+  \infer
+  {\Ga, x:T \CCdash M:U \\ \Ga \CCdash (x:T) \explicit U : s}
+  {\Ga \CCdash \la(x:T) \explicit M : (x:T) \explicit U}
+  \tag{CC-Lam}
+\end{mathpar}
+
+\underline{\textbf{E-Lam:}}\\
+This case considers the typing derivation of term $\rew{\la(x:T)\explicit M}$. If \textsc{E-Lam} constructed it, then $\rew{\la(x:T)\explicit M} = \la(x:\rew{T})\erasable \rew{M}$ and accordingly has the product type $\rew{(x:T)\explicit U} = (x:\rew{T})\erasable \rew{U}$. In this case, by the definition of translation, we necessarily have $U:\Prop$ and $T:\Type_i$.
+\begin{mathpar}
+  \infer
+  {\rew{\Ga}, x:\rew{T} \~ \rew{M}:\rew{U} \\ \rew{\Ga} \~ (x:\rew{T}) \erasable \rew{U} : \rew{\Prop} \\ x \notin \fv{\rew{M}^*}}
+  {\rew{\Ga} \~ \la(x:\rew{T}) \erasable \rew{M} : (x:\rew{T}) \erasable \rew{U}}
+  \tag{E-Lam}
+\end{mathpar}
+By the induction hypothesis we assume
+\begin{mathpar}
+  {\Ga, x:T \CCdash M:U \\ \Ga \CCdash (x:T) \explicit U : s}
+\end{mathpar}
+We can therefore apply the rule
+\begin{mathpar}
+  \infer
+  {\Ga, x:T \CCdash M:U \\ \Ga \CCdash (x:T) \explicit U : \Prop}
+  {\Ga \CCdash \la(x:T) \explicit M : (x:T) \explicit U}
+  \tag{CC-Lam}
+\end{mathpar}
+
+\underline{\textbf{X-App:}}\\
+This case considers the typing derivation of term $\rew{M|N}$. If \textsc{X-App} constructed it, then $\rew{M|N} = \rew{M}|\rew{N}$ and $\rew{M}$ has type $\rew{(x:T)\explicit U} = (x:\rew{T})\explicit \rew{U}$.
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{M} : (x:\rew{T}) \explicit \rew{U} \\ \rew{\Ga} \~ \rew{N}:\rew{T}}
+  {\rew{\Ga} \~ \rew{M}|\rew{N} : \rew{U}\{\rew{N}/x\}}
+  \tag{X-App}
+\end{mathpar}
+By the induction hypothesis we assume
+\begin{mathpar}
+  {\Ga \CCdash M : (x:T) \explicit U \\ \Ga \CCdash N:T}
+\end{mathpar}
+We can therefore apply the rule
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash M : (x:T) \explicit U \\ \Ga \CCdash N:T}
+  {\Ga \CCdash M|N : U\{N/x\}}
+  \tag{CC-App}
+\end{mathpar}
+
+\underline{\textbf{E-App:}}\\
+This case considers the typing derivation of term $\rew{M|N}$. If \textsc{E-App} constructed it, then $\rew{M|N} = \rew{M}|||\rew{N}$ and $\rew{M}$ has type $\rew{(x:T)\explicit U} = (x:\rew{T})\erasable \rew{U}$.
+\begin{mathpar}
+  \infer
+  {\rew{\Ga} \~ \rew{M} : (x:\rew{T}) \erasable \rew{U} \\ \rew{\Ga} \~ \rew{N}:\rew{T}}
+  {\rew{\Ga} \~ \rew{M}|||\rew{N} : \rew{U}\{\rew{N}/x\}}
+  \tag{E-App}
+\end{mathpar}
+By the induction hypothesis we assume
+\begin{mathpar}
+  {\Ga \CCdash M : (x:T) \explicit U \\ \Ga \CCdash N:T}
+\end{mathpar}
+We can therefore apply the rule
+\begin{mathpar}
+  \infer
+  {\Ga \CCdash M : (x:T) \explicit U \\ \Ga \CCdash N:T}
+  {\Ga \CCdash M|N : U\{N/x\}}
+  \tag{CC-App}
+\end{mathpar}
+
+Rules \textsc{Ind}, \textsc{Constr}, and \textsc{Case} cannot construct the judgment $\rew{\Ga} \~ \rew{e} : \rew{\tau}$ because inductive types are not part of the domain of the translation operator. \qed
+
+\subsection{Example}
+Consider the impredicative encoding of the \texttt{pack} existential type constructor in \CC:
+
+\begin{align*}
+  \mathtt{pack}\ : \quad
+  &(\tau : \Type_1) \explicit (f : (x : \tau) \explicit \Prop) \explicit (w : \tau) \explicit (p : f| w) \explicit\\
+  &(t : \Prop) \explicit (b : (y : \tau) \explicit (z : f|y) \explicit t) \explicit t \{w/y\} \{p/z\}\\[10pt]
+  :=\ &\la (\tau : \Type_1) \explicit \la (f : (x : \tau) \explicit \Prop) \explicit \la (w : \tau) \explicit \la (p : f|w) \explicit\\
+  &\la (t : \Prop) \explicit \la (b : (y : \tau) \explicit (z : f|y) \explicit t) \explicit b|w|p
+\end{align*}
+
+The translation of \texttt{pack} to Typer will assign abstractions to be either explicit or erasable depending on them being predicative of impredicative, respectively. The translation of the product type of $f$ in \texttt{pack} for example will be explicit by its predicativity:
+\begin{align*}
+  \Ga &\CCdash \tau : \Type_1\\
+  \Ga &\CCdash \Prop : \Type_1\\
+  \Ga &\CCdash (x : \tau)\explicit\Prop : \Type_1 &\quad\quad\text{by \texttt{CC-Prod} and rule $(\Type_1,\Type_1,\Type_1)$}
+\end{align*}
+\begin{align*}
+  \rew{\Ga} \CCdash \rew{(x : \tau)\explicit\Prop} : \rew{\Type_1}
+  &\quad\leadsto\quad \rew{\Ga} \~ (x : \rew{\tau}) \explicit \rew{\Prop} : \Type\ (\s\ \z)\\
+  &\quad\leadsto\quad \rew{\Ga} \~ (x : \tau) \explicit \Type\ \z : \Type\ (\s\ \z)
+\end{align*}
+
+On the other hand, $b$ has both an erasable and an explicit component:
+
+\begin{align*}
+  \Ga &\CCdash t : \Prop \\
+  \Ga &\CCdash f|y : \Prop \\
+  \Ga &\CCdash (z : f|y)\explicit t : \Prop &\quad\quad\text{by \texttt{CC-Prod} and rule $(\Prop,\Prop,\Prop)$}\\[10pt]
+  \Ga &\CCdash \tau : \Type_1 \\
+  \Ga &\CCdash (z : f|y)\explicit t : \Prop\\
+  \Ga &\CCdash (y : \tau)\explicit (z : f|y)\explicit t : \Prop &\quad\quad\text{by \texttt{CC-Prod} and rule $(\Type_1,\Prop,\Prop)$}\\
+\end{align*}
+\begin{align*}
+  \rew{\Ga} \CCdash \rew{(y : \tau)\explicit (z : f|y)\explicit t} : \rew{\Prop}
+  &\quad\leadsto\quad \rew{\Ga} \~ (y : \tau)\erasable \rew{(z : f|y)\explicit t} : \Type\ \z\\
+  &\quad\leadsto\quad \rew{\Ga} \~ (y : \tau)\erasable (z : f|y)\explicit \rew{t} : \Type\ \z\\
+  &\quad\leadsto\quad \rew{\Ga} \~ (y : \tau)\erasable (z : f|y)\explicit t : \Type\ \z\\
+\end{align*}
+
+If we proceed acordingly on the rest of the term, we get
+\begin{align*}
+  \mathtt{pack}\ : \quad
+  &(\tau : \Type\ (\s\ \z)) \erasable (f : (x : \tau) \explicit \Type\ \z) \erasable (w : \tau) \erasable (p : f| w) \explicit\\
+  &(t : \Type\ \z) \erasable (b : (y : \tau) \erasable (z : f|y) \explicit t) \explicit t \{w/y\} \{p/z\}\\[10pt]
+  :=\ &\la (\tau : \Type\ (\s\ \z)) \erasable \la (f : (x : \tau) \explicit \Type\ \z) \erasable \la (w : \tau) \erasable \la (p : f|w) \explicit\\
+  &\la (t : \Type\ \z) \erasable \la (b : (y : \tau) \erasable (z : f|y) \explicit t) \explicit b|||w|p
+\end{align*}
+
+Finally, we can apply the extraction function and erase all but the explicit program
+\begin{align*}
+  \mathtt{pack}\ : \quad
+  &\forall (\tau : \Type\ (\s\ \z)).\forall(f : (x : \tau) \explicit \Type\ \z).\forall(w : \tau).(p : f| w) \explicit\\
+  &\forall(t : \Type\ \z).(b : \forall(y : \tau).(z : f|y) \explicit t) \explicit t \{w/y\} \{p/z\}\\[10pt]
+  :=\ &\la (p) \explicit  \la (b) \explicit b|p
+\end{align*}
+
+
+
+\newpage
+\bibliographystyle{alpha}
+\bibliography{typer_theory}
+\end{document}

@@ -1,0 +1,430 @@
+%%% pervasive --- Always available definitions
+
+%%      Copyright (C) 2011-2019  Free Software Foundation, Inc.
+%%
+%% Author: Pierre Delaunay <pierre.delaunay@hec.ca>
+%% Keywords: languages, lisp, dependent types.
+%%
+%% This file is part of Typer.
+%%
+%% Typer is free software; you can redistribute it and/or modify it under the
+%% terms of the GNU General Public License as published by the Free Software
+%% Foundation, either version 3 of the License, or (at your option) any
+%% later version.
+%%
+%% Typer is distributed in the hope that it will be useful, but WITHOUT ANY
+%% WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+%% FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+%% more details.
+%%
+%% You should have received a copy of the GNU General Public License along
+%% with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+%%% Commentary:
+
+%% This file includes all kinds of predefined types and functions that are
+%% generally useful.  It plays a similar role to `builtins.typer` and is
+%% read right after that one.  The main reason for the separation into
+%% 2 different files, is that for technical reasons, one cannot use macros
+%% in `builtins.typer`.
+
+%%% Code:
+
+%%%% `Option` type
+
+Option (a : Type) = typecons (none) (some a);
+some (a : Type) = datacons (Option a) some;
+none (a : Type) = datacons (Option a) none;
+
+%%%% List functions
+
+List_length : (a : Type) -> List a -> Int;
+List_length b xs = case xs
+  | nil => 0
+  | cons hd tl =>
+      (1 + (List_length b tl));
+
+%% ML's typical `head` function is not total, so can't be defined
+%% as-is in Typer.  There are several workarounds:
+%% - Provide a default value : `a -> List a -> a`;
+%% - Disallow problem case   : `(l : List a) -> (l != nil) -> a`;
+%% - Return an Option/Error
+List_head1 : (a : Type) -> List a -> Option a;
+List_head1 a xs = case xs
+  | nil => none a
+  | cons hd tl => some a hd;
+
+List_head : (a : Type) -> a -> List a -> a;
+List_head a x xs = case xs
+  | cons x _ => x
+  | nil => x;
+
+List_tail : (a : Type) -> List a -> List a;
+List_tail a xs = case xs
+  | nil => nil a
+  | cons hd tl => tl;
+
+List_map : (a : Type) -> (b : Type) -> (a -> b) -> List a -> List b;
+List_map a b f xs = case xs
+  | nil => nil b
+  | cons x xs => cons b (f x) (List_map a b f xs);
+
+List_foldr : (a : Type) -> (b : Type) -> (b -> a -> a) -> List b -> a -> a;
+List_foldr a b f xs i = case xs
+  | nil => i
+  | cons x xs => f x (List_foldr a b f xs i);
+
+List_find : (a : Type) -> (a -> Bool) -> List a -> Option a;
+List_find a f xs = case xs
+  | nil => none a
+  | cons x xs => case f x
+                 | true => some a x
+                 | false => List_find a f xs;
+
+List_nth : (a : Type) -> Int -> List a -> a -> a;
+List_nth a n xs d = case xs
+  | nil => d
+  | cons x xs
+    => case Int_<= n 0
+       | true => x
+       | false => List_nth a (n - 1) xs d;
+
+%%%% A more flexible `lambda`
+
+%% An `Sexp` which we use to represents an *error*.
+Sexp_error = Sexp_symbol "<error>";
+
+Sexp_to_list : Sexp -> List Sexp -> List Sexp;
+Sexp_to_list s exceptions =
+  let singleton (a : Type) (_ : a) = cons Sexp s (nil Sexp) in
+  Sexp_dispatch
+      (List Sexp)
+      s
+      (lambda head tail
+        -> case List_find Sexp (Sexp_eq head) exceptions
+        | some _ => singleton Unit unit
+        | none => cons Sexp head tail)
+      (lambda s
+        -> case String_eq "" s
+        | true => nil Sexp
+        | false => singleton Unit unit)
+      (singleton String) (singleton Integer) (singleton Float) (singleton Sexp);
+
+%%%% More list functions
+
+List_reverse : (a : Type) -> List a -> List a -> List a;
+List_reverse a l t = case l
+  | nil => t
+  | cons hd tl => List_reverse a tl (cons a hd t);
+
+List_concat : (a : Type) -> List a -> List a -> List a;
+List_concat a l t = List_reverse a (List_reverse a l (nil a)) t;
+
+List_foldl : (a : Type) -> (b : Type) -> (a -> b -> a) -> a -> List b -> a;
+List_foldl a b f i xs = case xs
+  | nil => i
+  | cons x xs => List_foldl a b f (f i x) xs;
+
+List_mapi : (a : Type) -> (b : Type) -> (a -> Int -> b) -> List a -> List b;
+List_mapi a b f xs = let
+  helper : (a -> Int -> b) -> Int -> List a -> List b;
+  helper f i xs = case xs
+    | nil => nil b
+    | cons x xs => cons b (f x i) (helper f (i + 1) xs);
+in helper f 0 xs;
+
+List_map2 : (a : Type) -> (b : Type) -> (c : Type)
+            -> (a -> b -> c) -> List a -> List b -> List c;
+List_map2 a b c f xs ys = case xs
+  | nil => nil c
+  | cons x xs => case ys
+    | nil => nil c % error
+    | cons y ys => cons c (f x y) (List_map2 a b c f xs ys);
+
+%% Fold 2 List as long as both List are non-empty
+List_fold2 : (a : Type) -> (b : Type) -> (c : Type)
+             -> (a -> b -> c -> a) -> a -> List b -> List c -> a;
+List_fold2 a b c f o xs ys = case xs
+  | cons x xs => (case ys
+                  | cons y ys => List_fold2 a b c f (f o x y) xs ys
+                  | nil => o ) % may be an error
+  | nil => o; % may or may not be an error
+
+%% Is argument List empty?
+List_empty : (a : Type) -> List a -> Bool;
+List_empty a xs = Int_eq (List_length a xs) 0;
+
+%%% Good 'ol combinators
+
+I : (a : Type) -> a -> a;
+I a x = x;
+
+K : (a : Type) -> a -> (b : Type) -> b -> a;
+K a x b y = x;
+
+%%%% Quasi-Quote macro
+
+%%   f = (quote (uquote x) * x) (node _*_ [(Sexp_node unquote "x") "x"])
+%%
+%%   f = Sexp_node "*" cons (x, cons (Sexp_symbol "x") nil))
+%%
+%%     =>       x
+
+Sexp_nil = nil Sexp;
+Sexp_cons = cons Sexp;
+
+%% Takes an Sexp `x` as argument and return an Sexp which represents code
+%% which will construct an Sexp equivalent to `x` at run-time.
+%% This is basically *cross stage persistence* for Sexp.
+quote1 : Sexp -> Sexp;
+quote1 x = let k = K Sexp x;
+               qlist : List Sexp -> Sexp;
+               qlist xs = case xs
+                 | nil => Sexp_symbol "Sexp_nil"
+                 | cons x xs
+                   => Sexp_node (Sexp_symbol "Sexp_cons")
+                                (cons Sexp (quote1 x)
+                                      (cons Sexp (qlist xs)
+                                            (nil Sexp)));
+               node : Sexp -> List Sexp -> Sexp;
+               node op y = case (Sexp_eq op (Sexp_symbol "uquote"))
+                 | true  => List_head Sexp Sexp_error y
+                 | false => Sexp_node (Sexp_symbol "##Sexp.node")
+                                      (cons Sexp (quote1 op)
+                                            (cons Sexp (qlist y)
+                                                  (nil Sexp)));
+               symbol (s : String) = Sexp_node (Sexp_symbol "##Sexp.symbol")
+                                               (cons Sexp (Sexp_string s)
+                                                     (nil Sexp))
+           in Sexp_dispatch Sexp x node symbol
+                            (k String) (k Integer) (k Float) (k Sexp);
+
+%% quote definition
+quote = macro (lambda x -> (quote1 (List_head Sexp Sexp_error x)));
+
+test1 : Sexp;
+test1 = quote nil;
+test2 : Sexp;
+test2 = quote (x + (uquote test1));
+
+%%%% The `type` declaration macro
+
+%% Build a declaration:
+%%     var-name = value-expr;
+make-decl : Sexp -> Sexp -> Sexp;
+make-decl var-name value-expr =
+  Sexp_node (Sexp_symbol "_=_")
+            (cons Sexp var-name
+                  (cons Sexp value-expr
+                        (nil Sexp)));
+
+chain-decl : Sexp -> Sexp -> Sexp;
+chain-decl a b =
+  Sexp_node (Sexp_symbol "_;_")
+            (cons Sexp a (cons Sexp b (nil Sexp)));
+
+chain-decl3 : Sexp -> Sexp -> Sexp -> Sexp;
+chain-decl3 a b c =
+  Sexp_node (Sexp_symbol "_;_")
+            (cons Sexp a (cons Sexp b (cons Sexp c (nil Sexp))));
+
+%% Build datacons:
+%%     ctor-name = datacons type-name ctor-name;
+make-cons : Sexp -> Sexp -> Sexp -> Sexp;
+make-cons ctor-head ctor-name type-name =
+  make-decl ctor-head
+            (Sexp_node (Sexp_symbol "datacons")
+                       (cons Sexp type-name
+                             (cons Sexp ctor-name
+                                   (nil Sexp))));
+
+make-node : Sexp -> List Sexp -> Sexp;
+make-node head args = case args
+  | nil => head
+  | _ => Sexp_node head args;
+
+type-impl = lambda (x : List Sexp) ->
+  %% `x` follow the mask ->
+  %%                  (_|_ Nat zero (succ Nat))
+  %%       Type name  --^    ^------^ constructors
+
+  %% Return a list contained inside a node sexp.
+  let knil = K (List Sexp) (nil Sexp);
+      kerr = K Sexp Sexp_error;
+
+      get-args : Sexp -> List Sexp;
+      get-args node = Sexp_dispatch (List Sexp)
+                                    node
+                                    (lambda op lst -> lst) % Nodes
+                                    (knil String)          % Symbol
+                                    (knil String)          % String
+                                    (knil Integer)         % Integer
+                                    (knil Float)           % Float
+                                    (knil Sexp);           % Block
+
+      %% Get a name (symbol) from a sexp
+      %%   - (name t) -> name
+      %%   - name -> name
+      get-name : Sexp -> Sexp;
+      get-name sxp =
+        Sexp_dispatch Sexp
+                      sxp
+                      (lambda op _ -> get-name op) % Nodes
+                      (lambda _    -> sxp)         % Symbol
+                      (kerr String)                % String
+                      (kerr Integer)               % Integer
+                      (kerr Float)                 % Float
+                      (kerr Sexp);                 % Block
+
+      get-type : Sexp -> Sexp;
+      get-type sxp =
+        Sexp_dispatch Sexp
+                      sxp
+                      (lambda s ss -> case (Sexp_eq s (Sexp_symbol "_:_"))
+                        | true  => List_nth Sexp 1 ss Sexp_error
+                        | false => sxp)
+                      (lambda _ -> sxp)
+                      (lambda _ -> Sexp_error)
+                      (lambda _ -> Sexp_error)
+                      (lambda _ -> Sexp_error)
+                      (lambda _ -> Sexp_error);
+
+      get-head = List_head Sexp Sexp_error;
+
+      %% The list `x` is supposed to hold single element of the form
+      %% `(_|_ HEAD CTORS...)`, so extract the two parts we need.
+      lst = get-args (get-head x);
+      head = get-head lst;
+      ctors = List_tail Sexp lst;
+
+      name = get-name head;
+      targs = get-args head;
+      %% `targs` is a list of `(_:_ ID TYPE)`, and we want
+      %% to extract the list of `ID`s.
+      targsnames = List_map Sexp Sexp
+                            (lambda arg
+                             -> Sexp_dispatch Sexp arg
+                                              (lambda s ss
+                                               -> List_head Sexp Sexp_error ss)
+                                              (lambda _ -> arg)
+                                              (lambda _ -> Sexp_error)
+                                              (lambda _ -> Sexp_error)
+                                              (lambda _ -> Sexp_error)
+                                              (lambda _ -> Sexp_error))
+                            targs;
+
+      %% Create the inductive type's definition.
+      inductive = Sexp_node (Sexp_symbol "typecons") ctors;
+
+      %% %% Declare the inductive type as a function
+      %% %% Useful for recursive type
+      type-type = List_foldl Sexp Sexp
+                             (lambda args arg
+                              -> Sexp_node (Sexp_symbol "_->_")
+                                           (cons Sexp (get-type arg)
+                                                 (cons Sexp args
+                                                       (nil Sexp))))
+                             (Sexp_symbol "Type")
+                             (List_reverse Sexp targs (nil Sexp));
+      type-decl = quote ((uquote name) : (uquote type-type));
+
+      decl  = make-decl (make-node name targs) inductive;
+
+      %% Add constructors.
+      ctors = let for-each : List Sexp -> Sexp -> Sexp;
+                  for-each ctr acc = case ctr
+                    | cons hd tl
+                      => let acc2 = chain-decl
+                                        (make-cons (make-node (get-name hd) targs)
+                                                   (get-name hd)
+                                                   (make-node name targsnames))
+                                               acc
+                         in for-each tl acc2
+                    | nil => acc
+              in for-each ctors (Sexp_node (Sexp_symbol "_;_") (nil Sexp))
+
+                            %% return decls
+  in (chain-decl3 type-decl % type as a function declaration
+                  decl      % inductive type declaration
+                  ctors);   % constructor declarations
+
+type_ = macro type-impl;
+
+%%%% Tuples
+
+type Pair (a : Type) (b : Type)
+  | pair a b;
+
+%% Triplet (tuple with 3 values)
+type Triplet (a : Type) (b : Type) (c : Type)
+  | triplet a b c;
+
+
+type Tree1 (a : Type)
+  | leaf1
+  | node1 (Tree1 a) a (Tree1 a);
+
+type Tree2 (a : Type)
+  | leaf2 a
+  | node2 (Tree2 a) (Tree2 a);
+
+%%%% List with tuple
+
+%% Merge two List to a List of Pair
+%% Both List must be of same length
+List_merge : (a : Type) -> (b : Type)
+             -> List a -> List b -> List (Pair a b);
+List_merge a b xs ys = case xs
+  | cons x xs => (case ys
+                  | cons y ys => cons (Pair a b)
+                                      (pair a b x y)
+                                      (List_merge a b xs ys)
+                  | nil => nil (Pair a b)) % error
+  | nil => nil (Pair a b);
+
+%% `Unmerge` a List of Pair
+%% The two functions name said it all
+List_map-fst : (a : Type) -> (b : Type) -> List (Pair a b) -> List a;
+List_map-fst a b =
+  List_map (Pair a b) a (lambda p -> case p | pair x _ => x);
+
+List_map-snd : (a : Type) -> (b : Type) -> List (Pair a b) -> List b;
+List_map-snd a b =
+  List_map (Pair a b) b (lambda p -> case p | pair _ y => y);
+
+%%%% If
+
+define-operator "if" () 2;
+define-operator "then" 2 1;
+define-operator "else" 1 66;
+
+if_then_else_
+  = macro (lambda args ->
+           let e1 = List_nth Sexp 0 args Sexp_error;
+               e2 = List_nth Sexp 1 args Sexp_error;
+               e3 = List_nth Sexp 2 args Sexp_error;
+           in (quote (case uquote e1
+                      | true => uquote e2
+                      | false => uquote e3)));
+
+%%%% More boolean
+
+%% FIXME: Type annotations should not be needed below.
+not : Bool -> Bool;
+%% FIXME: We use braces here to delay parsing, otherwise the if/then/else
+%% part of the grammar declared above is not yet taken into account.
+not x = { if x then false else true };
+
+or : Bool -> Bool -> Bool;
+or x y = { if x then x else y };
+
+and : Bool -> Bool -> Bool;
+and x y = { if x then y else x };
+
+xor : Bool -> Bool -> Bool;
+xor x y = { if x then (not y) else y };
+
+fold : Bool -> (a : Type) -> a -> a -> a;
+fold x a t e = { if x then t else e};
+
+%%% pervasive.typer ends here.

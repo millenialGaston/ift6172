@@ -1,0 +1,88 @@
+%% Theorems
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{definition}
+\newtheorem{remark}{Remark}[section]
+
+
+%% Defined/Free variables
+\newcommand{\Dom}[1]{\textsf{Dom}(#1)}
+\newcommand{\dv}[1]{\textsf{DV}(#1)}
+\newcommand{\fv}[1]{\textsf{FV}(#1)}
+
+%% Sans
+\newcommand{\Ind}{\textsf{Ind}}
+\newcommand{\Constr}{\textsf{Constr}}
+\newcommand{\Case}{\textsf{Case}}
+\newcommand{\of}{\textsf{of}}
+\newcommand{\Elim}{\textsf{Elim}}
+\newcommand{\Fix}{\textsf{Fix}}
+\newcommand{\Letrec}{\textsf{Letrec}}
+\newcommand{\Let}{\textsf{Let}}
+\newcommand{\In}{\textsf{in}}
+
+\newcommand{\Prop}{\textsf{Prop}}
+\newcommand{\Type}{\textsf{Type}}
+\newcommand{\TypeLevel}{\textsf{TypeLevel}}
+\newcommand{\SortL}{\textsf{SortL}}
+\newcommand{\Sort}{\textsf{Sort}}
+\newcommand{\z}{\textsf{z}}
+\newcommand{\s}{\textsf{s}}
+
+\newcommand{\Sortw}{\ensuremath{\mathsf{Sort}_\omega}}
+
+% Bolds
+\newcommand{\todo}{\textbf{ TODO }}
+
+% Caligraphics
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\V}{\mathcal{V}}
+
+%% Abbrevs
+\let\~\vdash
+\let\Ga\Gamma
+\let\La\Lambda
+\let\la\lambda
+\let\<\langle
+\let\>\rangle
+\let\l\ell
+
+% Abstractions
+\newlength{\ProdSpace}
+\setlength{\ProdSpace}{-2.5pt}
+\newcommand{\explicit}{\hspace{\ProdSpace}\rightarrow\hspace{\ProdSpace}}
+\newcommand{\implicit}{\hspace{\ProdSpace}\Rightarrow\hspace{\ProdSpace}}
+\newcommand{\erasable}{\hspace{\ProdSpace}\Rrightarrow\hspace{\ProdSpace}}
+
+% Misc
+\newcommand{\SmallTitle}[1]{\vspace{3mm}\begin{center}
+    \bf \underline{#1}
+  \end{center}}
+
+\renewcommand{\tag}[1]{\textsc{(#1)}}
+\newcommand{\rew}[1]{\ensuremath{\llbracket #1 \rrbracket}}
+
+\newcommand{\emptyctx}{%
+  \mathchoice{\raisebox{1pt}{$\displaystyle\cdot$}}
+  {\raisebox{1pt}{$\cdot$}}
+  {\raisebox{0.5pt}{$\scriptstyle\cdot$}}
+  {\raisebox{0.2pt}{$\scriptscriptstyle\cdot$}}}
+
+\newcommand{\ap}{\raisebox{1.7pt}{\scalebox{0.8}{$|$}}}
+\newcommand{\app}{\raisebox{1.7pt}{\scalebox{0.8}{$||$}}}
+\newcommand{\appp}{\raisebox{1.7pt}{\scalebox{0.8}{$|||$}}}
+
+\renewcommand{\:}{\hspace{-3pt}:\hspace{-3pt}}
+\newcommand{\nottype}{/\hspace{-7pt}:}
+
+\newcommand{\CC}{\text{CC$\omega$}}
+\newcommand{\CCdash}{\vdash_{\hspace{-2pt}_{CC}}}
+\newcommand{\Tdash}{\vdash_{\hspace{-2pt}_{T}}}

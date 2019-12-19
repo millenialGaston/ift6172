@@ -1,0 +1,251 @@
+#+TITLE: projet
+#+author: frederic boileau
+#+email: frederic.boileau@protonmail.com
+#+STARTUP:  inlineimages lognoteclock-out hideblocks
+
+
+* scrapbook
+** lin algebra motivation
+
+Numerical programming is mostly linear programming
+in the end, although it is even more obvious when
+neural networks are used.
+
+#+name: xkcd
+#+attr_org: :width 300
+[[attach:_20191219_064117machine_learning.png]]
+** array programming
+** typer and ocaml compilation
+** inductive types and coq theory
+** more generality: elliot's categorical approach
+** category theory and type theory and constructive math
+* emacs stuff
+** typer tests
+#+BEGIN_SRC emacs-lisp :results silent
+(load-file "~/academic/ift6172/typer-tp-ift6172-2019/emacs/typer-mode.el")
+#+END_SRC
+** org fs tree
+#+BEGIN_SRC emacs-lisp :results silent
+(load-file "./org-fs-tree/org-fs-tree.el")
+#+END_SRC
+
+* code
+** typer
+#+BEGIN_SRC typer
+open Sexp
+open Lexer
+open Utest_lib
+
+let sexp_parse_str dcode
+  = sexp_parse_str dcode Grammar.default_stt Grammar.default_grammar (Some ";")
+
+let test_sexp_add dcode testfun =
+  add_test "SEXP" dcode
+    (fun () -> testfun (sexp_parse_str dcode))
+#+END_SRC
+** structure of typer
+*** tree
+#+name: file structure typer
+#+BEGIN_SRC sh :results verbatim
+tree ~/academic/ift6172/typer-tp-ift6172-2019
+#+END_SRC
+
+#+RESULTS: file structure typer
+#+begin_example
+/home/gaston/academic/ift6172/typer-tp-ift6172-2019
+├── btl
+│   ├── builtins.typer
+│   └── pervasive.typer
+├── _build
+│   ├── debug_util
+│   ├── _digests
+│   ├── _log
+│   ├── ocamlc.where
+│   ├── src
+│   │   ├── builtin.cmi
+│   │   ├── builtin.cmo
+│   │   ├── builtin.ml
+│   │   ├── builtin.ml.depends
+│   │   ├── debruijn.cmi
+│   │   ├── debruijn.cmo
+│   │   ├── debruijn.ml
+│   │   ├── debruijn.ml.depends
+│   │   ├── debug.cmi
+│   │   ├── debug.cmo
+│   │   ├── debug.ml
+│   │   ├── debug.ml.depends
+│   │   ├── debug_util.cmi
+│   │   ├── debug_util.cmo
+│   │   ├── debug_util.ml
+│   │   ├── debug_util.ml.depends
+│   │   ├── elab.cmi
+│   │   ├── elab.cmo
+│   │   ├── elab.ml
+│   │   ├── elab.ml.depends
+│   │   ├── elexp.cmi
+│   │   ├── elexp.cmo
+│   │   ├── elexp.ml
+│   │   ├── elexp.ml.depends
+│   │   ├── env.cmi
+│   │   ├── env.cmo
+│   │   ├── env.ml
+│   │   ├── env.ml.depends
+│   │   ├── eval.cmi
+│   │   ├── eval.cmo
+│   │   ├── eval.ml
+│   │   ├── eval.ml.depends
+│   │   ├── fmt.cmi
+│   │   ├── fmt.cmo
+│   │   ├── fmt.ml
+│   │   ├── fmt.ml.depends
+│   │   ├── grammar.cmi
+│   │   ├── grammar.cmo
+│   │   ├── grammar.ml
+│   │   ├── grammar.ml.depends
+│   │   ├── lexer.cmi
+│   │   ├── lexer.cmo
+│   │   ├── lexer.ml
+│   │   ├── lexer.ml.depends
+│   │   ├── lexp.cmi
+│   │   ├── lexp.cmo
+│   │   ├── lexp.ml
+│   │   ├── lexp.ml.depends
+│   │   ├── log.cmi
+│   │   ├── log.cmo
+│   │   ├── log.ml
+│   │   ├── log.ml.depends
+│   │   ├── myers.cmi
+│   │   ├── myers.cmo
+│   │   ├── myers.ml
+│   │   ├── myers.ml.depends
+│   │   ├── opslexp.cmi
+│   │   ├── opslexp.cmo
+│   │   ├── opslexp.ml
+│   │   ├── opslexp.ml.depends
+│   │   ├── pexp.cmi
+│   │   ├── pexp.cmo
+│   │   ├── pexp.ml
+│   │   ├── pexp.ml.depends
+│   │   ├── prelexer.cmi
+│   │   ├── prelexer.cmo
+│   │   ├── prelexer.ml
+│   │   ├── prelexer.ml.depends
+│   │   ├── REPL.cmi
+│   │   ├── REPL.cmo
+│   │   ├── REPL.ml
+│   │   ├── REPL.ml.depends
+│   │   ├── sexp.cmi
+│   │   ├── sexp.cmo
+│   │   ├── sexp.ml
+│   │   ├── sexp.ml.depends
+│   │   ├── subst.cmi
+│   │   ├── subst.cmo
+│   │   ├── subst.ml
+│   │   ├── subst.ml.depends
+│   │   ├── util.cmi
+│   │   ├── util.cmo
+│   │   ├── util.ml
+│   │   └── util.ml.depends
+│   ├── tests
+│   │   ├── elab_test.byte
+│   │   ├── elab_test.cmi
+│   │   ├── elab_test.cmo
+│   │   ├── elab_test.ml
+│   │   ├── elab_test.ml.depends
+│   │   ├── env_test.byte
+│   │   ├── env_test.cmi
+│   │   ├── env_test.cmo
+│   │   ├── env_test.ml
+│   │   ├── env_test.ml.depends
+│   │   ├── eval_test.byte
+│   │   ├── eval_test.cmi
+│   │   ├── eval_test.cmo
+│   │   ├── eval_test.ml
+│   │   ├── eval_test.ml.depends
+│   │   ├── lexp_test.byte
+│   │   ├── lexp_test.cmi
+│   │   ├── lexp_test.cmo
+│   │   ├── lexp_test.ml
+│   │   ├── lexp_test.ml.depends
+│   │   ├── macro_test.byte
+│   │   ├── macro_test.cmi
+│   │   ├── macro_test.cmo
+│   │   ├── macro_test.ml
+│   │   ├── macro_test.ml.depends
+│   │   ├── sexp_test.byte
+│   │   ├── sexp_test.cmi
+│   │   ├── sexp_test.cmo
+│   │   ├── sexp_test.ml
+│   │   ├── sexp_test.ml.depends
+│   │   ├── utest_lib.cmi
+│   │   ├── utest_lib.cmo
+│   │   ├── utest_lib.ml
+│   │   ├── utest_lib.ml.depends
+│   │   ├── utest_main.cmi
+│   │   ├── utest_main.cmo
+│   │   ├── utest_main.ml
+│   │   ├── utest_main.ml.depends
+│   │   └── utests
+│   └── typer
+├── COPYING
+├── doc
+│   ├── Compiler Structure.md
+│   ├── formal
+│   │   ├── commands.tex
+│   │   ├── typer_theory.bib
+│   │   └── typer_theory.tex
+│   ├── manual.texi
+│   └── primer.md
+├── emacs
+│   └── typer-mode.el
+├── GNUmakefile
+├── opam
+├── README.md
+├── src
+│   ├── builtin.ml
+│   ├── debruijn.ml
+│   ├── debug.ml
+│   ├── debug_util.ml
+│   ├── elab.ml
+│   ├── elexp.ml
+│   ├── env.ml
+│   ├── eval.ml
+│   ├── fmt.ml
+│   ├── grammar.ml
+│   ├── lexer.ml
+│   ├── lexp.ml
+│   ├── log.ml
+│   ├── myers.ml
+│   ├── old
+│   │   ├── elaborate.ml
+│   │   ├── javascript.ml
+│   │   ├── ulexp.ml
+│   │   └── unify.ml
+│   ├── opslexp.ml
+│   ├── pexp.ml
+│   ├── prelexer.ml
+│   ├── REPL.ml
+│   ├── sexp.ml
+│   ├── subst.ml
+│   ├── tweak.ml
+│   └── util.ml
+└── tests
+    ├── elab_test.ml
+    ├── env_test.ml
+    ├── eval_test.ml
+    ├── lexp_test.ml
+    ├── macro_test.ml
+    ├── sexp_test.ml
+    ├── utest_lib.ml
+    └── utest_main.ml
+
+10 directories, 175 files
+#+end_example
+
+*** fs tree
+
+
+* bibliography
+bibliography:projet.bib
+
+bibliographystyle:unsrt
