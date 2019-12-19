@@ -20,7 +20,7 @@ neural networks are used.
 ** more generality: elliot's categorical approach
 ** category theory and type theory and constructive math
 * emacs stuff
-** typer tests
+** typer mode
 #+BEGIN_SRC emacs-lisp :results silent
 (load-file "~/academic/ift6172/typer-tp-ift6172-2019/emacs/typer-mode.el")
 #+END_SRC
@@ -43,209 +43,337 @@ let test_sexp_add dcode testfun =
   add_test "SEXP" dcode
     (fun () -> testfun (sexp_parse_str dcode))
 #+END_SRC
-** structure of typer
-*** tree
-#+name: file structure typer
-#+BEGIN_SRC sh :results verbatim
-tree ~/academic/ift6172/typer-tp-ift6172-2019
+* structure of typer
+** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/][typer-tp-ift6172-2019/]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/.gitignore][.gitignore]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/.travis.yml][.travis.yml]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/COPYING][COPYING]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/GNUmakefile][GNUmakefile]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/README.md][README.md]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/][_build/]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/_digests][_digests]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/_log][_log]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/debug_util][debug_util]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/ocamlc.where][ocamlc.where]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/][src/]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/REPL.cmi][REPL.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/REPL.cmo][REPL.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/REPL.ml][REPL.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/REPL.ml.depends][REPL.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/builtin.cmi][builtin.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/builtin.cmo][builtin.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/builtin.ml][builtin.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/builtin.ml.depends][builtin.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debruijn.cmi][debruijn.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debruijn.cmo][debruijn.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debruijn.ml][debruijn.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debruijn.ml.depends][debruijn.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debug.cmi][debug.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debug.cmo][debug.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debug.ml][debug.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debug.ml.depends][debug.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debug_util.cmi][debug_util.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debug_util.cmo][debug_util.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debug_util.ml][debug_util.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/debug_util.ml.depends][debug_util.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/elab.cmi][elab.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/elab.cmo][elab.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/elab.ml][elab.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/elab.ml.depends][elab.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/elexp.cmi][elexp.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/elexp.cmo][elexp.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/elexp.ml][elexp.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/elexp.ml.depends][elexp.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/env.cmi][env.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/env.cmo][env.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/env.ml][env.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/env.ml.depends][env.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/eval.cmi][eval.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/eval.cmo][eval.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/eval.ml][eval.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/eval.ml.depends][eval.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/fmt.cmi][fmt.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/fmt.cmo][fmt.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/fmt.ml][fmt.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/fmt.ml.depends][fmt.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/grammar.cmi][grammar.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/grammar.cmo][grammar.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/grammar.ml][grammar.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/grammar.ml.depends][grammar.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/lexer.cmi][lexer.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/lexer.cmo][lexer.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/lexer.ml][lexer.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/lexer.ml.depends][lexer.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/lexp.cmi][lexp.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/lexp.cmo][lexp.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/lexp.ml][lexp.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/lexp.ml.depends][lexp.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/log.cmi][log.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/log.cmo][log.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/log.ml][log.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/log.ml.depends][log.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/myers.cmi][myers.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/myers.cmo][myers.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/myers.ml][myers.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/myers.ml.depends][myers.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/opslexp.cmi][opslexp.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/opslexp.cmo][opslexp.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/opslexp.ml][opslexp.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/opslexp.ml.depends][opslexp.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/pexp.cmi][pexp.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/pexp.cmo][pexp.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/pexp.ml][pexp.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/pexp.ml.depends][pexp.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/prelexer.cmi][prelexer.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/prelexer.cmo][prelexer.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/prelexer.ml][prelexer.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/prelexer.ml.depends][prelexer.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/sexp.cmi][sexp.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/sexp.cmo][sexp.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/sexp.ml][sexp.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/sexp.ml.depends][sexp.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/subst.cmi][subst.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/subst.cmo][subst.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/subst.ml][subst.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/subst.ml.depends][subst.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/util.cmi][util.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/util.cmo][util.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/util.ml][util.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/src/util.ml.depends][util.ml.depends]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/][tests/]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/elab_test.byte][elab_test.byte]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/elab_test.cmi][elab_test.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/elab_test.cmo][elab_test.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/elab_test.ml][elab_test.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/elab_test.ml.depends][elab_test.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/env_test.byte][env_test.byte]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/env_test.cmi][env_test.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/env_test.cmo][env_test.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/env_test.ml][env_test.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/env_test.ml.depends][env_test.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/eval_test.byte][eval_test.byte]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/eval_test.cmi][eval_test.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/eval_test.cmo][eval_test.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/eval_test.ml][eval_test.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/eval_test.ml.depends][eval_test.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/lexp_test.byte][lexp_test.byte]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/lexp_test.cmi][lexp_test.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/lexp_test.cmo][lexp_test.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/lexp_test.ml][lexp_test.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/lexp_test.ml.depends][lexp_test.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/macro_test.byte][macro_test.byte]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/macro_test.cmi][macro_test.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/macro_test.cmo][macro_test.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/macro_test.ml][macro_test.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/macro_test.ml.depends][macro_test.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/sexp_test.byte][sexp_test.byte]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/sexp_test.cmi][sexp_test.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/sexp_test.cmo][sexp_test.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/sexp_test.ml][sexp_test.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/sexp_test.ml.depends][sexp_test.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utest_lib.cmi][utest_lib.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utest_lib.cmo][utest_lib.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utest_lib.ml][utest_lib.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utest_lib.ml.depends][utest_lib.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utest_main.cmi][utest_main.cmi]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utest_main.cmo][utest_main.cmo]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utest_main.ml][utest_main.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utest_main.ml.depends][utest_main.ml.depends]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/tests/utests][utests]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/_build/typer][typer]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/btl/][btl/]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/btl/builtins.typer][builtins.typer]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/btl/pervasive.typer][pervasive.typer]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/doc/][doc/]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/doc/Compiler Structure.md][Compiler Structure.md]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/doc/formal/][formal/]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/doc/formal/commands.tex][commands.tex]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/doc/formal/typer_theory.bib][typer_theory.bib]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/doc/formal/typer_theory.tex][typer_theory.tex]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/doc/manual.texi][manual.texi]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/doc/primer.md][primer.md]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/emacs/][emacs/]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/emacs/typer-mode.el][typer-mode.el]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/opam][opam]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/][src/]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/REPL.ml][REPL.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/builtin.ml][builtin.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/debruijn.ml][debruijn.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/debug.ml][debug.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/debug_util.ml][debug_util.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/elab.ml][elab.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/elexp.ml][elexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/env.ml][env.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/eval.ml][eval.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/fmt.ml][fmt.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/grammar.ml][grammar.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/lexer.ml][lexer.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/lexp.ml][lexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/log.ml][log.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/myers.ml][myers.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/][old/]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/elaborate.ml][elaborate.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/javascript.ml][javascript.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/ulexp.ml][ulexp.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/unify.ml][unify.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/opslexp.ml][opslexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/pexp.ml][pexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/prelexer.ml][prelexer.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/sexp.ml][sexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/subst.ml][subst.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/tweak.ml][tweak.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/util.ml][util.ml]]
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/][tests/]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/elab_test.ml][elab_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/env_test.ml][env_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/eval_test.ml][eval_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/lexp_test.ml][lexp_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/macro_test.ml][macro_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/sexp_test.ml][sexp_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/utest_lib.ml][utest_lib.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/tests/utest_main.ml][utest_main.ml]]
+** src
+*** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/][src/]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/REPL.ml][REPL.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/builtin.ml][builtin.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/debruijn.ml][debruijn.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/debug.ml][debug.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/debug_util.ml][debug_util.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/elab.ml][elab.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/elexp.ml][elexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/env.ml][env.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/eval.ml][eval.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/fmt.ml][fmt.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/grammar.ml][grammar.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/lexer.ml][lexer.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/lexp.ml][lexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/log.ml][log.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/myers.ml][myers.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/][old/]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/elaborate.ml][elaborate.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/javascript.ml][javascript.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/ulexp.ml][ulexp.ml]]
+***** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/old/unify.ml][unify.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/opslexp.ml][opslexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/pexp.ml][pexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/prelexer.ml][prelexer.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/sexp.ml][sexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/subst.ml][subst.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/tweak.ml][tweak.ml]]
+**** [[/home/gaston/academic/ift6172/typer-tp-ift6172-2019/src/util.ml][util.ml]]
+
+** reverse engineering
+
+*** util
+:PROPERTIES:
+:header-args: :tangle ./mytyper/src/util.ml
+:END:
+
+**** gg
+#+BEGIN_SRC typer
+module SMap = Map.Make (String)
+let smap_find_opt s m = try Some (SMap.find s m) with Not_found -> None
+
+module IMap = Map.Make (struct type t = int let compare = compare end)
+
+type charpos = int
+type bytepos = int
+type location = { file : string; line : int; column : charpos; docstr : string; }
+let dummy_location = {file=""; line=0; column=0; docstr=""}
 #+END_SRC
 
-#+RESULTS: file structure typer
-#+begin_example
-/home/gaston/academic/ift6172/typer-tp-ift6172-2019
-├── btl
-│   ├── builtins.typer
-│   └── pervasive.typer
-├── _build
-│   ├── debug_util
-│   ├── _digests
-│   ├── _log
-│   ├── ocamlc.where
-│   ├── src
-│   │   ├── builtin.cmi
-│   │   ├── builtin.cmo
-│   │   ├── builtin.ml
-│   │   ├── builtin.ml.depends
-│   │   ├── debruijn.cmi
-│   │   ├── debruijn.cmo
-│   │   ├── debruijn.ml
-│   │   ├── debruijn.ml.depends
-│   │   ├── debug.cmi
-│   │   ├── debug.cmo
-│   │   ├── debug.ml
-│   │   ├── debug.ml.depends
-│   │   ├── debug_util.cmi
-│   │   ├── debug_util.cmo
-│   │   ├── debug_util.ml
-│   │   ├── debug_util.ml.depends
-│   │   ├── elab.cmi
-│   │   ├── elab.cmo
-│   │   ├── elab.ml
-│   │   ├── elab.ml.depends
-│   │   ├── elexp.cmi
-│   │   ├── elexp.cmo
-│   │   ├── elexp.ml
-│   │   ├── elexp.ml.depends
-│   │   ├── env.cmi
-│   │   ├── env.cmo
-│   │   ├── env.ml
-│   │   ├── env.ml.depends
-│   │   ├── eval.cmi
-│   │   ├── eval.cmo
-│   │   ├── eval.ml
-│   │   ├── eval.ml.depends
-│   │   ├── fmt.cmi
-│   │   ├── fmt.cmo
-│   │   ├── fmt.ml
-│   │   ├── fmt.ml.depends
-│   │   ├── grammar.cmi
-│   │   ├── grammar.cmo
-│   │   ├── grammar.ml
-│   │   ├── grammar.ml.depends
-│   │   ├── lexer.cmi
-│   │   ├── lexer.cmo
-│   │   ├── lexer.ml
-│   │   ├── lexer.ml.depends
-│   │   ├── lexp.cmi
-│   │   ├── lexp.cmo
-│   │   ├── lexp.ml
-│   │   ├── lexp.ml.depends
-│   │   ├── log.cmi
-│   │   ├── log.cmo
-│   │   ├── log.ml
-│   │   ├── log.ml.depends
-│   │   ├── myers.cmi
-│   │   ├── myers.cmo
-│   │   ├── myers.ml
-│   │   ├── myers.ml.depends
-│   │   ├── opslexp.cmi
-│   │   ├── opslexp.cmo
-│   │   ├── opslexp.ml
-│   │   ├── opslexp.ml.depends
-│   │   ├── pexp.cmi
-│   │   ├── pexp.cmo
-│   │   ├── pexp.ml
-│   │   ├── pexp.ml.depends
-│   │   ├── prelexer.cmi
-│   │   ├── prelexer.cmo
-│   │   ├── prelexer.ml
-│   │   ├── prelexer.ml.depends
-│   │   ├── REPL.cmi
-│   │   ├── REPL.cmo
-│   │   ├── REPL.ml
-│   │   ├── REPL.ml.depends
-│   │   ├── sexp.cmi
-│   │   ├── sexp.cmo
-│   │   ├── sexp.ml
-│   │   ├── sexp.ml.depends
-│   │   ├── subst.cmi
-│   │   ├── subst.cmo
-│   │   ├── subst.ml
-│   │   ├── subst.ml.depends
-│   │   ├── util.cmi
-│   │   ├── util.cmo
-│   │   ├── util.ml
-│   │   └── util.ml.depends
-│   ├── tests
-│   │   ├── elab_test.byte
-│   │   ├── elab_test.cmi
-│   │   ├── elab_test.cmo
-│   │   ├── elab_test.ml
-│   │   ├── elab_test.ml.depends
-│   │   ├── env_test.byte
-│   │   ├── env_test.cmi
-│   │   ├── env_test.cmo
-│   │   ├── env_test.ml
-│   │   ├── env_test.ml.depends
-│   │   ├── eval_test.byte
-│   │   ├── eval_test.cmi
-│   │   ├── eval_test.cmo
-│   │   ├── eval_test.ml
-│   │   ├── eval_test.ml.depends
-│   │   ├── lexp_test.byte
-│   │   ├── lexp_test.cmi
-│   │   ├── lexp_test.cmo
-│   │   ├── lexp_test.ml
-│   │   ├── lexp_test.ml.depends
-│   │   ├── macro_test.byte
-│   │   ├── macro_test.cmi
-│   │   ├── macro_test.cmo
-│   │   ├── macro_test.ml
-│   │   ├── macro_test.ml.depends
-│   │   ├── sexp_test.byte
-│   │   ├── sexp_test.cmi
-│   │   ├── sexp_test.cmo
-│   │   ├── sexp_test.ml
-│   │   ├── sexp_test.ml.depends
-│   │   ├── utest_lib.cmi
-│   │   ├── utest_lib.cmo
-│   │   ├── utest_lib.ml
-│   │   ├── utest_lib.ml.depends
-│   │   ├── utest_main.cmi
-│   │   ├── utest_main.cmo
-│   │   ├── utest_main.ml
-│   │   ├── utest_main.ml.depends
-│   │   └── utests
-│   └── typer
-├── COPYING
-├── doc
-│   ├── Compiler Structure.md
-│   ├── formal
-│   │   ├── commands.tex
-│   │   ├── typer_theory.bib
-│   │   └── typer_theory.tex
-│   ├── manual.texi
-│   └── primer.md
-├── emacs
-│   └── typer-mode.el
-├── GNUmakefile
-├── opam
-├── README.md
-├── src
-│   ├── builtin.ml
-│   ├── debruijn.ml
-│   ├── debug.ml
-│   ├── debug_util.ml
-│   ├── elab.ml
-│   ├── elexp.ml
-│   ├── env.ml
-│   ├── eval.ml
-│   ├── fmt.ml
-│   ├── grammar.ml
-│   ├── lexer.ml
-│   ├── lexp.ml
-│   ├── log.ml
-│   ├── myers.ml
-│   ├── old
-│   │   ├── elaborate.ml
-│   │   ├── javascript.ml
-│   │   ├── ulexp.ml
-│   │   └── unify.ml
-│   ├── opslexp.ml
-│   ├── pexp.ml
-│   ├── prelexer.ml
-│   ├── REPL.ml
-│   ├── sexp.ml
-│   ├── subst.ml
-│   ├── tweak.ml
-│   └── util.ml
-└── tests
-    ├── elab_test.ml
-    ├── env_test.ml
-    ├── eval_test.ml
-    ├── lexp_test.ml
-    ├── macro_test.ml
-    ├── sexp_test.ml
-    ├── utest_lib.ml
-    └── utest_main.ml
+**** debruijn
+#+BEGIN_SRC typer
+type vname = location * string option
+type db_index = int             (* DeBruijn index.  *)
+type db_offset = int            (* DeBruijn index offset.  *)
+type db_revindex = int          (* DeBruijn index counting from the root.  *)
+type vref = (location * string list) * db_index
 
-10 directories, 175 files
-#+end_example
+type bottom = | B_o_t_t_o_m_ of bottom
 
-*** fs tree
+(* print debug info *)
+let loc_string loc =
+  "Ln " ^ (Fmt.ralign_int loc.line 3) ^ ", cl " ^ (Fmt.ralign_int loc.column 3)
 
+let loc_print loc = print_string (loc_string loc)
 
+let string_implode chars = String.concat "" (List.map (String.make 1) chars)
+let string_sub str b e = String.sub str b (e - b)
+
+(* `String.uppercase` is deprecated since OCaml-4.03, but the replacement
+ * `String.uppercase_ascii` is not yet available in Debian stable's `ocaml`.  *)
+let string_uppercase s = String.uppercase s
+
+let opt_map f x = match x with None -> None | Some x -> Some (f x)
+
+let str_split str sep =
+    let str = String.trim str in
+    let n = String.length str in
+
+    if n = 0 then []
+    else (
+
+        let ret = ref [] in
+        let buffer = Buffer.create 10 in
+            Buffer.add_char buffer (str.[0]);
+
+        for i = 1 to n - 1 do
+            if str.[i] = sep then (
+                ret := (Buffer.contents buffer)::(!ret);
+                Buffer.reset buffer)
+            else
+                Buffer.add_char buffer (str.[i]);
+        done;
+        (if (Buffer.length buffer) > 0 then
+            ret := (Buffer.contents buffer)::(!ret));
+
+        List.rev (!ret))
+
+let utf8_head_p (c : char) : bool
+  = Char.code c < 128 || Char.code c >= 192
+
+(* Display size of `str`, assuming the byte-sequence is UTF-8.
+ * Very naive: doesn't pay attention to LF, TABs, double-width chars, ...  *)
+let string_width (s : string) : int =
+  let rec width i w =
+    if i < 0 then w
+    else width (i - 1)
+               (if utf8_head_p (String.get s i)
+                then w + 1
+                else w) in
+  width (String.length s - 1) 0
+
+let padding_right (str: string ) (dim: int ) (char_: char) : string =
+  let diff = (dim - string_width str)
+  in let rpad = max diff 0
+  in str ^ (String.make rpad char_)
+
+let padding_left (str: string ) (dim: int ) (char_: char) : string =
+  let diff = (dim - string_width str)
+  in let lpad = max diff 0
+  in (String.make lpad char_) ^ str
+
+let option_default (default : 'a) (opt : 'a option) : 'a =
+  match opt with
+  | None -> default
+  | Some x -> x
+
+let option_map (fn : 'a -> 'b) (opt : 'a option) : 'b option =
+  match opt with
+  | None -> None
+  | Some x -> Some (fn x)
+
+#+END_SRC
+
+* ocaml stuff
+** map.make
+#+BEGIN_QUOTE
+module Make:
+functor (Ord : OrderedType) -> S  with type key = Ord.t
+Functor building an implementation of the map structure given a totally ordered type.
+#+END_QUOTE
 * bibliography
 bibliography:projet.bib
-
 bibliographystyle:unsrt
+

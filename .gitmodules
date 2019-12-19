@@ -1,0 +1,6 @@
+[submodule "org-fs-tree"]
+	path = org-fs-tree
+	url = git@github.com:ScriptDevil/org-fs-tree.git
+[submodule "typer"]
+	path = typer
+	url = https://gitlab.com/monnier/typer.git
