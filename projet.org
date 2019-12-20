@@ -6,6 +6,522 @@
 #+todo: idea(i) fixme(r) todo(t) inprog(p) wait(w) | done(d)
 
 
+* intro
+** abstract
+Peter Norvig quote
+
+
+** motivation
+Numerical programming is mostly linear programming
+in the end, although it is even more obvious when
+neural networks are used.
+
+#+name: xkcd
+#+attr_org: :width 300
+[[attach:_20191219_064117machine_learning.png]]
+
+
+** big picture
+
+We can delineate the main approaches to AD as follows:
+
+- traditional : source to source transformation of mostly high performance imperative code, focus on C and Fortran
+
+- dynamic source to source (s2s):
+  in some cases JIT compilation (flux in Julia targetting the LLVM) blurs the
+  line between compiled and interpreted differentiated code.
+
+- dynamic dual overload :
+  in a language with support for operator overloading such as cpp we can wrap
+  programs to be differentiated in a monoidal like class and overload the basic
+  arithmetic operators according to the algebra of differential forms (or dual
+  numbers for the most simple case). In any case the foundation is introducing a
+  nilpotent element, say $$\epsilon $$ , with $$ \epsilon ^ {2} \triangleq 0 $$
+
+- formal-functional (s2s):
+  differentiation can be integrated within a type system thus allowing
+  compilation to fast parralelizable code through enforcing invariants such as
+  purity. Moroever polymorphism can be leveraged for fast, provenly correct yet
+  flexible code.
+
+  We will focus on the latest
+
+
+** end
+
+
+* lit review
+
+** functional approach to ad
+
+- cite:Pearlmutter_2008
+
+
+** array programming
+
+- cite:array2019
+
+** end
+
+* code
+** typer
+#+BEGIN_SRC typer
+open Sexp
+     open Lexer
+     open Utest_lib
+
+     let sexp_parse_str dcode
+         = sexp_parse_str dcode Grammar.default_stt Grammar.default_grammar (Some ";")
+
+                          let test_sexp_add dcode testfun =
+                                add_test "SEXP" dcode
+                                         (fun () -> testfun (sexp_parse_str dcode))
+#+END_SRC
+** end
+
+
+* structure of typer
+** [[/home/gaston/academic/ift6172/typer/][typer/]]
+*** [[/home/gaston/academic/ift6172/typer/.git][.git]]
+*** [[/home/gaston/academic/ift6172/typer/.gitignore][.gitignore]]
+*** [[/home/gaston/academic/ift6172/typer/.travis.yml][.travis.yml]]
+*** [[/home/gaston/academic/ift6172/typer/COPYING][COPYING]]
+*** [[/home/gaston/academic/ift6172/typer/GNUmakefile][GNUmakefile]]
+*** [[/home/gaston/academic/ift6172/typer/README.md][README.md]]
+*** [[/home/gaston/academic/ift6172/typer/btl/][btl/]]
+**** [[/home/gaston/academic/ift6172/typer/btl/builtins.typer][builtins.typer]]
+**** [[/home/gaston/academic/ift6172/typer/btl/pervasive.typer][pervasive.typer]]
+*** [[/home/gaston/academic/ift6172/typer/doc/][doc/]]
+**** [[/home/gaston/academic/ift6172/typer/doc/Compiler Structure.md][Compiler Structure.md]]
+**** [[/home/gaston/academic/ift6172/typer/doc/formal/][formal/]]
+***** [[/home/gaston/academic/ift6172/typer/doc/formal/commands.tex][commands.tex]]
+***** [[/home/gaston/academic/ift6172/typer/doc/formal/typer_theory.bib][typer_theory.bib]]
+***** [[/home/gaston/academic/ift6172/typer/doc/formal/typer_theory.tex][typer_theory.tex]]
+**** [[/home/gaston/academic/ift6172/typer/doc/manual.texi][manual.texi]]
+**** [[/home/gaston/academic/ift6172/typer/doc/primer.md][primer.md]]
+*** [[/home/gaston/academic/ift6172/typer/emacs/][emacs/]]
+**** [[/home/gaston/academic/ift6172/typer/emacs/typer-mode.el][typer-mode.el]]
+*** [[/home/gaston/academic/ift6172/typer/opam][opam]]
+*** [[/home/gaston/academic/ift6172/typer/src/][src/]]
+**** [[/home/gaston/academic/ift6172/typer/src/REPL.ml][REPL.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/builtin.ml][builtin.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/debruijn.ml][debruijn.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/debug.ml][debug.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/debug_util.ml][debug_util.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/elab.ml][elab.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/elexp.ml][elexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/env.ml][env.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/eval.ml][eval.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/fmt.ml][fmt.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/grammar.ml][grammar.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/lexer.ml][lexer.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/lexp.ml][lexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/log.ml][log.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/myers.ml][myers.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/old/][old/]]
+***** [[/home/gaston/academic/ift6172/typer/src/old/elaborate.ml][elaborate.ml]]
+***** [[/home/gaston/academic/ift6172/typer/src/old/javascript.ml][javascript.ml]]
+***** [[/home/gaston/academic/ift6172/typer/src/old/ulexp.ml][ulexp.ml]]
+***** [[/home/gaston/academic/ift6172/typer/src/old/unify.ml][unify.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/opslexp.ml][opslexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/pexp.ml][pexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/prelexer.ml][prelexer.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/sexp.ml][sexp.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/subst.ml][subst.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/tweak.ml][tweak.ml]]
+**** [[/home/gaston/academic/ift6172/typer/src/util.ml][util.ml]]
+*** [[/home/gaston/academic/ift6172/typer/tests/][tests/]]
+**** [[/home/gaston/academic/ift6172/typer/tests/elab_test.ml][elab_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer/tests/env_test.ml][env_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer/tests/eval_test.ml][eval_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer/tests/lexp_test.ml][lexp_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer/tests/macro_test.ml][macro_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer/tests/sexp_test.ml][sexp_test.ml]]
+**** [[/home/gaston/academic/ift6172/typer/tests/utest_lib.ml][utest_lib.ml]]
+**** [[/home/gaston/academic/ift6172/typer/tests/utest_main.ml][utest_main.ml]]
+
+** reverse engineering :notmine:
+*** util
+:PROPERTIES:
+:header-args: :tangle ./mytyper/src/util.ml
+:END:
+**** first
+
+map module and file type declaration
+#+BEGIN_SRC ocaml
+module SMap = Map.Make (String)
+let smap_find_opt s m = try Some (SMap.find s m) with Not_found -> None (*debian stuff*)
+module IMap = Map.Make (struct type t = int let compare = compare end) (*int map*)
+
+type charpos = int
+type bytepos = int
+type location = { file : string;
+                  line : int;
+                  column : charpos;
+                  docstr : string;
+                }
+let dummy_location = {file=""; line=0; column=0; docstr=""}
+#+END_SRC
+
+**** then
+
+- what it do :: types for parse tree
+
+#+BEGIN_SRC ocaml
+type vname = location * string option
+type db_index = int             (* DeBruijn index.  *)
+type db_offset = int            (* DeBruijn index offset.  *)
+type db_revindex = int          (* DeBruijn index counting from the root.  *)
+type vref = (location * string list) * db_index
+type bottom = | B_o_t_t_o_m_ of bottom
+#+END_SRC
+
+**** then
+- what it do :: printing stuff
+- libraries :
+  - [[https://opam.ocaml.org/packages/fmt/][fmt]] :: format pretty printer combinators
+
+#+BEGIN_SRC ocaml
+let loc_string loc =
+  "Ln " ^ (Fmt.ralign_int loc.line 3) ^ ", cl " ^ (Fmt.ralign_int loc.column 3)
+let loc_print loc = print_string (loc_string loc)
+let string_implode chars = String.concat "" (List.map (String.make 1) chars)
+let string_sub str b e = String.sub str b (e - b)
+let string_uppercase s = String.uppercase s
+let opt_map f x = match x with None -> None | Some x -> Some (f x)
+#+END_SRC
+
+#+name: str_split
+#+BEGIN_SRC ocaml
+let str_split str sep =
+  let str = String.trim str in
+  let n = String.length str in
+
+  if n = 0 then []
+  else (
+    let ret = ref [] in
+    let buffer = Buffer.create 10 in Buffer.add_char buffer (str.[0]);
+
+    for i = 1 to n - 1 do
+      if str.[i] = sep then (
+        ret := (Buffer.contents buffer)::(!ret);
+        Buffer.reset buffer)
+      else
+        Buffer.add_char buffer (str.[i]);
+    done;
+
+    (if (Buffer.length buffer) > 0 then
+       ret := (Buffer.contents buffer)::(!ret));
+
+    List.rev (!ret))
+#+END_SRC
+
+#+name: utf8_head_p
+#+BEGIN_SRC ocaml
+let utf8_head_p (c : char) : bool
+  = Char.code c < 128 || Char.code c >= 192
+#+END_SRC
+
+#+BEGIN_SRC ocaml
+(* Display size of `str`, assuming the byte-sequence is UTF-8.
+ ,* Very naive: doesn't pay attention to LF, TABs, double-width chars, ...  *)
+let string_width (s : string) : int =
+  let rec width i w =
+    if i < 0 then w
+    else width (i - 1)
+        (if utf8_head_p (String.get s i)
+         then w + 1
+         else w) in
+  width (String.length s - 1) 0
+
+let padding_right (str: string ) (dim: int ) (char_: char) : string =
+  let diff = (dim - string_width str)
+  in let rpad = max diff 0
+  in str ^ (String.make rpad char_)
+
+let padding_left (str: string ) (dim: int ) (char_: char) : string =
+  let diff = (dim - string_width str)
+  in let lpad = max diff 0
+  in (String.make lpad char_) ^ str
+
+let option_default (default : 'a) (opt : 'a option) : 'a =
+  match opt with
+  | None -> default
+  | Some x -> x
+
+let option_map (fn : 'a -> 'b) (opt : 'a option) : 'b option =
+  match opt with
+  | None -> None
+  | Some x -> Some (fn x)
+
+#+END_SRC
+
+*** prelexer
+The prelexer outlines nested block structure of program so that
+we don't have to recursively traverse all of the blocks at once.
+
+#+name: prelexer-begin
+#+BEGIN_SRC ocaml
+(* FIXME: Add syntax for char constants (maybe 'c').  *)
+(* FIXME: Handle multiline strings.  *)
+open Util
+
+let prelexer_error loc = Log.log_error ~section:"PRELEXER" ~loc
+
+type pretoken =
+  | Pretoken of location * string
+  | Prestring of location * string
+  | Preblock of location * pretoken list * location
+
+let inc_cp (cp:charpos) (c:char) =
+  if utf8_head_p c then cp+1 else cp
+
+let rec prelex (file : string) (getline : unit -> string) ln ctx acc (doc : string)
+  : pretoken list =
+  try
+    let line = getline () in
+    let limit = String.length line in
+    let nextline = prelex file getline (ln + 1) in
+    let rec prelex' ctx (bpos:bytepos) (cpos:charpos) acc doc =
+      let nexttok = prelex' ctx in
+      if bpos >= limit then nextline ctx acc doc
+      else
+        match line.[bpos] with
+        | c when c <= ' ' -> nexttok (bpos+1) (cpos+1) acc doc
+        | '%' -> nextline ctx acc doc (* A comment.  *)
+        (* line's bounds seems ok: String.sub line 1 0 == "" *)
+        | '@' -> nextline ctx acc (String.concat "\n" [doc; (String.sub line 1 (limit - 1))])
+        | '"'                         (* A string.  *)
+          -> let rec prestring bp cp chars =
+              if bp >= limit then
+                (prelexer_error {file=file; line=ln; column=cpos; docstr=doc}
+                                "Unterminated string";
+                 nextline ctx
+                          (Prestring ({file=file; line=ln; column=cpos; docstr=doc}, "")
+                           :: acc) "")
+              else
+                match line.[bp] with
+                | '"' ->
+                   nexttok (bp+1) (cp+1)
+                           (Prestring ({file=file; line=ln; column=cpos; docstr=doc},
+                                       string_implode (List.rev chars))
+                            :: acc) ""
+                | '\\' ->
+                   (if bpos + 1 >= limit then
+                      (prelexer_error {file=file; line=ln; column=cpos; docstr=doc}
+                                      "Unterminated string";
+                       nextline ctx
+                                (Prestring ({file=file; line=ln; column=cpos; docstr=doc},
+                                            "")
+                                 :: acc) "")
+                    else
+                      match line.[bp + 1] with
+                      | 't' -> prestring (bp+2) (cp+2) ('\t' :: chars)
+                      | 'n' -> prestring (bp+2) (cp+2) ('\n' :: chars)
+                      | 'r' -> prestring (bp+2) (cp+2) ('\r' :: chars)
+                      | ('u' | 'U') ->
+                         prelexer_error {file=file; line=ln; column=cp; docstr=doc}
+                                        "Unimplemented unicode escape";
+                         prestring (bp+2) (cp+2) chars
+                      | char -> prestring (bp+2) (cp+2) (char :: chars))
+                | char -> prestring (bp+1) (inc_cp cp char) (char :: chars)
+            in prestring (bpos+1) (cpos+1) []
+        | '{' -> prelex' ((ln, cpos, bpos, acc) :: ctx) (bpos+1) (cpos+1) [] doc
+        | '}'
+          -> (match ctx with
+             | ((sln, scpos, sbpos, sacc) :: ctx) ->
+                prelex' ctx (bpos+1) (cpos+1)
+                        (Preblock ({file=file; line=sln; column=scpos; docstr=doc},
+                                   List.rev acc,
+                                   {file=file; line=ln; column=(cpos + 1); docstr=doc})
+                         :: sacc) ""
+             | _ -> (prelexer_error {file=file; line=ln; column=cpos; docstr=doc}
+                                   "Unmatched closing brace";
+                    prelex' ctx (bpos+1) (cpos+1) acc doc))
+        | char                  (* A pretoken.  *)
+          -> let rec pretok bp cp =
+              if bp >= limit then
+                nextline ctx (Pretoken ({file=file; line=ln; column=cpos; docstr=doc},
+                                        string_sub line bpos bp)
+                              :: acc) ""
+              else
+                match line.[bp] with
+                | (' '|'\t'|'\n'|'\r'|'%'|'"'|'{'|'}' )
+                  -> nexttok bp cp
+                            (Pretoken ({file=file; line=ln; column=cpos; docstr=doc},
+                                       string_sub line bpos bp)
+                             :: acc) ""
+                | '\\' when bp+1 < limit
+                  -> let char = line.[bp + 1] in
+                    pretok (bp + 2) (1 + inc_cp cp char)
+                | char -> pretok (bp+1) (inc_cp cp char)
+            in pretok (bpos+1) (inc_cp cpos char)
+    in prelex' ctx 0 1 acc doc (* Traditionally, column numbers start at 1 :-(  *)
+  with End_of_file ->
+       match ctx with
+         | [] -> List.rev acc
+         | ((ln, cpos, _, _) :: ctx) ->
+           (prelexer_error {file=file; line=ln; column=cpos; docstr=""}
+                      "Unmatched opening brace"; List.rev acc)
+
+#+END_SRC
+
+#+name: prelexer-rest
+#+BEGIN_SRC ocaml
+let prelex_file file =
+  let fin = open_in file
+  in prelex file (fun _ -> input_line fin)
+    (* Traditionally, line numbers start at 1 :-(  *)
+    1 [] [] ""
+
+let prelex_string str =
+  let pos = ref 0 in
+  let getline () =
+    let start = !pos in
+    if start >= String.length str then raise End_of_file else
+      let i = try String.index_from str start '\n'
+        with Not_found -> String.length str - 1 in
+      let npos = i + 1 in
+      pos := npos;
+      let line = string_sub str start npos in
+      line
+  in prelex "<string>" getline 1 [] [] ""
+
+let pretoken_name pretok =
+  match pretok with
+  | Pretoken  _ -> "Pretoken"
+  | Prestring _ -> "Prestring"
+  | Preblock  _ -> "Preblock"
+
+let rec pretoken_string pretok =
+  match pretok with
+  | Preblock(_,pts,_) ->
+    "{" ^ (List.fold_left (fun str pts -> str ^ " " ^ (pretoken_string pts)) "" pts) ^ " }"
+  | Pretoken(_, str)  -> str
+  | Prestring(_, str) -> "\"" ^ str ^ "\""
+
+let pretokens_string pretokens =
+  List.fold_left (fun str pt -> str ^ (pretoken_string pt)) "" pretokens
+
+let pretokens_print p = print_string (pretokens_string p)
+
+let rec pretokens_equal p1 p2 = match p1, p2 with
+  | Pretoken (_, s1), Pretoken (_, s2) -> s1 = s2
+  | Prestring (_, s1), Prestring (_, s2) -> s1 = s2
+  | Preblock (_, ps1, _), Preblock (_, ps2, _) ->
+    pretokens_eq_list ps1 ps2
+  | _ -> false
+and pretokens_eq_list ps1 ps2 = match ps1, ps2 with
+  | [], [] -> true
+  | (p1 :: ps1), (p2 :: ps2) ->
+    pretokens_equal p1 p2 && pretokens_eq_list ps1 ps2
+  | _ -> false
+#+END_SRC
+
+*** grammar
+
+#+BEGIN_QUOTE
+(* A token_end array indicates the few chars which are separate tokens,
+ * even if not surrounded by spaces, such as '(', ')', and ';'.
+ * It also indicates which chars are "inner" operators, i.e. those chars
+ * that make up the inner structure of structured identifiers such as
+ * foo.bar.baz.  *)
+
+(* FIXME: it should be possible to make something like "." bind tighter than
+   function application.  *)
+(* FIXME: what about sections, as in "if_then e1 else_"?  *)
+#+END_QUOTE
+
+#+BEGIN_SRC ocaml
+open Util
+
+type grammar = (int option * int option) SMap.t
+
+type char_kind = | CKnormal | CKseparate | CKinner of int
+type token_env = char_kind array
+let default_stt : token_env =
+  let stt = Array.make 256 CKnormal
+  in stt.(Char.code ';') <- CKseparate;
+     stt.(Char.code ',') <- CKseparate;
+     stt.(Char.code '(') <- CKseparate;
+     stt.(Char.code ')') <- CKseparate;
+     stt.(Char.code '.') <- CKinner 5;
+     stt
+
+(* default_grammar is auto-generated from typer-smie-grammar via:
+
+  (dolist (x typer-smie-grammar)
+   (when (stringp (car x))
+     (insert "(\"" (car x) "\", "
+             (if (numberp (nth 1 x)) (format "Some %d" (nth 1 x)) "None") ", "
+             (if (numberp (nth 2 x)) (format "Some %d" (nth 2 x)) "None")
+             ");\n")))
+ *)
+let default_grammar : grammar =
+    List.fold_left (fun g (n, ll, rl) -> SMap.add n (ll, rl) g)
+        SMap.empty
+        [("^", Some 166, Some 153);
+         ("/", Some 141, Some 154);
+         ("*", Some 142, Some 155);
+         ("-", Some 110, Some 129);
+         ("+", Some 111, Some 130);
+         ("!=", Some 112, Some 90);
+         (">=", Some 113, Some 91);
+         ("<=", Some 114, Some 92);
+         (">", Some 115, Some 93);
+         ("<", Some 116, Some 94);
+         ("==", Some 117, Some 95);
+         ("&&", Some 78, Some 96);
+         ("||", Some 53, Some 65);
+         (",", Some 41, Some 41);
+         ("::", Some 167, Some 17);
+         (":::", Some 168, Some 16);
+         (* ("then", Some 2, Some 1); *)
+         (";", Some 14, Some 14);
+         ("type", None, Some 30);
+         ("=", Some 28, Some 29);
+         (":=", Some 170, Some 15);
+         ("in", Some 3, Some 67);
+         (* ("else", Some 1, Some 66); *)
+         ("|", Some 54, Some 54);
+         (")", Some 0, None);
+         ("->", Some 118, Some 99);
+         ("=>", Some 118, Some 98);
+         ("≡>", Some 118, Some 97);
+         ("let", None, Some 3);
+         (":", Some 79, Some 79);
+         ("lambda", None, Some 118);
+         ("case", None, Some 42);
+         (* ("if", None, Some 2); *)
+         ("(", None, Some 0)
+        ]
+
+#+END_SRC
+
+** end
+
+
+
+
+* ocaml stuff
+** map.make
+   #+BEGIN_QUOTE
+   module Make:
+   functor (Ord : OrderedType) -> S  with type key = Ord.t
+   Functor building an implementation of the map structure given a totally ordered type.
+   #+END_QUOTE
+** end
+
+
+
+* scrapbook
+** typer and ocaml compilation
+** inductive types and coq theory
+** more generality: elliot's categorical approach
+** category theory and type theory and constructive math
+** end
+
+
 * local setup
 ** submodules
 *** typer lang
@@ -353,239 +869,12 @@ with one of the formats [[PROTOCOL:LINK]] or [[PROTOCOL:LINK][DESCRIPTION]] are 
 #+attr_org: :width 200
 [[yt:-kVGAIC-QkM]]
 
-** end
-
-
-* scrapbook
-** lin algebra motivation
-
-Numerical programming is mostly linear programming
-in the end, although it is even more obvious when
-neural networks are used.
-
-#+name: xkcd
-#+attr_org: :width 300
-   [[attach:_20191219_064117machine_learning.png]]
-** functional approach to ad
-- cite:Pearlmutter_2008
-** array programming
-- cite:array2019
-
-** typer and ocaml compilation
-** inductive types and coq theory
-** more generality: elliot's categorical approach
-** category theory and type theory and constructive math
-** end
-
-
-* code
-** typer
-   #+BEGIN_SRC typer
-open Sexp
-     open Lexer
-     open Utest_lib
-
-     let sexp_parse_str dcode
-         = sexp_parse_str dcode Grammar.default_stt Grammar.default_grammar (Some ";")
-
-                          let test_sexp_add dcode testfun =
-                                add_test "SEXP" dcode
-                                         (fun () -> testfun (sexp_parse_str dcode))
-   #+END_SRC
-** end
-
-
-* structure of typer
-** [[/home/gaston/academic/ift6172/typer/][typer/]]
-*** [[/home/gaston/academic/ift6172/typer/.git][.git]]
-*** [[/home/gaston/academic/ift6172/typer/.gitignore][.gitignore]]
-*** [[/home/gaston/academic/ift6172/typer/.travis.yml][.travis.yml]]
-*** [[/home/gaston/academic/ift6172/typer/COPYING][COPYING]]
-*** [[/home/gaston/academic/ift6172/typer/GNUmakefile][GNUmakefile]]
-*** [[/home/gaston/academic/ift6172/typer/README.md][README.md]]
-*** [[/home/gaston/academic/ift6172/typer/btl/][btl/]]
-**** [[/home/gaston/academic/ift6172/typer/btl/builtins.typer][builtins.typer]]
-**** [[/home/gaston/academic/ift6172/typer/btl/pervasive.typer][pervasive.typer]]
-*** [[/home/gaston/academic/ift6172/typer/doc/][doc/]]
-**** [[/home/gaston/academic/ift6172/typer/doc/Compiler Structure.md][Compiler Structure.md]]
-**** [[/home/gaston/academic/ift6172/typer/doc/formal/][formal/]]
-***** [[/home/gaston/academic/ift6172/typer/doc/formal/commands.tex][commands.tex]]
-***** [[/home/gaston/academic/ift6172/typer/doc/formal/typer_theory.bib][typer_theory.bib]]
-***** [[/home/gaston/academic/ift6172/typer/doc/formal/typer_theory.tex][typer_theory.tex]]
-**** [[/home/gaston/academic/ift6172/typer/doc/manual.texi][manual.texi]]
-**** [[/home/gaston/academic/ift6172/typer/doc/primer.md][primer.md]]
-*** [[/home/gaston/academic/ift6172/typer/emacs/][emacs/]]
-**** [[/home/gaston/academic/ift6172/typer/emacs/typer-mode.el][typer-mode.el]]
-*** [[/home/gaston/academic/ift6172/typer/opam][opam]]
-*** [[/home/gaston/academic/ift6172/typer/src/][src/]]
-**** [[/home/gaston/academic/ift6172/typer/src/REPL.ml][REPL.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/builtin.ml][builtin.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/debruijn.ml][debruijn.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/debug.ml][debug.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/debug_util.ml][debug_util.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/elab.ml][elab.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/elexp.ml][elexp.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/env.ml][env.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/eval.ml][eval.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/fmt.ml][fmt.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/grammar.ml][grammar.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/lexer.ml][lexer.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/lexp.ml][lexp.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/log.ml][log.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/myers.ml][myers.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/old/][old/]]
-***** [[/home/gaston/academic/ift6172/typer/src/old/elaborate.ml][elaborate.ml]]
-***** [[/home/gaston/academic/ift6172/typer/src/old/javascript.ml][javascript.ml]]
-***** [[/home/gaston/academic/ift6172/typer/src/old/ulexp.ml][ulexp.ml]]
-***** [[/home/gaston/academic/ift6172/typer/src/old/unify.ml][unify.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/opslexp.ml][opslexp.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/pexp.ml][pexp.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/prelexer.ml][prelexer.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/sexp.ml][sexp.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/subst.ml][subst.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/tweak.ml][tweak.ml]]
-**** [[/home/gaston/academic/ift6172/typer/src/util.ml][util.ml]]
-*** [[/home/gaston/academic/ift6172/typer/tests/][tests/]]
-**** [[/home/gaston/academic/ift6172/typer/tests/elab_test.ml][elab_test.ml]]
-**** [[/home/gaston/academic/ift6172/typer/tests/env_test.ml][env_test.ml]]
-**** [[/home/gaston/academic/ift6172/typer/tests/eval_test.ml][eval_test.ml]]
-**** [[/home/gaston/academic/ift6172/typer/tests/lexp_test.ml][lexp_test.ml]]
-**** [[/home/gaston/academic/ift6172/typer/tests/macro_test.ml][macro_test.ml]]
-**** [[/home/gaston/academic/ift6172/typer/tests/sexp_test.ml][sexp_test.ml]]
-**** [[/home/gaston/academic/ift6172/typer/tests/utest_lib.ml][utest_lib.ml]]
-**** [[/home/gaston/academic/ift6172/typer/tests/utest_main.ml][utest_main.ml]]
-
-** reverse engineering
-*** util
-    :PROPERTIES:
-    :header-args: :tangle ./mytyper/src/util.ml
-    :END:
-**** first
-
-     map module and file type declaration
-     #+BEGIN_SRC typer
-module SMap = Map.Make (String)
-                 let smap_find_opt s m = try Some (SMap.find s m) with Not_found -> None (*debian stuff*)
-
-                                                                                         module IMap = Map.Make (struct type t = int let compare = compare end) (*int map*)
-
-                                                                                                          type charpos = int
-                                                                                                                             type bytepos = int
-                                                                                                                                                type location = { file : string;
-                                                                                                                                                                  line : int;
-                                                                                                                                                                  column : charpos;
-                                                                                                                                                                  docstr : string;
-                                                                                                                                                                }
-                                                                                                                                                                    let dummy_location = {file=""; line=0; column=0; docstr=""}
-     #+END_SRC
-
-**** then
-
-     - what it do :: types for parse tree
-
-     #+BEGIN_SRC typer
-type vname = location * string option
-                               type db_index = int             (* DeBruijn index.  *)
-                                                               type db_offset = int            (* DeBruijn index offset.  *)
-                                                                                               type db_revindex = int          (* DeBruijn index counting from the root.  *)
-                                                                                                                               type vref = (location * string list) * db_index
-                                                                                                                                                                          type bottom = | B_o_t_t_o_m_ of bottom
-     #+END_SRC
-
-**** then
-     - what it do :: printing stuff
-     - libraries:
-       - [[https://opam.ocaml.org/packages/fmt/][fmt]] :: format pretty printer combinators
-
-     #+BEGIN_SRC typer
-let loc_string loc =
-      "Ln " ^ (Fmt.ralign_int loc.line 3) ^ ", cl " ^ (Fmt.ralign_int loc.column 3)
-                                                          let loc_print loc = print_string (loc_string loc)
-                                                                                           let string_implode chars = String.concat "" (List.map (String.make 1) chars)
-                                                                                                                            let string_sub str b e = String.sub str b (e - b)
-                                                                                                                                                           let string_uppercase s = String.uppercase s
-                                                                                                                                                                                          let opt_map f x = match x with None -> None | Some x -> Some (f x)
-     #+END_SRC
-
-     #+name: str_split
-     #+BEGIN_SRC typer
-let str_split str sep =
-      let str = String.trim str in
-      let n = String.length str in
-
-      if n = 0 then []
-      else (
-          let ret = ref [] in
-          let buffer = Buffer.create 10 in Buffer.add_char buffer (str.[0]);
-
-          for i = 1 to n - 1 do
-                             if str.[i] = sep then (
-                                 ret := (Buffer.contents buffer)::(!ret);
-                                 Buffer.reset buffer)
-                             else
-                                 Buffer.add_char buffer (str.[i]);
-          done;
-          (if (Buffer.length buffer) > 0 then
-               ret := (Buffer.contents buffer)::(!ret));
-
-          List.rev (!ret))
-     #+END_SRC
-
-     #+name: utf8_head_p
-     #+BEGIN_SRC typer
-let utf8_head_p (c : char) : bool
-    = Char.code c < 128 || Char.code c >= 192
-     #+END_SRC
-
-     #+BEGIN_SRC typer
-(* Display size of `str`, assuming the byte-sequence is UTF-8.
- ,* Very naive: doesn't pay attention to LF, TABs, double-width chars, ...  *)
-    let string_width (s : string) : int =
-          let rec width i w =
-                if i < 0 then w
-                else width (i - 1)
-                           (if utf8_head_p (String.get s i)
-                            then w + 1
-                            else w) in
-          width (String.length s - 1) 0
-
-                let padding_right (str: string ) (dim: int ) (char_: char) : string =
-                      let diff = (dim - string_width str)
-                      in let rpad = max diff 0
-                         in str ^ (String.make rpad char_)
-
-                                      let padding_left (str: string ) (dim: int ) (char_: char) : string =
-                                            let diff = (dim - string_width str)
-                                            in let lpad = max diff 0
-                                               in (String.make lpad char_) ^ str
-
-                                                                                 let option_default (default : 'a) (opt : 'a option) : 'a =
-                                                                                       match opt with
-                                                                                     | None -> default
-                                                                                     | Some x -> x
-
-                                                                                                     let option_map (fn : 'a -> 'b) (opt : 'a option) : 'b option =
-                                                                                                           match opt with
-                                                                                                         | None -> None
-                                                                                                         | Some x -> Some (fn x)
-
-     #+END_SRC
-
+#+name: hip hop mix
+#+attr_org: :width 200
+[[yt:ryk9m3-RYD8]]
+- 1h26
 
 ** end
-
-
-
-
-* ocaml stuff
-** map.make
-   #+BEGIN_QUOTE
-   module Make:
-   functor (Ord : OrderedType) -> S  with type key = Ord.t
-   Functor building an implementation of the map structure given a totally ordered type.
-   #+END_QUOTE
-** end
-
 
 
 * end
