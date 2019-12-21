@@ -61,103 +61,105 @@ neural networks are used.
 * lit review
 
 ** abstracts
-- Backpropagator cite:Pearlmutter_2008
-  #+BEGIN_QUOTE
-  We show that reverse-mode AD (Automatic Differentiation)—a generalized gradient-calculation
-  operator—can be incorporated as a first-class function in an augmented lambda calculus, and
-  therefore into a functional-programming language. Closure is achieved, in that the new operator
-  can be applied to any expression in the augmented language, yielding an expression in that
-  language. This requires the resolution of two major technical issues: (a) how to transform nested
-  lambda expressions, including those with free-variable references, and (b) how to support self
-  application of the AD machinery. AD transformations preserve certain complexity properties,
-  among them that the reverse phase of the reverse-mode AD transformation of a function have
-  the same temporal complexity as the original untransformed function. First-class unrestricted
-  AD operators increase the expressive power available to the numeric programmer, and may have
-  significant practical implications for the construction of numeric software that is robust, modular,
-  concise, correct, and efficient.
-  #+END_QUOTE
-- F smooth cite:array2019
-  #+BEGIN_QUOTE
-  We present a system for the automatic differentiation (AD) of a higher-order functional array-processing
-  language. The core functional language underlying this system simultaneously supports both source-to-
-  source forward-mode AD and global optimisations such as loop transformations. In combination, gradient
-  computation with forward-mode AD can be as efficient as reverse mode, and that the Jacobian matrices required
-  for numerical algorithms such as Gauss-Newton and Levenberg-Marquardt can be efficiently computed.
-  #+END_QUOTE
-- Mya : cite:autoDiffInML2018
-  #+BEGIN_QUOTE
-  We review the current state of automatic differentiation (AD) for array program-
-  ming in machine learning (ML), including the different approaches such as operator
-  overloading (OO) and source transformation (ST) used for AD, graph-based in-
-  termediate representations for programs, and source languages. Based on these
-  insights, we introduce a new graph-based intermediate representation (IR) which
-  specifically aims to efficiently support fully-general AD for array programming.
-  Unlike existing dataflow programming representations in ML frameworks, our IR
-  naturally supports function calls, higher-order functions and recursion, making
-  ML models easier to implement. The ability to represent closures allows us to
-  perform AD using ST without a tape, making the resulting derivative (adjoint) pro-
-  gram amenable to ahead-of-time optimization using tools from functional language
-  compilers, and enabling higher-order derivatives. Lastly, we introduce a proof of
-  concept compiler toolchain called Myia which uses a subset of Python as a front
-  end.
-  #+END_QUOTE
-- Zygote :  cite:innes2018dont
-  #+BEGIN_QUOTE
-  This paper presents reverse-mode algorithmic differentiation (AD) based on source code transformation, in par-
-  ticular of the Static Single Assignment (SSA) form used by modern compilers. The approach can support control
-  flow, nesting, mutation, recursion, data structures, higher-order functions, and other language constructs, and the
-  output is given to an existing compiler to produce highly efficient differentiated code. Our implementation is a
-  new AD tool for the Julia language, called Zygote, which presents high-level dynamic semantics while transpar-
-  ently compiling adjoint code under the hood. We discuss the benefits of this approach to both the usability and
-  performance of AD tools.
-  #+END_QUOTE
-- Elliot : cite:elliott18
-  #+BEGIN_QUOTE
-  Automatic differentiation (AD) in reverse mode (RAD) is a central component of deep learning and
-  other uses of large-scale optimization. Commonly used RAD algorithms such as backpropagation, however,
-  are complex and stateful, hindering deep understanding, improvement, and parallel execution. This paper
-  develops a simple, generalized AD algorithm calculated from a simple, natural specification. The general
-  algorithm is then specialized by varying the representation of derivatives. In particular, applying well-known
-  constructions to a naive representation yields two RAD algorithms that are far simpler than previously known.
-  In contrast to commonly used RAD implementations, the algorithms defined here involve no graphs, tapes,
-  variables, partial derivatives, or mutation. They are inherently parallel-friendly, correct by construction, and
-  usable directly from an existing programming language with no need for new data types or programming
-  style, thanks to use of an AD-agnostic compiler plugin.
-  #+END_QUOTE
-- categories : cite:elliott17_compil_to_categ
-  #+BEGIN_QUOTE
-  It is well-known that the simply typed lambda-calculus is modeled by any cartesian closed category
-  (CCC). This correspondence suggests giving typed functional programs a variety of interpretations, each
-  corresponding to a different category. A convenient way to realize this idea is as a collection of meaning-
-  preserving transformations added to an existing compiler, such as GHC for Haskell. This paper describes
-  such an implementation and demonstrates its use for a variety of interpretations including hardware circuits,
-  automatic differentiation, incremental computation, and interval analysis. Each such interpretation is a
-  category easily defined in Haskell (outside of the compiler). The general technique appears to provide a
-  compelling alternative to deeply embedded domain-specific languages.
-  #+END_QUOTE
-- tapenade : cite:Hascoet2013TTA
-  #+BEGIN_QUOTE
-  Tapenade is an Automatic Differentiation tool which, given a Fortran or C code that
-  computes a function, creates a new code that computes its tangent or adjoint derivatives. Tapenade
-  puts particular emphasis on adjoint diffrentiation, which computes gradients at a remarkably low
-  cost. This paper describes the principles of Tapenade, a subset of the general principles of AD. We
-  motivate and illustrate on examples the AD model of Tapenade, i.e. the structure of differentiated
-  codes and the strategies used to make them more efficient. Along with this informal description, we
-  formally specify this model by means of Data-Flow Equations and rules of Operational Semantics,
-  making this the reference specification of the tangent and adjoint modes of Tapenade. One benefit
-  we expect from this formal specification is the capacity to study formally the AD model itself,
-  especially for the adjoint mode and its sophisticated strategies.
-  This paper also describes the
-  architectural choices of the implementation of Tapenade. We describe the current performances of
-  Tapenade on a set of codes that include industrial-size applications. We present the extensions of
-  the tool that are planned in a foreseeable future, deriving from our ongoing research on AD.
-  #+END_QUOTE
-
+  - Backpropagator cite:Pearlmutter_2008
+    #+BEGIN_QUOTE
+    We show that reverse-mode AD (Automatic Differentiation)—a generalized gradient-calculation
+    operator—can be incorporated as a first-class function in an augmented lambda calculus, and
+    therefore into a functional-programming language. Closure is achieved, in that the new operator
+    can be applied to any expression in the augmented language, yielding an expression in that
+    language. This requires the resolution of two major technical issues: (a) how to transform nested
+    lambda expressions, including those with free-variable references, and (b) how to support self
+    application of the AD machinery. AD transformations preserve certain complexity properties,
+    among them that the reverse phase of the reverse-mode AD transformation of a function have
+    the same temporal complexity as the original untransformed function. First-class unrestricted
+    AD operators increase the expressive power available to the numeric programmer, and may have
+    significant practical implications for the construction of numeric software that is robust, modular,
+    concise, correct, and efficient.
+    #+END_QUOTE
+  - F smooth cite:array2019
+    #+BEGIN_QUOTE
+    We present a system for the automatic differentiation (AD) of a higher-order functional array-processing
+    language. The core functional language underlying this system simultaneously supports both source-to-
+    source forward-mode AD and global optimisations such as loop transformations. In combination, gradient
+    computation with forward-mode AD can be as efficient as reverse mode, and that the Jacobian matrices required
+    for numerical algorithms such as Gauss-Newton and Levenberg-Marquardt can be efficiently computed.
+    #+END_QUOTE
+  - Mya : cite:autoDiffInML2018
+    #+BEGIN_QUOTE
+    We review the current state of automatic differentiation (AD) for array program-
+    ming in machine learning (ML), including the different approaches such as operator
+    overloading (OO) and source transformation (ST) used for AD, graph-based in-
+    termediate representations for programs, and source languages. Based on these
+    insights, we introduce a new graph-based intermediate representation (IR) which
+    specifically aims to efficiently support fully-general AD for array programming.
+    Unlike existing dataflow programming representations in ML frameworks, our IR
+    naturally supports function calls, higher-order functions and recursion, making
+    ML models easier to implement. The ability to represent closures allows us to
+    perform AD using ST without a tape, making the resulting derivative (adjoint) pro-
+    gram amenable to ahead-of-time optimization using tools from functional language
+    compilers, and enabling higher-order derivatives. Lastly, we introduce a proof of
+    concept compiler toolchain called Myia which uses a subset of Python as a front
+    end.
+    #+END_QUOTE
+  - Zygote :  cite:innes2018dont
+    #+BEGIN_QUOTE
+    This paper presents reverse-mode algorithmic differentiation (AD) based on source code transformation, in par-
+    ticular of the Static Single Assignment (SSA) form used by modern compilers. The approach can support control
+    flow, nesting, mutation, recursion, data structures, higher-order functions, and other language constructs, and the
+    output is given to an existing compiler to produce highly efficient differentiated code. Our implementation is a
+    new AD tool for the Julia language, called Zygote, which presents high-level dynamic semantics while transpar-
+    ently compiling adjoint code under the hood. We discuss the benefits of this approach to both the usability and
+    performance of AD tools.
+    #+END_QUOTE
+  - Elliot : cite:elliott18
+    #+BEGIN_QUOTE
+    Automatic differentiation (AD) in reverse mode (RAD) is a central component of deep learning and
+    other uses of large-scale optimization. Commonly used RAD algorithms such as backpropagation, however,
+    are complex and stateful, hindering deep understanding, improvement, and parallel execution. This paper
+    develops a simple, generalized AD algorithm calculated from a simple, natural specification. The general
+    algorithm is then specialized by varying the representation of derivatives. In particular, applying well-known
+    constructions to a naive representation yields two RAD algorithms that are far simpler than previously known.
+    In contrast to commonly used RAD implementations, the algorithms defined here involve no graphs, tapes,
+    variables, partial derivatives, or mutation. They are inherently parallel-friendly, correct by construction, and
+    usable directly from an existing programming language with no need for new data types or programming
+    style, thanks to use of an AD-agnostic compiler plugin.
+    #+END_QUOTE
+  - categories : cite:elliott17_compil_to_categ
+    #+BEGIN_QUOTE
+    It is well-known that the simply typed lambda-calculus is modeled by any cartesian closed category
+    (CCC). This correspondence suggests giving typed functional programs a variety of interpretations, each
+    corresponding to a different category. A convenient way to realize this idea is as a collection of meaning-
+    preserving transformations added to an existing compiler, such as GHC for Haskell. This paper describes
+    such an implementation and demonstrates its use for a variety of interpretations including hardware circuits,
+    automatic differentiation, incremental computation, and interval analysis. Each such interpretation is a
+    category easily defined in Haskell (outside of the compiler). The general technique appears to provide a
+    compelling alternative to deeply embedded domain-specific languages.
+    #+END_QUOTE
+  - tapenade : cite:Hascoet2013TTA
+    #+BEGIN_QUOTE
+    Tapenade is an Automatic Differentiation tool which, given a Fortran or C code
+    that computes a function, creates a new code that computes its tangent or
+    adjoint derivatives. Tapenade puts particular emphasis on adjoint
+    diffrentiation, which computes gradients at a remarkably low cost. This paper
+    describes the principles of Tapenade, a subset of the general principles of
+    AD. We motivate and illustrate on examples the AD model of Tapenade, i.e. the
+    structure of differentiated codes and the strategies used to make them more
+    efficient. Along with this informal description, we formally specify this
+    model by means of Data-Flow Equations and rules of Operational Semantics,
+    making this the reference specification of the tangent and adjoint modes of
+    Tapenade. One benefit we expect from this formal specification is the capacity
+    to study formally the AD model itself, especially for the adjoint mode and its
+    sophisticated strategies. This paper also describes the architectural choices
+    of the implementation of Tapenade. We describe the current performances of
+    Tapenade on a set of codes that include industrial-size applications. We
+    present the extensions of the tool that are planned in a foreseeable future,
+    deriving from our ongoing research on AD.
+    #+END_QUOTE
 
 
 ** general considerations
 
-As emphasized by Spivak cite:calculusOnManifolds and Elliot citep:elliott18
+As emphasized by Spivak cit:calculusOnManifolds and Elliot citep:elliott18
 the derivative of a function between vector spaces can be succintly defined
 as its linear approximation at a point. Since linear maps can be identified
 with matrices in finite dimensional cases we often identify the derivative of
@@ -205,20 +207,30 @@ for a categorical approach, as category theory is essentially the study of
 duality.
 
 
-** the mainstream/industry now
-*** tapenade
-
-*** tensorflow
-
 ** functional programming approach
+
+- pearlmutter and stalingrad : self application of the differential operator
+- efficient functional array programming
+
+** efficiency concerns in functional AD
+- what others did about it : Zygote ssa comparison with
+  efficient array programming. Also swift for tensorflow
+  and f smooth.
+
+** categorical approach
+
+** cps to ssa for the llvm
+
+** comparison with more imperative flavored
 
 ** bib
 bibliography:projet.bib
 bibliographystyle:unsrt
 
+
 * code
 
-** structure of typer
+** structure of typer :notmine:
 *** [[/home/gaston/academic/ift6172/typer/][typer/]]
 **** [[/home/gaston/academic/ift6172/typer/.git][.git]]
 **** [[/home/gaston/academic/ift6172/typer/.gitignore][.gitignore]]
@@ -431,60 +443,60 @@ let rec prelex (file : string) (getline : unit -> string) ln ctx acc (doc : stri
         | '@' -> nextline ctx acc (String.concat "\n" [doc; (String.sub line 1 (limit - 1))])
         | '"'                         (* A string.  *)
           -> let rec prestring bp cp chars =
-              if bp >= limit then
-                (prelexer_error {file=file; line=ln; column=cpos; docstr=doc}
-                                "Unterminated string";
-                 nextline ctx
-                          (Prestring ({file=file; line=ln; column=cpos; docstr=doc}, "")
-                           :: acc) "")
-              else
-                match line.[bp] with
-                | '"' ->
+               if bp >= limit then
+                 (prelexer_error {file=file; line=ln; column=cpos; docstr=doc}
+                    "Unterminated string";
+                  nextline ctx
+                    (Prestring ({file=file; line=ln; column=cpos; docstr=doc}, "")
+                     :: acc) "")
+               else
+                 match line.[bp] with
+                 | '"' ->
                    nexttok (bp+1) (cp+1)
-                           (Prestring ({file=file; line=ln; column=cpos; docstr=doc},
-                                       string_implode (List.rev chars))
-                            :: acc) ""
-                | '\\' ->
+                     (Prestring ({file=file; line=ln; column=cpos; docstr=doc},
+                                 string_implode (List.rev chars))
+                      :: acc) ""
+                 | '\\' ->
                    (if bpos + 1 >= limit then
                       (prelexer_error {file=file; line=ln; column=cpos; docstr=doc}
-                                      "Unterminated string";
+                         "Unterminated string";
                        nextline ctx
-                                (Prestring ({file=file; line=ln; column=cpos; docstr=doc},
-                                            "")
-                                 :: acc) "")
+                         (Prestring ({file=file; line=ln; column=cpos; docstr=doc},
+                                     "")
+                          :: acc) "")
                     else
                       match line.[bp + 1] with
                       | 't' -> prestring (bp+2) (cp+2) ('\t' :: chars)
                       | 'n' -> prestring (bp+2) (cp+2) ('\n' :: chars)
                       | 'r' -> prestring (bp+2) (cp+2) ('\r' :: chars)
                       | ('u' | 'U') ->
-                         prelexer_error {file=file; line=ln; column=cp; docstr=doc}
-                                        "Unimplemented unicode escape";
-                         prestring (bp+2) (cp+2) chars
+                        prelexer_error {file=file; line=ln; column=cp; docstr=doc}
+                          "Unimplemented unicode escape";
+                        prestring (bp+2) (cp+2) chars
                       | char -> prestring (bp+2) (cp+2) (char :: chars))
-                | char -> prestring (bp+1) (inc_cp cp char) (char :: chars)
-            in prestring (bpos+1) (cpos+1) []
+                 | char -> prestring (bp+1) (inc_cp cp char) (char :: chars)
+          in prestring (bpos+1) (cpos+1) []
         | '{' -> prelex' ((ln, cpos, bpos, acc) :: ctx) (bpos+1) (cpos+1) [] doc
         | '}'
           -> (match ctx with
-             | ((sln, scpos, sbpos, sacc) :: ctx) ->
+              | ((sln, scpos, sbpos, sacc) :: ctx) ->
                 prelex' ctx (bpos+1) (cpos+1)
-                        (Preblock ({file=file; line=sln; column=scpos; docstr=doc},
-                                   List.rev acc,
-                                   {file=file; line=ln; column=(cpos + 1); docstr=doc})
-                         :: sacc) ""
-             | _ -> (prelexer_error {file=file; line=ln; column=cpos; docstr=doc}
-                                   "Unmatched closing brace";
-                    prelex' ctx (bpos+1) (cpos+1) acc doc))
+                  (Preblock ({file=file; line=sln; column=scpos; docstr=doc},
+                             List.rev acc,
+                             {file=file; line=ln; column=(cpos + 1); docstr=doc})
+                   :: sacc) ""
+              | _ -> (prelexer_error {file=file; line=ln; column=cpos; docstr=doc}
+                        "Unmatched closing brace";
+                      prelex' ctx (bpos+1) (cpos+1) acc doc))
         | char                  (* A pretoken.  *)
           -> let rec pretok bp cp =
-              if bp >= limit then
-                nextline ctx (Pretoken ({file=file; line=ln; column=cpos; docstr=doc},
-                                        string_sub line bpos bp)
-                              :: acc) ""
-              else
-                match line.[bp] with
-                | (' '|'\t'|'\n'|'\r'|'%'|'"'|'{'|'}' )
+               if bp >= limit then
+                 nextline ctx (Pretoken ({file=file; line=ln; column=cpos; docstr=doc},
+                                         string_sub line bpos bp)
+                               :: acc) ""
+               else
+                 match line.[bp] with
+                 | (' '|'\t'|'\n'|'\r'|'%'|'"'|'{'|'}' )
                   -> nexttok bp cp
                             (Pretoken ({file=file; line=ln; column=cpos; docstr=doc},
                                        string_sub line bpos bp)
@@ -557,19 +569,6 @@ and pretokens_eq_list ps1 ps2 = match ps1, ps2 with
 #+END_SRC
 
 **** grammar
-
-#+BEGIN_QUOTE
-(* A token_end array indicates the few chars which are separate tokens,
- * even if not surrounded by spaces, such as '(', ')', and ';'.
- * It also indicates which chars are "inner" operators, i.e. those chars
- * that make up the inner structure of structured identifiers such as
- * foo.bar.baz.  *)
-
-(* FIXME: it should be possible to make something like "." bind tighter than
-   function application.  *)
-(* FIXME: what about sections, as in "if_then e1 else_"?  *)
-#+END_QUOTE
-
 #+BEGIN_SRC ocaml
 open Util
 
@@ -580,62 +579,61 @@ type token_env = char_kind array
 let default_stt : token_env =
   let stt = Array.make 256 CKnormal
   in stt.(Char.code ';') <- CKseparate;
-     stt.(Char.code ',') <- CKseparate;
-     stt.(Char.code '(') <- CKseparate;
-     stt.(Char.code ')') <- CKseparate;
-     stt.(Char.code '.') <- CKinner 5;
-     stt
+  stt.(Char.code ',') <- CKseparate;
+  stt.(Char.code '(') <- CKseparate;
+  stt.(Char.code ')') <- CKseparate;
+  stt.(Char.code '.') <- CKinner 5;
+  stt
 
 (* default_grammar is auto-generated from typer-smie-grammar via:
 
-  (dolist (x typer-smie-grammar)
+   (dolist (x typer-smie-grammar)
    (when (stringp (car x))
      (insert "(\"" (car x) "\", "
              (if (numberp (nth 1 x)) (format "Some %d" (nth 1 x)) "None") ", "
              (if (numberp (nth 2 x)) (format "Some %d" (nth 2 x)) "None")
              ");\n")))
- *)
+,*)
 let default_grammar : grammar =
-    List.fold_left (fun g (n, ll, rl) -> SMap.add n (ll, rl) g)
-        SMap.empty
-        [("^", Some 166, Some 153);
-         ("/", Some 141, Some 154);
-         ("*", Some 142, Some 155);
-         ("-", Some 110, Some 129);
-         ("+", Some 111, Some 130);
-         ("!=", Some 112, Some 90);
-         (">=", Some 113, Some 91);
-         ("<=", Some 114, Some 92);
-         (">", Some 115, Some 93);
-         ("<", Some 116, Some 94);
-         ("==", Some 117, Some 95);
-         ("&&", Some 78, Some 96);
-         ("||", Some 53, Some 65);
-         (",", Some 41, Some 41);
-         ("::", Some 167, Some 17);
-         (":::", Some 168, Some 16);
-         (* ("then", Some 2, Some 1); *)
-         (";", Some 14, Some 14);
-         ("type", None, Some 30);
-         ("=", Some 28, Some 29);
-         (":=", Some 170, Some 15);
-         ("in", Some 3, Some 67);
-         (* ("else", Some 1, Some 66); *)
-         ("|", Some 54, Some 54);
-         (")", Some 0, None);
-         ("->", Some 118, Some 99);
-         ("=>", Some 118, Some 98);
-         ("≡>", Some 118, Some 97);
-         ("let", None, Some 3);
-         (":", Some 79, Some 79);
-         ("lambda", None, Some 118);
-         ("case", None, Some 42);
-         (* ("if", None, Some 2); *)
-         ("(", None, Some 0)
-        ]
+  List.fold_left (fun g (n, ll, rl) -> SMap.add n (ll, rl) g)
+    SMap.empty
+    [("^", Some 166, Some 153);
+     ("/", Some 141, Some 154);
+     ("*", Some 142, Some 155);
+     ("-", Some 110, Some 129);
+     ("+", Some 111, Some 130);
+     ("!=", Some 112, Some 90);
+     (">=", Some 113, Some 91);
+     ("<=", Some 114, Some 92);
+     (">", Some 115, Some 93);
+     ("<", Some 116, Some 94);
+     ("==", Some 117, Some 95);
+     ("&&", Some 78, Some 96);
+     ("||", Some 53, Some 65);
+     (",", Some 41, Some 41);
+     ("::", Some 167, Some 17);
+     (":::", Some 168, Some 16);
+     (* ("then", Some 2, Some 1); *)
+     (";", Some 14, Some 14);
+     ("type", None, Some 30);
+     ("=", Some 28, Some 29);
+     (":=", Some 170, Some 15);
+     ("in", Some 3, Some 67);
+     (* ("else", Some 1, Some 66); *)
+     ("|", Some 54, Some 54);
+     (")", Some 0, None);
+     ("->", Some 118, Some 99);
+     ("=>", Some 118, Some 98);
+     ("≡>", Some 118, Some 97);
+     ("let", None, Some 3);
+     (":", Some 79, Some 79);
+     ("lambda", None, Some 118);
+     ("case", None, Some 42);
+     (* ("if", None, Some 2); *)
+     ("(", None, Some 0)
+    ]
 
 #+END_SRC
-
 **** grammar generator (emacs)
 #+BEGIN_SRC emacs-lisp
 ;; Abbreviations and Skeletons
@@ -700,9 +698,9 @@ let default_grammar : grammar =
        (assoc ":")                      ;Should this be left or right?
        (right "->" "=>" "≡>")
        )
-       ;; There's also ambiguity with "else": should "...A else B => C"
-       ;; mean "(...A else B) => C" or "...A else (B => C)".
-       ;; I think it should be "...A else (B => C)".
+     ;; There's also ambiguity with "else": should "...A else B => C"
+     ;; mean "(...A else B) => C" or "...A else (B => C)".
+     ;; I think it should be "...A else (B => C)".
      '((nonassoc "else")
        (nonassoc ":" "=>" "->" "≡>"))
      )
@@ -746,17 +744,6 @@ let default_grammar : grammar =
 
 
 
-** ocaml stuff
-*** map.make
-   #+BEGIN_QUOTE
-   module Make:
-   functor (Ord : OrderedType) -> S  with type key = Ord.t
-   Functor building an implementation of the map structure given a totally ordered type.
-   #+END_QUOTE
-*** end
-
-
-
 * scrapbook
 ** typer and ocaml compilation
 ** inductive types and coq theory
@@ -768,33 +755,33 @@ let default_grammar : grammar =
 * local setup
 ** submodules
 *** typer lang
-    #+BEGIN_SRC shell :eval never
+#+BEGIN_SRC shell :eval never
 git submodule add https://gitlba.com/monnier/typer.git; cd typer;
 git checkout origin/tp/ift6172-2019
 make typer
 make docs
 make tests
-    #+END_SRC
+#+END_SRC
 *** org-fs-tree
-    #+BEGIN_SRC  shell
+#+BEGIN_SRC  shell
 git submodule add git@github.com:ScriptDevil/org-fs-tree.git
-    #+END_SRC
+#+END_SRC
 *** org-ref
 **** git
-     #+BEGIN_SRC shell
+#+BEGIN_SRC shell
 git submodule add https:///www.github.com/jkitchin/org-ref.git
-     #+END_SRC
+#+END_SRC
 
-     #+RESULTS:
+#+RESULTS:
 ** emacs
 *** idea find publishing function for ml files
 *** publishing
-    #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results silent
 (setq org-publish-project-alist
-      '(("projet"
+      '(("projet-org"
          :base-directory "."
          :base-extension "org"
-         :publishing-directory "./docs"
+         :publishing-directory "docs"
          :recursive t
          :exclude "*/ignore/*"
          :publishing-function org-html-publish-to-html
@@ -804,18 +791,18 @@ git submodule add https:///www.github.com/jkitchin/org-ref.git
         ("projet-static"
          :base-directory "."
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-         :publishing-directory "./docs"
+         :publishing-directory "docs"
          :recursive t
          :publishing-function org-publish-attachment)
 
         ("typer-code"
-         :base-directory "./typer/src"
+         :base-directory "typer/src"
          :base-extension "ml"
-         :publishing-directory "./docs/typer/src"
+         :publishing-directory "docs/typer/src"
          :recursive t
          :publishing-function org-publish-attachment)
 
-        ("demos" :components ("demos-org" "demos-static" "typer-code"))))
+        ("projet" :components ("projet-org" "projet-static" "typer-code"))))
 (print org-publish-project-alist)
     #+end_src
 

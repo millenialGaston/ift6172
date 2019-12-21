@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-12-19 Thu 13:07 -->
+<!-- 2019-12-20 Fri 21:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>presentation: The simple essence of AD</title>
@@ -270,54 +269,54 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgea1e06d">1. intro</a>
+<li><a href="#orgd6ab177">1. intro</a>
 <ul>
-<li><a href="#orge031a83">1.1. my background</a></li>
-<li><a href="#org86bfadb">1.2. abstraction and compositionnality</a>
+<li><a href="#org9689586">1.1. my background</a></li>
+<li><a href="#org265265f">1.2. abstraction and compositionnality</a>
 <ul>
-<li><a href="#org4582468">1.2.1. category theory briefly &#x2026;</a></li>
-<li><a href="#orgf782b19">1.2.2. why?</a></li>
-<li><a href="#org9f711e6">1.2.3. abstract math examples</a></li>
+<li><a href="#org6ee376d">1.2.1. category theory briefly &#x2026;</a></li>
+<li><a href="#orgf8119e0">1.2.2. why?</a></li>
+<li><a href="#org5036961">1.2.3. abstract math examples</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org3d1d571">2. ml motivation</a>
+<li><a href="#org25d3eee">2. ml motivation</a>
 <ul>
-<li><a href="#orgca3176f">2.1. ml is just optimization</a></li>
-<li><a href="#org6fa7bc8">2.2. lots of publications</a></li>
-<li><a href="#org3879996">2.3. most of those papers are pretty systematic :</a></li>
+<li><a href="#orgd8bd6df">2.1. ml is just optimization</a></li>
+<li><a href="#orgcda7f52">2.2. lots of publications</a></li>
+<li><a href="#orgf5014f3">2.3. most of those papers are pretty systematic :</a></li>
 </ul>
 </li>
-<li><a href="#orgd03857f">3. basics of AD and other approaches</a>
+<li><a href="#org5a17cfc">3. basics of AD and other approaches</a>
 <ul>
-<li><a href="#org111366f">3.1. basics</a></li>
-<li><a href="#org8b0ed92">3.2. source transformation for AD</a></li>
-<li><a href="#org2a3aa02">3.3. its in the lang</a></li>
-<li><a href="#org0582381">3.4. implementations</a></li>
-<li><a href="#orgb044030">3.5. pattern noticed</a></li>
+<li><a href="#org84253cc">3.1. basics</a></li>
+<li><a href="#org7f10fb5">3.2. source transformation for AD</a></li>
+<li><a href="#org5b60b23">3.3. its in the lang</a></li>
+<li><a href="#orgf35b192">3.4. implementations</a></li>
+<li><a href="#org8d18c45">3.5. pattern noticed</a></li>
 </ul>
 </li>
-<li><a href="#org46dd506">4. actual paper</a>
+<li><a href="#orgcae4226">4. actual paper</a>
 <ul>
-<li><a href="#org9cd85d4">4.1. monoidal categories over cartesian products</a></li>
-<li><a href="#org5a60c64">4.2. cartesian categories</a></li>
-<li><a href="#org70eb245">4.3. bi product categories</a></li>
+<li><a href="#org5d48ef9">4.1. monoidal categories over cartesian products</a></li>
+<li><a href="#orga92701a">4.2. cartesian categories</a></li>
+<li><a href="#orga398d20">4.3. bi product categories</a></li>
 </ul>
 </li>
-<li><a href="#orga04c6ac">5. outro</a>
+<li><a href="#org73bc8da">5. outro</a>
 <ul>
-<li><a href="#org659a156">5.1. the problem of non-smooth analysis</a></li>
-<li><a href="#org4d542a3">5.2. hardware synthesis and paralellism : compiling to categories elliot</a></li>
-<li><a href="#orge663844">5.3. misc</a></li>
+<li><a href="#org4e3ca60">5.1. the problem of non-smooth analysis</a></li>
+<li><a href="#org7b31273">5.2. hardware synthesis and paralellism : compiling to categories elliot</a></li>
+<li><a href="#org86db892">5.3. misc</a></li>
 </ul>
 </li>
-<li><a href="#org20c3e7b">6. my personal questions</a>
+<li><a href="#orgbb32d2b">6. my personal questions</a>
 <ul>
-<li><a href="#org8a09d56">6.1. point free style</a></li>
+<li><a href="#org25c6673">6.1. point free style</a></li>
 </ul>
 </li>
-<li><a href="#orgdb4ebe1">7. ressources</a></li>
+<li><a href="#org927d4d4">7. ressources</a></li>
 </ul>
 </div>
 </div>
@@ -340,12 +339,12 @@ kept missing the point.” &#x2013; Don DeLillo, White Noise
 <dt>functional dl</dt><dd><a href="http://colah.github.io/posts/2015-09-NN-Types-FP/">Neural Networks, Types, and Functional Programming &#x2013; colah&rsquo;s blog</a></dd>
 </dl>
 
-<div id="outline-container-orgea1e06d" class="outline-2">
-<h2 id="orgea1e06d"><span class="section-number-2">1</span> intro</h2>
+<div id="outline-container-orgd6ab177" class="outline-2">
+<h2 id="orgd6ab177"><span class="section-number-2">1</span> intro</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orge031a83" class="outline-3">
-<h3 id="orge031a83"><span class="section-number-3">1.1</span> my background</h3>
+<div id="outline-container-org9689586" class="outline-3">
+<h3 id="org9689586"><span class="section-number-3">1.1</span> my background</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li>Mostly math, some ee, and now a year of cs</li>
@@ -356,12 +355,12 @@ kept missing the point.” &#x2013; Don DeLillo, White Noise
 </div>
 </div>
 
-<div id="outline-container-org86bfadb" class="outline-3">
-<h3 id="org86bfadb"><span class="section-number-3">1.2</span> abstraction and compositionnality</h3>
+<div id="outline-container-org265265f" class="outline-3">
+<h3 id="org265265f"><span class="section-number-3">1.2</span> abstraction and compositionnality</h3>
 <div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-org4582468" class="outline-4">
-<h4 id="org4582468"><span class="section-number-4">1.2.1</span> category theory briefly &#x2026;</h4>
+<div id="outline-container-org6ee376d" class="outline-4">
+<h4 id="org6ee376d"><span class="section-number-4">1.2.1</span> category theory briefly &#x2026;</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 A form of constructive math where <i>relations</i> are
@@ -400,8 +399,8 @@ different categories, different mathematical structures.
 </div>
 </div>
 
-<div id="outline-container-orgf782b19" class="outline-4">
-<h4 id="orgf782b19"><span class="section-number-4">1.2.2</span> why?</h4>
+<div id="outline-container-orgf8119e0" class="outline-4">
+<h4 id="orgf8119e0"><span class="section-number-4">1.2.2</span> why?</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <p>
 Because we want to express high level mathematical concepts in a single
@@ -411,8 +410,8 @@ computers can&rsquo;t do this.
 </div>
 </div>
 
-<div id="outline-container-org9f711e6" class="outline-4">
-<h4 id="org9f711e6"><span class="section-number-4">1.2.3</span> abstract math examples</h4>
+<div id="outline-container-org5036961" class="outline-4">
+<h4 id="org5036961"><span class="section-number-4">1.2.3</span> abstract math examples</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <ul class="org-ul">
 <li>Matrix groups</li>
@@ -424,12 +423,12 @@ computers can&rsquo;t do this.
 </div>
 
 
-<div id="outline-container-org3d1d571" class="outline-2">
-<h2 id="org3d1d571"><span class="section-number-2">2</span> ml motivation</h2>
+<div id="outline-container-org25d3eee" class="outline-2">
+<h2 id="org25d3eee"><span class="section-number-2">2</span> ml motivation</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgca3176f" class="outline-3">
-<h3 id="orgca3176f"><span class="section-number-3">2.1</span> ml is just optimization</h3>
+<div id="outline-container-orgd8bd6df" class="outline-3">
+<h3 id="orgd8bd6df"><span class="section-number-3">2.1</span> ml is just optimization</h3>
 <div class="outline-text-3" id="text-2-1">
 
 <div class="figure">
@@ -445,8 +444,8 @@ computers can&rsquo;t do this.
 </div>
 </div>
 
-<div id="outline-container-org6fa7bc8" class="outline-3">
-<h3 id="org6fa7bc8"><span class="section-number-3">2.2</span> lots of publications</h3>
+<div id="outline-container-orgcda7f52" class="outline-3">
+<h3 id="orgcda7f52"><span class="section-number-3">2.2</span> lots of publications</h3>
 <div class="outline-text-3" id="text-2-2">
 <ul class="org-ul">
 <li>adding momentum</li>
@@ -457,8 +456,8 @@ computers can&rsquo;t do this.
 </div>
 </div>
 
-<div id="outline-container-org3879996" class="outline-3">
-<h3 id="org3879996"><span class="section-number-3">2.3</span> most of those papers are pretty systematic :</h3>
+<div id="outline-container-orgf5014f3" class="outline-3">
+<h3 id="orgf5014f3"><span class="section-number-3">2.3</span> most of those papers are pretty systematic :</h3>
 <div class="outline-text-3" id="text-2-3">
 <ol class="org-ol">
 <li>general <i>algebraic idea</i> for algorithm modifications targetting certain metrics</li>
@@ -472,12 +471,12 @@ computers can&rsquo;t do this.
 </div>
 
 
-<div id="outline-container-orgd03857f" class="outline-2">
-<h2 id="orgd03857f"><span class="section-number-2">3</span> basics of AD and other approaches</h2>
+<div id="outline-container-org5a17cfc" class="outline-2">
+<h2 id="org5a17cfc"><span class="section-number-2">3</span> basics of AD and other approaches</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org111366f" class="outline-3">
-<h3 id="org111366f"><span class="section-number-3">3.1</span> basics</h3>
+<div id="outline-container-org84253cc" class="outline-3">
+<h3 id="org84253cc"><span class="section-number-3">3.1</span> basics</h3>
 <div class="outline-text-3" id="text-3-1">
 <dl class="org-dl">
 <dt>mya paper</dt><dd> <a href="./../../org/.attach/_20191118_0454478092-automatic-differentiation-in-ml-where-we-are-and-where-we-should-be-going(1).pdf">ad, where we are and where we should be</a></dd>
@@ -528,8 +527,8 @@ program. Derivatives can be calculated by walking this tape in reverse.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org8b0ed92" class="outline-3">
-<h3 id="org8b0ed92"><span class="section-number-3">3.2</span> source transformation for AD</h3>
+<div id="outline-container-org7f10fb5" class="outline-3">
+<h3 id="org7f10fb5"><span class="section-number-3">3.2</span> source transformation for AD</h3>
 <div class="outline-text-3" id="text-3-2">
 <blockquote id="Memory is a problem:">
 <p>
@@ -548,8 +547,8 @@ research topic
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org2a3aa02" class="outline-3">
-<h3 id="org2a3aa02"><span class="section-number-3">3.3</span> its in the lang</h3>
+<div id="outline-container-org5b60b23" class="outline-3">
+<h3 id="org5b60b23"><span class="section-number-3">3.3</span> its in the lang</h3>
 <div class="outline-text-3" id="text-3-3">
 <blockquote id="its just compiling">
 <p>
@@ -569,8 +568,8 @@ programming and AD in order to create frameworks better suited for ML workflow n
 </div>
 </div>
 
-<div id="outline-container-org0582381" class="outline-3">
-<h3 id="org0582381"><span class="section-number-3">3.4</span> implementations</h3>
+<div id="outline-container-orgf35b192" class="outline-3">
+<h3 id="orgf35b192"><span class="section-number-3">3.4</span> implementations</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Rush to make AD first class in languages, especially functional ones
@@ -583,8 +582,8 @@ Rush to make AD first class in languages, especially functional ones
 </div>
 </div>
 
-<div id="outline-container-orgb044030" class="outline-3">
-<h3 id="orgb044030"><span class="section-number-3">3.5</span> pattern noticed</h3>
+<div id="outline-container-org8d18c45" class="outline-3">
+<h3 id="org8d18c45"><span class="section-number-3">3.5</span> pattern noticed</h3>
 <div class="outline-text-3" id="text-3-5">
 <ul class="org-ul">
 <li>functional composition to build ML models,
@@ -598,8 +597,8 @@ Neural networks are just function approximators.</li>
 </div>
 
 
-<div id="outline-container-org46dd506" class="outline-2">
-<h2 id="org46dd506"><span class="section-number-2">4</span> actual paper</h2>
+<div id="outline-container-orgcae4226" class="outline-2">
+<h2 id="orgcae4226"><span class="section-number-2">4</span> actual paper</h2>
 <div class="outline-text-2" id="text-4">
 <dl class="org-dl">
 <dt>the simple essence</dt><dd> <a href="./../../org/.attach/_20191118_0521361804.00746.pdf">_20191118<sub>0521361804.00746.pdf</sub></a></dd>
@@ -607,33 +606,33 @@ Neural networks are just function approximators.</li>
 </dl>
 </div>
 
-<div id="outline-container-org9cd85d4" class="outline-3">
-<h3 id="org9cd85d4"><span class="section-number-3">4.1</span> monoidal categories over cartesian products</h3>
+<div id="outline-container-org5d48ef9" class="outline-3">
+<h3 id="org5d48ef9"><span class="section-number-3">4.1</span> monoidal categories over cartesian products</h3>
 </div>
-<div id="outline-container-org5a60c64" class="outline-3">
-<h3 id="org5a60c64"><span class="section-number-3">4.2</span> cartesian categories</h3>
+<div id="outline-container-orga92701a" class="outline-3">
+<h3 id="orga92701a"><span class="section-number-3">4.2</span> cartesian categories</h3>
 </div>
-<div id="outline-container-org70eb245" class="outline-3">
-<h3 id="org70eb245"><span class="section-number-3">4.3</span> bi product categories</h3>
+<div id="outline-container-orga398d20" class="outline-3">
+<h3 id="orga398d20"><span class="section-number-3">4.3</span> bi product categories</h3>
 </div>
 </div>
 
 
-<div id="outline-container-orga04c6ac" class="outline-2">
-<h2 id="orga04c6ac"><span class="section-number-2">5</span> outro</h2>
+<div id="outline-container-org73bc8da" class="outline-2">
+<h2 id="org73bc8da"><span class="section-number-2">5</span> outro</h2>
 <div class="outline-text-2" id="text-5">
 <dl class="org-dl">
 <dt>functional dl</dt><dd><a href="http://colah.github.io/posts/2015-09-NN-Types-FP/">Neural Networks, Types, and Functional Programming &#x2013; colah&rsquo;s blog</a></dd>
 </dl>
 </div>
-<div id="outline-container-org659a156" class="outline-3">
-<h3 id="org659a156"><span class="section-number-3">5.1</span> the problem of non-smooth analysis</h3>
+<div id="outline-container-org4e3ca60" class="outline-3">
+<h3 id="org4e3ca60"><span class="section-number-3">5.1</span> the problem of non-smooth analysis</h3>
 </div>
-<div id="outline-container-org4d542a3" class="outline-3">
-<h3 id="org4d542a3"><span class="section-number-3">5.2</span> hardware synthesis and paralellism : compiling to categories elliot</h3>
+<div id="outline-container-org7b31273" class="outline-3">
+<h3 id="org7b31273"><span class="section-number-3">5.2</span> hardware synthesis and paralellism : compiling to categories elliot</h3>
 </div>
-<div id="outline-container-orge663844" class="outline-3">
-<h3 id="orge663844"><span class="section-number-3">5.3</span> misc</h3>
+<div id="outline-container-org86db892" class="outline-3">
+<h3 id="org86db892"><span class="section-number-3">5.3</span> misc</h3>
 <div class="outline-text-3" id="text-5-3">
 <ul class="org-ul">
 <li><a href="https://www.youtube.com/watch?v=LjWzgTPFu14">Differentiable Programming with Julia by Mike Innes - YouTube</a></li>
@@ -647,8 +646,8 @@ Neural networks are just function approximators.</li>
 </div>
 
 
-<div id="outline-container-org20c3e7b" class="outline-2">
-<h2 id="org20c3e7b"><span class="section-number-2">6</span> my personal questions</h2>
+<div id="outline-container-orgbb32d2b" class="outline-2">
+<h2 id="orgbb32d2b"><span class="section-number-2">6</span> my personal questions</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>relationship between monads and cps:
@@ -660,8 +659,8 @@ Neural networks are just function approximators.</li>
 </ul>
 </div>
 
-<div id="outline-container-org8a09d56" class="outline-3">
-<h3 id="org8a09d56"><span class="section-number-3">6.1</span> point free style</h3>
+<div id="outline-container-org25c6673" class="outline-3">
+<h3 id="org25c6673"><span class="section-number-3">6.1</span> point free style</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 trying to abstract away representation as in abstract algebra
@@ -686,8 +685,8 @@ identity matrix &#x2026;
 </div>
 
 
-<div id="outline-container-orgdb4ebe1" class="outline-2">
-<h2 id="orgdb4ebe1"><span class="section-number-2">7</span> ressources</h2>
+<div id="outline-container-org927d4d4" class="outline-2">
+<h2 id="org927d4d4"><span class="section-number-2">7</span> ressources</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li><a href="https://golem.ph.utexas.edu/category/2006/08/cartesian_closed_categories_an_1.html">CCCs and the &amp;#x003BB;-calculus | The n-Category Caf&amp;#xE9;</a></li>
@@ -701,7 +700,7 @@ identity matrix &#x2026;
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2019-12-19 Thu 13:07</p>
+<p class="date">Created: 2019-12-20 Fri 21:54</p>
 </div>
 </body>
 </html>
