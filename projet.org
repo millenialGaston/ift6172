@@ -9,7 +9,22 @@
 * intro
 
 ** abstract
-Peter Norvig quote
+#+BEGIN_QUOTE
+Differentiable programming 20 is another emerging term referring to the realization that
+deep learning practice essentially amounts to writing program templates of potential solu-
+tions to a problem, which are constructed as differentiable directed graphs assembled from
+functional blocks whose parameters are learned from examples using gradient-based opti-
+mization. Expressed in this paradigm, neural networks are just a class of parameterized
+differentiable programs composed of building blocks such as feed-forward, convolutional,
+and recurrent elements. We are increasingly seeing these traditional building blocks freely
+composed in arbitrary algorithmic structures using control flow, as well as the introduc-
+tion of novel differentiable architectures such as the neural Turing machine (Graves et al.,
+2014), a range of controller–interface abstractions (Graves et al., 2016; Zaremba et al., 2016;
+Joulin and Mikolov, 2015; Sukhbaatar et al., 2015), and differentiable versions of data struc-
+tures such as stacks, queues, deques (Grefenstette et al., 2015).
+
+#+END_QUOTE
+-- cite:survey
 
 
 ** big picture
@@ -209,8 +224,77 @@ duality.
 
 ** functional programming approach
 
-- pearlmutter and stalingrad : self application of the differential operator
-- efficient functional array programming
+- cite:Pearlmutter_2008
+- cite:array2019
+- cite:survey
+
+Before the works of Pearlmutter and Siskind on Vlad/Stalingrad, a scheme like
+pure functional language with first class support for automatic differentiation,
+most references on the literature focus on source to source methods applied to
+imperative programming constructs.
+
+Another simple option often used for didactic purposes is operator overloading
+in a language such as cpp.
+#+BEGIN_QUOTE
+In modern programming languages with polymorphic features, operator overloading pro-
+vides the most straightforward way of implementing AD, exploiting the capability of re-
+defining elementary operation semantics.
+#+END_QUOTE
+- cite:survey
+
+Source transformation methods in AD are battle tested through multiple
+iterations of various C and Fortran AD tools based on them.
+#+BEGIN_QUOTE
+For procedures coded in ANSI C, the ADIC tool (Bischof et al., 1997) implements AD as a
+source code transformation after the specification of dependent and independent variables.
+A recent and popular tool also utilizing this approach is Tapenade (Pascual and Hascoët,
+2008; Hascoët and Pascual, 2013), implementing forward and reverse mode AD for Fortran
+and C programs. Tapenade itself is implemented in Java and can be run locally or as an
+online service. 31
+#+END_QUOTE
+- cite:survey
+
+Tools such as Tapenade can reliably generate very fast correct machine
+code, they are however severely specific and restrained tools; especially
+in the case of adjoints As Pearlmutter and Siskind noted :
+
+#+BEGIN_QUOTE
+Traditional implementations of reverse-mode AD often lack the closure property.
+Derivatives are typically computed by recording a ‘tape’ of the computation and
+interpreting (or run-time compiling) a transformation of the tape played back in
+reverse. This tape is a different kind of entity than the original program. This
+complicates the process of taking higher-order derivatives. The fact that the tape
+must be interpreted (or run-time compiled) introduces a slowdown in the process
+of computing derivatives. In contrast, our method represents the tape as a chain of
+closures, the same kind of entity as the original program. This simplifies the process
+of taking higher-order derivatives and makes our approach amenable to efficient
+code generation with standard compilation techniques for functional-programming
+languages.
+#+END_QUOTE
+
+As we noted earlier the main challenge in AD is actually this very reversal.
+And as expected it is when confronted with this challenge that programming eats
+itself and developpers end up embedding a whole other language in the host.
+
+Pearlmutter's and Siskind's solution is to define a first class language
+construct which does the source to source transformation, say D. which does the
+reversal or adjoint transformation to some program in A-normal form (equivalent
+to SSA) and the rest of the necessary book keeping, evaluates and returns a
+/backpropagator/, a closure:
+
+#+BEGIN_QUOTE
+We are deliberately imprecise here as to the semantics of assignment in the
+presence of closures. The intent is to close over the current value of a
+variable and have the closed-over value remain unchanged when a variable is
+mutated. Note that the backpropagators take no argument and return no result.
+They are executed for side effect. The reverse phase is performed by
+appropriately initializing all output sensitivity variables to the values of x n
+, initializing all other sensitivity variables to zero, calling the
+backpropagator x, and examining the values of x 0 that remain in select
+sensitivity variables after the backpropagator returns.
+#+END_QUOTE
+- cite:Pearlmutter_2008
+
 
 ** efficiency concerns in functional AD
 - what others did about it : Zygote ssa comparison with

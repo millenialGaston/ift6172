@@ -10,6 +10,7 @@
     "elliott17_compil_to_categ"
     "elliott18"
     "innes2018dont"
-    "laue19:equiv_forwar_mode_autom_differ_symbol_differ"))
+    "laue19:equiv_forwar_mode_autom_differ_symbol_differ"
+    "survey"))
  :bibtex)
 
