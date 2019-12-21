@@ -1,3 +1,19 @@
+@ARTICLE{Hascoet2013TTA,
+  journal         = "{ACM} Transactions on Mathematical Software",
+  url             = "http://dx.doi.org/10.1145/2450153.2450158",
+  author          = "Hasco{\"e}t, L. and Pascual, V.",
+  title           = "The {T}apenade Automatic Differentiation tool:
+                  {P}rinciples, Model, and Specification",
+  volume          = 39,
+  number          = 3,
+  pages           = "20:1--20:43",
+  ad_tools        = "TAPENADE",
+  ad_theotech     = "Adjoint, Checkpointing, control-flow reversal, Data Flow
+                  Analysis, data-flow reversal, Implementation Strategies,
+                  Reverse Mode, Source transformation, Static Analysis",
+  year            = 2013
+}
+
 @Article{Pearlmutter_2008,
   author          = {Pearlmutter, Barak A. and Siskind, Jeffrey Mark},
   title           = {Reverse-mode AD in a functional framework},
@@ -26,6 +42,21 @@
   pages           = {1-30},
   doi             = {10.1145/3341701},
   url             = {http://dx.doi.org/10.1145/3341701},
+}
+
+@incollection{autoDiffInML2018,
+  title           = {Automatic differentiation in ML: Where we are and where we
+                  should be going},
+  author          = {van Merrienboer, Bart and Breuleux, Olivier and Bergeron,
+                  Arnaud and Lamblin, Pascal},
+  booktitle       = {Advances in Neural Information Processing Systems 31},
+  editor          = {S. Bengio and H. Wallach and H. Larochelle and K. Grauman
+                  and N. Cesa-Bianchi and R. Garnett},
+  pages           = {8757--8767},
+  year            = 2018,
+  publisher       = {Curran Associates, Inc.},
+  url             =
+                  {http://papers.nips.cc/paper/8092-automatic-differentiation-in-ml-where-we-are-and-where-we-should-be-going.pdf}
 }
 
 @Online{betancourt18:geomet_theor_higher_order_autom_differ,
@@ -60,14 +91,13 @@
   primaryclass    = {cs.PL}
 }
 
-@Online{fries17:autom_backw_differ_americ_monte,
-  author          = {Christian P. Fries},
-  title           = {{Automatic Backward Differentiation for American
-                  Monte-Carlo Algorithms (Conditional Expectation)}},
-  year            = 2017,
-  archiveprefix   = {arXiv},
-  eprint          = {1707.04942v1},
-  primaryclass    = {q-fin.CP}
+@misc{innes2018dont,
+  title           = {Don't Unroll Adjoint: Differentiating SSA-Form Programs},
+  author          = {Michael Innes},
+  year            = 2018,
+  eprint          = {1810.07951},
+  archivePrefix   = {arXiv},
+  primaryClass    = {cs.PL}
 }
 
 @Online{laue19:equiv_forwar_mode_autom_differ_symbol_differ,
@@ -78,25 +108,4 @@
   archiveprefix   = {arXiv},
   eprint          = {1904.02990v2},
   primaryclass    = {cs.SC}
-}
-
-@Online{sajovic16:autom_differ,
-  author          = {Žiga Sajovic},
-  title           = {{Automatic Differentiation: a look through Tensor and
-                  Operational Calculus}},
-  year            = 2016,
-  archiveprefix   = {arXiv},
-  eprint          = {1612.02731v3},
-  primaryclass    = {cs.SC}
-}
-
-@Online{shaikhha18,
-  author          = {Amir Shaikhha AND Andrew Fitzgibbon AND Dimitrios
-                  Vytiniotis AND Simon Peyton Jones AND Christoph Koch},
-  title           = {Efficient Differentiable Programming in a Functional
-                  Array-Processing Language},
-  year            = 2018,
-  archiveprefix   = {arXiv},
-  eprint          = {1806.02136v1},
-  primaryclass    = {cs.MS}
 }
